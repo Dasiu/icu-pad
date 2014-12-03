@@ -7,12 +7,7 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static com.jayway.restassured.module.mockmvc.RestAssuredMockMvc.when;
@@ -20,11 +15,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = {Application.class})
-@Transactional
-public class MoviesAPITest {
+public class MoviesAPITest extends BaseIntegrationTest {
     @Autowired
     private MovieController movieController;
 

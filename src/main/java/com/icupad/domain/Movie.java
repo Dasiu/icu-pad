@@ -1,15 +1,9 @@
 package com.icupad.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
-public class Movie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Movie extends AuditableEntity {
     private String title;
 
     @Override
@@ -19,9 +13,7 @@ public class Movie {
 
         Movie movie = (Movie) o;
 
-        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
-
-        return true;
+        return !(title != null ? !title.equals(movie.title) : movie.title != null);
     }
 
     @Override
