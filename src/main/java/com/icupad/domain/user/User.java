@@ -5,7 +5,6 @@ import com.icupad.domain.Role;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -13,9 +12,8 @@ import java.util.List;
 
 @Entity
 public abstract class User extends BaseEntity {
-    @Id
     @NotNull
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     private String login;
 
     @NotNull
