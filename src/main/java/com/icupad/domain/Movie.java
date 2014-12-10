@@ -3,7 +3,7 @@ package com.icupad.domain;
 import javax.persistence.Entity;
 
 @Entity
-public class Movie extends AuditableEntity {
+public class Movie extends BaseEntity {
     private String title;
 
     @Override
