@@ -1,6 +1,6 @@
 package com.icupad.domain.nursing_process;
 
-import com.icupad.domain.BaseEntity;
+import com.icupad.domain.test_result.TestResult;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class ExecutedActivity extends BaseEntity {
+public class ExecutedActivity extends TestResult {
     @NotNull
     @ManyToOne
     private Activity activity;

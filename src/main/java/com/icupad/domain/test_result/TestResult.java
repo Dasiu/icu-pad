@@ -12,8 +12,10 @@ import java.time.LocalDateTime;
 public abstract class TestResult extends BaseEntity {
     @OneToOne
     private Comment comment;
+
     @OneToOne
     private Stay stay;
+
     private LocalDateTime executionDate;
 
     public Comment getComment() {
