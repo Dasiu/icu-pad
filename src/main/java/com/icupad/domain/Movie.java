@@ -7,6 +7,11 @@ public class Movie extends BaseEntity {
     private String title;
 
     @Override
+    public int hashCode() {
+        return title != null ? title.hashCode() : 0;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
@@ -16,17 +21,12 @@ public class Movie extends BaseEntity {
         return !(title != null ? !title.equals(movie.title) : movie.title != null);
     }
 
-    @Override
-    public int hashCode() {
-        return title != null ? title.hashCode() : 0;
-    }
-
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getTitle() {

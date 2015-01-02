@@ -1,0 +1,32 @@
+package com.icupad;
+
+import com.icupad.domain.user.Doctor;
+import com.icupad.domain.user.User;
+import com.icupad.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+import javax.annotation.PostConstruct;
+
+@Configuration
+@Profile("test")
+public class TestData {
+    @Autowired
+    private UserService userService;
+
+    @PostConstruct
+    public void createUsers() {
+        userService.save(admin());
+    }
+
+    @Bean
+    public User admin() {
+        User user = new Doctor();
+        user.setLogin("admin");
+        user.setPassword("admin");
+        user.setEnabled(true);
+        return user;
+    }
+}

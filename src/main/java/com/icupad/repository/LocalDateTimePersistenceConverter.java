@@ -14,6 +14,6 @@ public class LocalDateTimePersistenceConverter implements AttributeConverter<Loc
 
     @Override
     public LocalDateTime convertToEntityAttribute(Timestamp timestamp) {
-        return timestamp.toLocalDateTime();
+        return timestamp == null ? null : timestamp.toLocalDateTime();
     }
 }

@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsUserAware implements UserDetails {
     private User user;
     private List<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsUserAware(User user) {
         this.user = user;
         authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
@@ -36,11 +36,6 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {
-        return user.isEnabled();
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -53,5 +48,18 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.isEnabled();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

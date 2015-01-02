@@ -5,7 +5,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 version = '1.0'
 mainClassName = "com.icupad.Application"
 
-def springBootVersion = '1.1.9.RELEASE'
+def springBootVersion = '1.2.0.RELEASE'
 
 repositories {
     mavenLocal()
@@ -29,6 +29,8 @@ dependencies {
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.3'
 
     compile group: 'com.h2database', name: 'h2', version: '1.4.177'
+
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.4.4'
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'
