@@ -32,6 +32,8 @@ dependencies {
 
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.4.4'
 
+    compile group: 'ca.uhn.hapi', name: 'hapi-structures-v23', version: '2.2'
+
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'
     testCompile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.6'
