@@ -2,6 +2,7 @@ package com.icupad.service;
 
 import com.icupad.domain.UserDetailsUserAware;
 import com.icupad.domain.user.User;
+import com.icupad.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userService.findByLogin(login);
+        User user = userRepository.findByLogin(login);
         if (user != null) {
             return new UserDetailsUserAware(user);
         } else {
