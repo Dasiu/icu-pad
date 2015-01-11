@@ -14,8 +14,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,13 +21,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
+import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
-public class HL7ServerGeneralTests {
+public class HL7ServerTest {
     private static final String host = "localhost";
 
     @Value("${hl7_server.port}")
@@ -37,10 +36,6 @@ public class HL7ServerGeneralTests {
 
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
-
-    @Qualifier("patientRegistrationMessage")
-    @Autowired
-    private String patientRegistrationMessage;
 
     private HapiContext context;
 

@@ -1,4 +1,4 @@
-package com.icupad;
+package com.icupad.test_data;
 
 import com.icupad.domain.user.Doctor;
 import com.icupad.domain.user.User;
@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 @Profile("test")
-public class TestData {
+public class Users {
     @Autowired
     private UserService userService;
 
