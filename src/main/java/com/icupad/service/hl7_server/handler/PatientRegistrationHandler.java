@@ -1,45 +1,21 @@
 package com.icupad.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.app.ApplicationException;
-import ca.uhn.hl7v2.model.Message;
-import com.icupad.service.hl7_server.MessageType;
-import com.icupad.service.hl7_server.TriggerEvent;
-import org.apache.log4j.Logger;
+import ca.uhn.hl7v2.model.v23.message.ACK;
+import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.icupad.service.hl7_server.MessageType.ADT;
-import static com.icupad.service.hl7_server.TriggerEvent.A01;
-
 @Component
-public class PatientRegistrationHandler implements MessageHandler {
-    private static final Logger logger = Logger.getLogger(PatientRegistrationHandler.class);
-
+public class PatientRegistrationHandler extends AbstractMessageHandler<ADT_A01> {
     @Override
-    public MessageType getMessageType() {
-        return ADT;
+    public Class<ADT_A01> getMessageType() {
+        return ADT_A01.class;
     }
 
     @Override
-    public TriggerEvent getTriggerEvent() {
-        return A01;
-    }
-
-    @Override
-    public Message processMessage(Message in) throws ApplicationException, HL7Exception {
-        logger.debug(in);
-
-        try {
-            return in.generateACK();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public boolean canProcess(Message in) {
-        return true;
+    public ACK handle(ADT_A01 adt_a01) throws IOException, HL7Exception {
+        return generateACK(adt_a01);
     }
 }

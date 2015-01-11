@@ -1,4 +1,4 @@
-package com.icupad.service;
+package com.icupad.service.hl7_server;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
@@ -31,7 +31,7 @@ import static org.junit.Assert.fail;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
-public class HL7ServerTest {
+public class PatientRegistrationTest {
     private static final String host = "localhost";
 
     @Value("${hl7_server.port}")
@@ -40,9 +40,9 @@ public class HL7ServerTest {
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
 
-    @Qualifier("adtA01Message")
+    @Qualifier("patientRegistrationMessage")
     @Autowired
-    private String adtA01Message;
+    private String patientRegistrationMessage;
 
     private HapiContext context;
 
@@ -63,9 +63,10 @@ public class HL7ServerTest {
     }
 
     @Test
-    public void readPatientRegistrationMessage() throws LLPException, IOException, HL7Exception {
+    public void shouldResponseSuccessACKWhenReceivedValidPatientRegistrationMessage()
+            throws LLPException, IOException, HL7Exception {
         Parser p = context.getPipeParser();
-        Message adt = p.parse(adtA01Message);
+        Message adt = p.parse(patientRegistrationMessage);
         Message response = initiator.sendAndReceive(adt);
 
         assertTrue(response instanceof ACK);

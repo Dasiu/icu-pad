@@ -4,13 +4,12 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.ConnectionListener;
 import ca.uhn.hl7v2.app.HL7Service;
-import com.icupad.service.hl7_server.handler.MessageHandler;
+import ca.uhn.hl7v2.protocol.ReceivingApplicationExceptionHandler;
+import com.icupad.service.hl7_server.MessageDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class HL7Server {
@@ -21,28 +20,20 @@ public class HL7Server {
     private boolean useSSL;
 
     @Autowired
-    private List<MessageHandler> handlers;
-
-    @Autowired
     private ConnectionListener connectionListener;
 
+    @Autowired
     @Bean(initMethod = "startAndWait", destroyMethod = "stopAndWait")
-    public HL7Service hl7Server() {
+    public HL7Service hl7Server(MessageDispatcher messageDispatcher,
+                                ReceivingApplicationExceptionHandler exceptionHandler) {
         HapiContext context = new DefaultHapiContext();
         HL7Service server = context.newServer(port, useSSL);
 
         server.registerConnectionListener(connectionListener);
 
-        registerHandlers(server);
+        server.registerApplication("*", "*", messageDispatcher);
+        server.setExceptionHandler(exceptionHandler);
 
         return server;
-    }
-
-    private void registerHandlers(HL7Service server) {
-        handlers.forEach(handler ->
-                        server.registerApplication(handler.getMessageType().toString(),
-                                handler.getTriggerEvent().toString(),
-                                handler)
-        );
     }
 }

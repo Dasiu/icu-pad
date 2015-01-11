@@ -1,11 +1,13 @@
 package com.icupad.service.hl7_server.handler;
 
-import ca.uhn.hl7v2.app.Application;
-import com.icupad.service.hl7_server.MessageType;
-import com.icupad.service.hl7_server.TriggerEvent;
+import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v23.message.ACK;
 
-public interface MessageHandler extends Application {
-    MessageType getMessageType();
+import java.io.IOException;
 
-    TriggerEvent getTriggerEvent();
+public interface MessageHandler<M extends Message> {
+    Class<M> getMessageType();
+
+    ACK handle(M m) throws IOException, HL7Exception;
 }

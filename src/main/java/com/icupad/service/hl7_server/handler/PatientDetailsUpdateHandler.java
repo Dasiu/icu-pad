@@ -1,35 +1,21 @@
 package com.icupad.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.app.ApplicationException;
-import ca.uhn.hl7v2.model.Message;
-import com.icupad.service.hl7_server.MessageType;
-import com.icupad.service.hl7_server.TriggerEvent;
+import ca.uhn.hl7v2.model.v23.message.ACK;
+import ca.uhn.hl7v2.model.v23.message.ADT_A08;
 import org.springframework.stereotype.Component;
 
-import static com.icupad.service.hl7_server.MessageType.ADT;
-import static com.icupad.service.hl7_server.TriggerEvent.A08;
+import java.io.IOException;
 
 @Component
-public class PatientDetailsUpdateHandler implements MessageHandler {
-
+public class PatientDetailsUpdateHandler extends AbstractMessageHandler<ADT_A08> {
     @Override
-    public MessageType getMessageType() {
-        return ADT;
+    public Class<ADT_A08> getMessageType() {
+        return ADT_A08.class;
     }
 
     @Override
-    public TriggerEvent getTriggerEvent() {
-        return A08;
-    }
-
-    @Override
-    public Message processMessage(Message in) throws ApplicationException, HL7Exception {
-        return null;
-    }
-
-    @Override
-    public boolean canProcess(Message in) {
-        return true;
+    public ACK handle(ADT_A08 adt_a08) throws IOException, HL7Exception {
+        return generateACK(adt_a08);
     }
 }
