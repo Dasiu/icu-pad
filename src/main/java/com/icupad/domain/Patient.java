@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Patient extends BaseEntity {
+    @Column(nullable = false, unique = true)
     @Size(min = 1, max = 255)
+    @NotNull
     private String hl7Id;
 
     @Column(length = 11)

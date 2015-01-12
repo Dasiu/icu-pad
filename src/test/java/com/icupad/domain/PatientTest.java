@@ -1,5 +1,6 @@
 package com.icupad.domain;
 
+import com.icupad.utils.StringUtils;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -19,8 +20,15 @@ public class PatientTest {
     @Test
     public void hl7IdShouldNotBeLongerThan255() {
         Patient patient = new Patient();
-        String id256Long = strWith(256);
+        String id256Long = StringUtils.of(256);
         patient.setHl7Id(id256Long);
+
+        assertThat(validationFor(patient, onProperty("hl7Id")), fails());
+    }
+
+    @Test
+    public void hl7IdShouldNotBeNull() {
+        Patient patient = new Patient();
 
         assertThat(validationFor(patient, onProperty("hl7Id")), fails());
     }
@@ -147,13 +155,5 @@ public class PatientTest {
         Patient patient = new Patient();
 
         assertThat(validationFor(patient, onProperty("sex")), fails());
-    }
-
-    private String strWith(int size) {
-        StringBuilder sb = new StringBuilder(size);
-        for (int i = 0; i < size; i++) {
-            sb.append("x");
-        }
-        return sb.toString();
     }
 }
