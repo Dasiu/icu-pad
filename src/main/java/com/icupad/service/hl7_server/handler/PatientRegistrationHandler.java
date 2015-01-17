@@ -37,17 +37,16 @@ public class PatientRegistrationHandler extends AbstractMessageHandler<ADT_A01> 
 
     @Override
     public ACK handle(ADT_A01 adt_a01) throws IOException, HL7Exception {
-        Patient newPatient = pidParser.parse(adt_a01.getPID());
-        Stay stay = pv1Parser.parse(adt_a01.getPV1());
+        Patient patient = pidParser.parse(adt_a01.getPID());
+        Patient existingPatient = patientService.findByHl7Id(patient.getHl7Id());
 
-        Patient existingPatient = patientService.findByHl7Id(newPatient.getHl7Id());
         if (existingPatient == null) {
-            patientService.save(newPatient);
-
-            stay.setPatient(newPatient);
-        } else {
-            stay.setPatient(existingPatient);
+            patientService.save(patient);
         }
+
+        Stay stay = pv1Parser.parse(adt_a01.getPV1());
+        stay.setPatient(existingPatient == null ? patient : existingPatient);
+        stay.setActive(true);
 
         stayService.save(stay);
 

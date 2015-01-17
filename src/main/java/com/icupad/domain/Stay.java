@@ -26,10 +26,10 @@ public class Stay extends BaseEntity {
     @NotNull
     private LocalDateTime admitDate;
 
-    @Column(nullable = false)
-    @Past
-    @NotNull
     private LocalDateTime dischargeDate;
+
+    @Column(nullable = false)
+    private boolean active;
 
     @JoinColumn(nullable = false)
     @ManyToOne
@@ -85,22 +85,13 @@ public class Stay extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + (assignedPatientLocation != null ? assignedPatientLocation.hashCode() : 0);
-        result = 31 * result + (admitDate != null ? admitDate.hashCode() : 0);
-        result = 31 * result + (dischargeDate != null ? dischargeDate.hashCode() : 0);
-        result = 31 * result + (patient != null ? patient.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Stay stay = (Stay) o;
 
+        if (active != stay.active) return false;
         if (admitDate != null ? !admitDate.equals(stay.admitDate) : stay.admitDate != null) return false;
         if (assignedPatientLocation != null ? !assignedPatientLocation.equals(stay.assignedPatientLocation) : stay.assignedPatientLocation != null)
             return false;
@@ -110,5 +101,37 @@ public class Stay extends BaseEntity {
         if (type != stay.type) return false;
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + (assignedPatientLocation != null ? assignedPatientLocation.hashCode() : 0);
+        result = 31 * result + (admitDate != null ? admitDate.hashCode() : 0);
+        result = 31 * result + (dischargeDate != null ? dischargeDate.hashCode() : 0);
+        result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (patient != null ? patient.hashCode() : 0);
+        return result;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Stay{" +
+                "hl7Id='" + hl7Id + '\'' +
+                ", type=" + type +
+                ", assignedPatientLocation=" + assignedPatientLocation +
+                ", admitDate=" + admitDate +
+                ", dischargeDate=" + dischargeDate +
+                ", active=" + active +
+                ", patient=" + patient +
+                '}';
     }
 }

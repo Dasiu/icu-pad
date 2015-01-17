@@ -41,10 +41,15 @@ public class MessageDispatcher implements Application {
             logger.debug(ack);
 
             return ack;
+        } catch (StayNotFoundException e) {
+            logger.error(e);
+
+            throw new ApplicationException(e);
         } catch (IOException | RuntimeException e) {
             logger.error(e);
 
-            throw new RuntimeException(); // stack trace and exception message should not be included in ACK
+            // exception message should not be included in ACK, it might contains sensitive data
+            throw new RuntimeException();
         }
     }
 
