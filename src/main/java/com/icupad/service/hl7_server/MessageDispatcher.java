@@ -41,10 +41,10 @@ public class MessageDispatcher implements Application {
             logger.debug(ack);
 
             return ack;
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             logger.error(e);
 
-            throw new ApplicationException(e);
+            throw new RuntimeException(); // stack trace and exception message should not be included in ACK
         }
     }
 
