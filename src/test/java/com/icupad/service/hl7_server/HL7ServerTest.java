@@ -10,10 +10,13 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import com.icupad.Application;
+import com.icupad.service.PatientService;
+import com.icupad.service.StayService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
@@ -43,6 +46,12 @@ public class HL7ServerTest {
 
     private Initiator initiator;
 
+    @Autowired
+    private StayService stayService;
+
+    @Autowired
+    private PatientService patientService;
+
     @Before
     public void before() throws HL7Exception {
         context = new DefaultHapiContext();
@@ -53,6 +62,9 @@ public class HL7ServerTest {
     @After
     public void after() {
         connection.close();
+
+        stayService.deleteAll();
+        patientService.deleteAll();
     }
 
     @Test

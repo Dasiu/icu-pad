@@ -67,6 +67,9 @@ public class PatientRegistrationTest {
     @After
     public void after() {
         connection.close();
+
+        stayService.deleteAll();
+        patientService.deleteAll();
     }
 
     @Test
@@ -74,11 +77,12 @@ public class PatientRegistrationTest {
         Patient adamKowalski = createAdamKowalski();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
-        initiator.sendAndReceive(adt_a01);
+        ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
         Patient actualPatient = patientService.findByHl7Id(adamKowalski.getHl7Id());
         assertNotNull(actualPatient);
         assertEquals(adamKowalski, actualPatient);
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
     @Test
@@ -88,6 +92,7 @@ public class PatientRegistrationTest {
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
+        assertEquals(1, patientService.count());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
@@ -96,11 +101,12 @@ public class PatientRegistrationTest {
         Stay adamKowalskiStay = createAdamKowalskiStay();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
-        initiator.sendAndReceive(adt_a01);
+        ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
         Stay actualStay = stayService.findByHl7Id(adamKowalskiStay.getHl7Id());
         assertNotNull(actualStay);
         assertEquals(adamKowalskiStay, actualStay);
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
     private Stay createAdamKowalskiStay() {
