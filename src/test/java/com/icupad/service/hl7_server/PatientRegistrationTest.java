@@ -11,10 +11,9 @@ import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import com.icupad.Application;
-import com.icupad.domain.Address;
-import com.icupad.domain.Patient;
-import com.icupad.domain.Sex;
+import com.icupad.domain.*;
 import com.icupad.service.PatientService;
+import com.icupad.service.StayService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,6 +52,9 @@ public class PatientRegistrationTest {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private StayService stayService;
+
     @Before
     public void before() throws HL7Exception {
         context = new DefaultHapiContext();
@@ -73,7 +76,7 @@ public class PatientRegistrationTest {
 
         initiator.sendAndReceive(adt_a01);
 
-        Patient actualPatient = patientService.findByHl7Id(getHl7Id(adt_a01));
+        Patient actualPatient = patientService.findByHl7Id(adamKowalski.getHl7Id());
         assertNotNull(actualPatient);
         assertEquals(adamKowalski, actualPatient);
     }
@@ -86,6 +89,35 @@ public class PatientRegistrationTest {
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldCreateStay() throws HL7Exception, IOException, LLPException {
+        Stay adamKowalskiStay = createAdamKowalskiStay();
+        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
+
+        initiator.sendAndReceive(adt_a01);
+
+        Stay actualStay = stayService.findByHl7Id(adamKowalskiStay.getHl7Id());
+        assertNotNull(actualStay);
+        assertEquals(adamKowalskiStay, actualStay);
+    }
+
+    private Stay createAdamKowalskiStay() {
+        Stay stay = new Stay();
+
+        stay.setHl7Id("476711");
+        stay.setType(StayType.INPATIENT);
+
+        AssignedPatientLocation assignedPatientLocation = new AssignedPatientLocation();
+        assignedPatientLocation.setName("Klinika");
+
+        stay.setAssignedPatientLocation(assignedPatientLocation);
+        stay.setAdmitDate(LocalDateTime.of(2012, 4, 22, 18, 47, 0));
+        stay.setDischargeDate(LocalDateTime.of(2012, 4, 24, 16, 31, 0));
+        stay.setPatient(createAdamKowalski());
+
+        return stay;
     }
 
     private AcknowledgmentCode getAcknowledgmentCode(ACK ack) {
@@ -114,9 +146,5 @@ public class PatientRegistrationTest {
         address.setPostalCode("64-500");
         address.setCity("Poznań");
         return address;
-    }
-
-    private String getHl7Id(ADT_A01 adt_a01) {
-        return adt_a01.getPID().getPatientIDInternalID(0).getID().getValue();
     }
 }

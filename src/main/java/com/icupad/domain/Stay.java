@@ -83,4 +83,32 @@ public class Stay extends BaseEntity {
     public void setDischargeDate(LocalDateTime dischargeDate) {
         this.dischargeDate = dischargeDate;
     }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + (assignedPatientLocation != null ? assignedPatientLocation.hashCode() : 0);
+        result = 31 * result + (admitDate != null ? admitDate.hashCode() : 0);
+        result = 31 * result + (dischargeDate != null ? dischargeDate.hashCode() : 0);
+        result = 31 * result + (patient != null ? patient.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Stay stay = (Stay) o;
+
+        if (admitDate != null ? !admitDate.equals(stay.admitDate) : stay.admitDate != null) return false;
+        if (assignedPatientLocation != null ? !assignedPatientLocation.equals(stay.assignedPatientLocation) : stay.assignedPatientLocation != null)
+            return false;
+        if (dischargeDate != null ? !dischargeDate.equals(stay.dischargeDate) : stay.dischargeDate != null)
+            return false;
+        if (patient != null ? !patient.equals(stay.patient) : stay.patient != null) return false;
+        if (type != stay.type) return false;
+
+        return true;
+    }
 }
