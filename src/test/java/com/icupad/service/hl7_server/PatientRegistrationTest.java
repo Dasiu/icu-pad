@@ -11,9 +11,12 @@ import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import com.icupad.Application;
-import com.icupad.domain.*;
+import com.icupad.domain.Patient;
+import com.icupad.domain.Stay;
 import com.icupad.service.PatientService;
 import com.icupad.service.StayService;
+import com.icupad.test_data.Patients;
+import com.icupad.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +28,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
+import static com.icupad.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -74,7 +77,7 @@ public class PatientRegistrationTest {
 
     @Test
     public void shouldCreatePatientIfOneNotExists() throws HL7Exception, IOException, LLPException {
-        Patient adamKowalski = createAdamKowalski();
+        Patient adamKowalski = Patients.createAdamKowalski();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -87,7 +90,7 @@ public class PatientRegistrationTest {
 
     @Test
     public void shouldNotTryToCreateNewPatientIfOneExists() throws HL7Exception, IOException, LLPException {
-        patientService.save(createAdamKowalski());
+        patientService.save(Patients.createAdamKowalski());
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -98,7 +101,7 @@ public class PatientRegistrationTest {
 
     @Test
     public void shouldCreateStay() throws HL7Exception, IOException, LLPException {
-        Stay adamKowalskiStay = createAdamKowalskiStay();
+        Stay adamKowalskiStay = Stays.createAdamKowalskiStay();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -107,50 +110,5 @@ public class PatientRegistrationTest {
         assertNotNull(actualStay);
         assertEquals(adamKowalskiStay, actualStay);
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
-    }
-
-    private Stay createAdamKowalskiStay() {
-        Stay stay = new Stay();
-
-        stay.setHl7Id("476711");
-        stay.setType(StayType.INPATIENT);
-
-        AssignedPatientLocation assignedPatientLocation = new AssignedPatientLocation();
-        assignedPatientLocation.setName("Klinika");
-
-        stay.setAssignedPatientLocation(assignedPatientLocation);
-        stay.setAdmitDate(LocalDateTime.of(2012, 4, 22, 18, 47, 0));
-        stay.setDischargeDate(LocalDateTime.of(2012, 4, 24, 16, 31, 0));
-        stay.setPatient(createAdamKowalski());
-
-        return stay;
-    }
-
-    private AcknowledgmentCode getAcknowledgmentCode(ACK ack) {
-        return AcknowledgmentCode.valueOf(ack.getMSA().getAcknowledgementCode().getValue());
-    }
-
-    private Patient createAdamKowalski() {
-        Patient patient = new Patient();
-
-        patient.setHl7Id("123456789");
-        patient.setPesel("69123001518");
-        patient.setName("Adam");
-        patient.setSurname("Kowalski");
-        patient.setBirthDate(LocalDateTime.of(1991, 2, 10, 0, 0));
-        patient.setSex(Sex.UNKNOWN);
-        patient.setAddress(createAdamKowalskiAddress());
-
-        return patient;
-    }
-
-    private Address createAdamKowalskiAddress() {
-        Address address = new Address();
-        address.setStreet("Piłsudskiego");
-        address.setStreetNumber("112a");
-        address.setHouseNumber("2b");
-        address.setPostalCode("64-500");
-        address.setCity("Poznań");
-        return address;
     }
 }
