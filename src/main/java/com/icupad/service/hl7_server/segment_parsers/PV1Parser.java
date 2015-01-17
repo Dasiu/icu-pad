@@ -1,6 +1,6 @@
 package com.icupad.service.hl7_server.segment_parsers;
 
-import ca.uhn.hl7v2.model.DataTypeException;
+import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.domain.AssignedPatientLocation;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Component
 public class PV1Parser implements Parser<PV1, Stay> {
     @Override
-    public Stay parse(PV1 pv1) throws DataTypeException {
+    public Stay parse(PV1 pv1) throws HL7Exception {
         Stay stay = new Stay();
 
         stay.setType(getType(pv1));
@@ -29,24 +29,14 @@ public class PV1Parser implements Parser<PV1, Stay> {
         return pv1.getVisitNumber().getID().getValue();
     }
 
-    private LocalDateTime getDischargeDate(PV1 pv1) throws DataTypeException {
+    private LocalDateTime getDischargeDate(PV1 pv1) throws HL7Exception {
         TSComponentOne timeOfAnEvent = pv1.getDischargeDateTime().getTimeOfAnEvent();
-        return LocalDateTime.of(timeOfAnEvent.getYear(),
-                timeOfAnEvent.getMonth(),
-                timeOfAnEvent.getDay(),
-                timeOfAnEvent.getHour(),
-                timeOfAnEvent.getMinute(),
-                timeOfAnEvent.getSecond());
+        return convertToLocalDateTime(timeOfAnEvent);
     }
 
-    private LocalDateTime getAdmitDate(PV1 pv1) throws DataTypeException {
+    private LocalDateTime getAdmitDate(PV1 pv1) throws HL7Exception {
         TSComponentOne timeOfAnEvent = pv1.getAdmitDateTime().getTimeOfAnEvent();
-        return LocalDateTime.of(timeOfAnEvent.getYear(),
-                timeOfAnEvent.getMonth(),
-                timeOfAnEvent.getDay(),
-                timeOfAnEvent.getHour(),
-                timeOfAnEvent.getMinute(),
-                timeOfAnEvent.getSecond());
+        return convertToLocalDateTime(timeOfAnEvent);
     }
 
     private AssignedPatientLocation getAssignedPatientLocation(PV1 pv1) {
@@ -64,5 +54,14 @@ public class PV1Parser implements Parser<PV1, Stay> {
             default:
                 throw new MissingStayTypeException();
         }
+    }
+
+    private LocalDateTime convertToLocalDateTime(TSComponentOne timeOfAnEvent) throws HL7Exception {
+        return timeOfAnEvent.isEmpty() ? null : LocalDateTime.of(timeOfAnEvent.getYear(),
+                timeOfAnEvent.getMonth(),
+                timeOfAnEvent.getDay(),
+                timeOfAnEvent.getHour(),
+                timeOfAnEvent.getMinute(),
+                timeOfAnEvent.getSecond());
     }
 }

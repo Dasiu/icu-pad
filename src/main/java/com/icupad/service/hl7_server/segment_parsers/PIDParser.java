@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 
 @Component
 public class PIDParser implements Parser<PID, Patient> {
+    private static final String peselNullValue = "00000000000";
+
     @Override
     public Patient parse(PID pid) throws DataTypeException {
         Patient patient = new Patient();
@@ -100,6 +102,7 @@ public class PIDParser implements Parser<PID, Patient> {
     }
 
     private String getPesel(PID pid) {
-        return pid.getPatientIDExternalID().getID().getValue();
+        String pesel = pid.getPatientIDExternalID().getID().getValue();
+        return pesel.equals(peselNullValue) ? null : pesel;
     }
 }

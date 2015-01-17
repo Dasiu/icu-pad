@@ -15,8 +15,6 @@ import com.icupad.domain.Patient;
 import com.icupad.domain.Stay;
 import com.icupad.service.PatientService;
 import com.icupad.service.StayService;
-import com.icupad.test_data.Patients;
-import com.icupad.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +29,10 @@ import java.io.IOException;
 
 import static com.icupad.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
+import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithoutDischargeDate;
+import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithoutPesel;
+import static com.icupad.test_data.Patients.createAdamKowalski;
+import static com.icupad.test_data.Stays.createAdamKowalskiStay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -77,7 +79,7 @@ public class PatientRegistrationTest {
 
     @Test
     public void shouldCreatePatientIfOneNotExists() throws HL7Exception, IOException, LLPException {
-        Patient adamKowalski = Patients.createAdamKowalski();
+        Patient adamKowalski = createAdamKowalski();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -90,7 +92,7 @@ public class PatientRegistrationTest {
 
     @Test
     public void shouldNotTryToCreateNewPatientIfOneExists() throws HL7Exception, IOException, LLPException {
-        patientService.save(Patients.createAdamKowalski());
+        patientService.save(createAdamKowalski());
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -100,8 +102,21 @@ public class PatientRegistrationTest {
     }
 
     @Test
+    public void shouldCreatePatientWithoutPesel() throws HL7Exception, IOException, LLPException {
+        String newPatientHl7Id = createAdamKowalski().getHl7Id();
+        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessageWithoutPesel);
+
+        ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
+
+        Patient actualPatient = patientService.findByHl7Id(newPatientHl7Id);
+        assertNotNull(actualPatient);
+        assertEquals(null, actualPatient.getPesel());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
     public void shouldCreateStay() throws HL7Exception, IOException, LLPException {
-        Stay adamKowalskiStay = Stays.createAdamKowalskiStay();
+        Stay adamKowalskiStay = createAdamKowalskiStay();
         ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
@@ -109,6 +124,19 @@ public class PatientRegistrationTest {
         Stay actualStay = stayService.findByHl7Id(adamKowalskiStay.getHl7Id());
         assertNotNull(actualStay);
         assertEquals(adamKowalskiStay, actualStay);
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldCreateStayWithoutDischarge() throws HL7Exception, IOException, LLPException {
+        String newStayHl7Id = createAdamKowalskiStay().getHl7Id();
+        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessageWithoutDischargeDate);
+
+        ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
+
+        Stay actualStay = stayService.findByHl7Id(newStayHl7Id);
+        assertNotNull(actualStay);
+        assertEquals(null, actualStay.getDischargeDate());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 }
