@@ -25,8 +25,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithInvalidPesel;
+import static org.junit.Assert.*;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -75,6 +75,25 @@ public class HL7ServerTest {
 
         assertMessageControlId(response, messageWithMSHSegment);
         assertAcknowledgmentCode(response);
+    }
+
+    @Test
+    public void shouldResponseACKWithoutTriggerEventInCaseOfSuccess() throws HL7Exception, IOException, LLPException {
+        Message messageWhichWillRaiseException =
+                context.getGenericParser().parse(patientRegistrationMessageWithInvalidPesel);
+
+        ACK response = (ACK) initiator.sendAndReceive(messageWhichWillRaiseException);
+
+        assertNull(response.getMSH().getMessageType().getTriggerEvent().getValue());
+    }
+
+    @Test
+    public void shouldResponseACKWithoutTriggerEventInCaseOfError() throws HL7Exception, IOException, LLPException {
+        Message messageWithMSHSegment = context.getGenericParser().parse(patientRegistrationMessage);
+
+        ACK response = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
+
+        assertNull(response.getMSH().getMessageType().getTriggerEvent().getValue());
     }
 
     @Test
