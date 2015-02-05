@@ -10,26 +10,26 @@ public class HL7Messages {
             + "GT1||0222PL|NOTREAL^BOB^B||STREET^OTHER STREET^CITY^ST^77787|(444)999-3333|(222)777-5555||||MO|111-33-5555||||NOTREAL GILL N|STREET^OTHER STREET^CITY^ST^99999|(111)222-3333\r"
             + "IN1||022254P|4558PD|BLUE CROSS|STREET^OTHER STREET^CITY^ST^00990||(333)333-6666||221K|LENIX|||19980515|19990515|||PATIENT01 TEST D||||||||||||||||||02LL|022LP554";
 
-    public static final String patientRegistrationMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientRegistrationMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100";
 
-    public static final String patientRegistrationMessageWithInvalidPesel = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientRegistrationMessageWithInvalidPesel = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
             "PID||-1|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100";
 
-    public static final String patientRegistrationMessageWithoutPesel = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientRegistrationMessageWithoutPesel = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
             "PID||00000000000|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100";
 
-    public static final String patientRegistrationMessageWithoutDischargeDate = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientRegistrationMessageWithoutDischargeDate = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700";
 
-    public static final String patientDischargeMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A03|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientDischargeMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A03|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20130424163100";
 
-    public static final String patientDetailsUpdateMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A08|12345|P|2.3|||PL||PL|UNICODE\r" +
+    public static final String patientDetailsUpdateMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A08|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|M|||Piłsudskiego^112a&2b^Poznań^^64-500";
 }

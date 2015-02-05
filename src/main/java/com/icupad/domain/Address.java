@@ -27,40 +27,46 @@ public class Address {
     @Size(min = 1, max = 50)
     private String city;
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
     public String getStreet() {
         return street;
     }
 
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getStreetNumber() {
         return streetNumber;
     }
 
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public String getHouseNumber() {
         return houseNumber;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public String getPostalCode() {
         return postalCode;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = street != null ? street.hashCode() : 0;
+        result = 31 * result + (streetNumber != null ? streetNumber.hashCode() : 0);
+        result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
+        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -81,16 +87,21 @@ public class Address {
     }
 
     @Override
-    public int hashCode() {
-        int result = street != null ? street.hashCode() : 0;
-        result = 31 * result + (streetNumber != null ? streetNumber.hashCode() : 0);
-        result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
-        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        return result;
+    public String toString() {
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", streetNumber='" + streetNumber + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                '}';
     }
 
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

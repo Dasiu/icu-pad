@@ -1,6 +1,5 @@
 package com.icupad.service.hl7_server;
 
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
@@ -40,8 +39,6 @@ public class HL7ServerTest {
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
 
-    private HapiContext context;
-
     private Connection connection;
 
     private Initiator initiator;
@@ -52,10 +49,12 @@ public class HL7ServerTest {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private HapiContext hapiContext;
+
     @Before
     public void before() throws HL7Exception {
-        context = new DefaultHapiContext();
-        connection = context.newClient(host, port, useSSL);
+        connection = hapiContext.newClient(host, port, useSSL);
         initiator = connection.getInitiator();
     }
 
@@ -69,7 +68,7 @@ public class HL7ServerTest {
 
     @Test
     public void shouldResponseValidMSASegment() throws HL7Exception, IOException, LLPException {
-        Message messageWithMSHSegment = context.getGenericParser().parse(patientRegistrationMessage);
+        Message messageWithMSHSegment = hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
         ACK response = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
 
@@ -80,7 +79,7 @@ public class HL7ServerTest {
     @Test
     public void shouldResponseACKWithoutTriggerEventInCaseOfSuccess() throws HL7Exception, IOException, LLPException {
         Message messageWhichWillRaiseException =
-                context.getGenericParser().parse(patientRegistrationMessageWithInvalidPesel);
+                hapiContext.getGenericParser().parse(patientRegistrationMessageWithInvalidPesel);
 
         ACK response = (ACK) initiator.sendAndReceive(messageWhichWillRaiseException);
 
@@ -89,7 +88,7 @@ public class HL7ServerTest {
 
     @Test
     public void shouldResponseACKWithoutTriggerEventInCaseOfError() throws HL7Exception, IOException, LLPException {
-        Message messageWithMSHSegment = context.getGenericParser().parse(patientRegistrationMessage);
+        Message messageWithMSHSegment = hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
         ACK response = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
 

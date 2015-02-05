@@ -44,6 +44,17 @@ public class Patient extends BaseEntity {
     private Address address;
 
     @Override
+    public int hashCode() {
+        int result = pesel != null ? pesel.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -61,14 +72,16 @@ public class Patient extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = pesel != null ? pesel.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
+    public String toString() {
+        return "Patient{" +
+                "hl7Id='" + hl7Id + '\'' +
+                ", pesel='" + pesel + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex=" + sex +
+                ", address=" + address +
+                '}';
     }
 
     public String getPesel() {

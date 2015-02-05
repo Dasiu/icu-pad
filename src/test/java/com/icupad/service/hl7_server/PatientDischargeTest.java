@@ -1,13 +1,11 @@
 package com.icupad.service.hl7_server;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
-import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A03;
 import com.icupad.Application;
@@ -46,7 +44,8 @@ public class PatientDischargeTest {
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
 
-    private HapiContext context;
+    @Autowired
+    private HapiContext hapiContext;
 
     private Connection connection;
 
@@ -60,10 +59,7 @@ public class PatientDischargeTest {
 
     @Before
     public void before() throws HL7Exception {
-        context = new DefaultHapiContext();
-        context.setLowerLayerProtocol(new MinLowerLayerProtocol(true));
-
-        connection = context.newClient(host, port, useSSL);
+        connection = hapiContext.newClient(host, port, useSSL);
         initiator = connection.getInitiator();
     }
 
@@ -78,7 +74,7 @@ public class PatientDischargeTest {
     @Test
     public void shouldDischargePatient() throws HL7Exception, IOException, LLPException {
         createAndSaveAdamKowalskisStay();
-        ADT_A03 adt_a03 = (ADT_A03) context.getGenericParser().parse(patientDischargeMessage);
+        ADT_A03 adt_a03 = (ADT_A03) hapiContext.getGenericParser().parse(patientDischargeMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a03);
 
@@ -91,7 +87,7 @@ public class PatientDischargeTest {
 
     @Test
     public void shouldResponseErrorACKIfStayDoesNotExist() throws HL7Exception, LLPException, IOException {
-        ADT_A03 adt_a03 = (ADT_A03) context.getGenericParser().parse(patientDischargeMessage);
+        ADT_A03 adt_a03 = (ADT_A03) hapiContext.getGenericParser().parse(patientDischargeMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a03);
 

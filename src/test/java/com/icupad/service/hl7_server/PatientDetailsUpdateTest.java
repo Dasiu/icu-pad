@@ -1,13 +1,11 @@
 package com.icupad.service.hl7_server;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
-import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A08;
 import com.icupad.Application;
@@ -45,7 +43,8 @@ public class PatientDetailsUpdateTest {
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
 
-    private HapiContext context;
+    @Autowired
+    private HapiContext hapiContext;
 
     private Connection connection;
 
@@ -59,10 +58,7 @@ public class PatientDetailsUpdateTest {
 
     @Before
     public void before() throws HL7Exception {
-        context = new DefaultHapiContext();
-        context.setLowerLayerProtocol(new MinLowerLayerProtocol(true));
-
-        connection = context.newClient(host, port, useSSL);
+        connection = hapiContext.newClient(host, port, useSSL);
         initiator = connection.getInitiator();
     }
 
@@ -78,7 +74,7 @@ public class PatientDetailsUpdateTest {
     public void shouldUpdatePatientDetails() throws HL7Exception, IOException, LLPException {
         Patient adamKowalski = createAdamKowalski();
         patientService.save(adamKowalski);
-        ADT_A08 adt_a08 = (ADT_A08) context.getGenericParser().parse(patientDetailsUpdateMessage);
+        ADT_A08 adt_a08 = (ADT_A08) hapiContext.getGenericParser().parse(patientDetailsUpdateMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a08);
 
@@ -90,7 +86,7 @@ public class PatientDetailsUpdateTest {
 
     @Test
     public void shouldResponseErrorACKIfPatientDoesNotExist() throws HL7Exception, IOException, LLPException {
-        ADT_A08 adt_a08 = (ADT_A08) context.getGenericParser().parse(patientDetailsUpdateMessage);
+        ADT_A08 adt_a08 = (ADT_A08) hapiContext.getGenericParser().parse(patientDetailsUpdateMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a08);
 

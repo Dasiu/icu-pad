@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.nio.charset.Charset;
+
 @Configuration
 public class HL7Server {
     @Value("${hl7_server.port}")
@@ -25,11 +27,10 @@ public class HL7Server {
 
     @Autowired
     @Bean(initMethod = "startAndWait", destroyMethod = "stopAndWait")
-    public HL7Service hl7Server(MessageDispatcher messageDispatcher,
+    public HL7Service hl7Server(HapiContext hapiContext,
+                                MessageDispatcher messageDispatcher,
                                 ReceivingApplicationExceptionHandler exceptionHandler) {
-        HapiContext context = new DefaultHapiContext();
-        context.setLowerLayerProtocol(new MinLowerLayerProtocol(true));
-        HL7Service server = context.newServer(port, useSSL);
+        HL7Service server = hapiContext.newServer(port, useSSL);
 
         server.registerConnectionListener(connectionListener);
 
@@ -37,5 +38,20 @@ public class HL7Server {
         server.setExceptionHandler(exceptionHandler);
 
         return server;
+    }
+
+    @Autowired
+    @Bean
+    public HapiContext hapiContext(MinLowerLayerProtocol minLowerLayerProtocol) {
+        HapiContext context = new DefaultHapiContext();
+        context.setLowerLayerProtocol(minLowerLayerProtocol);
+        return context;
+    }
+
+    @Bean
+    public MinLowerLayerProtocol minLowerLayerProtocol() {
+        MinLowerLayerProtocol minLowerLayerProtocol = new MinLowerLayerProtocol(false);
+        minLowerLayerProtocol.setCharset(Charset.forName("UTF-8"));
+        return minLowerLayerProtocol;
     }
 }

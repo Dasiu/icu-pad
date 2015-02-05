@@ -1,13 +1,11 @@
 package com.icupad.service.hl7_server;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
-import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import com.icupad.Application;
@@ -28,9 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 
 import static com.icupad.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithoutDischargeDate;
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithoutPesel;
+import static com.icupad.test_data.HL7Messages.*;
 import static com.icupad.test_data.Patients.createAdamKowalski;
 import static com.icupad.test_data.Stays.createAdamKowalskiStay;
 import static org.junit.Assert.assertEquals;
@@ -48,7 +44,8 @@ public class PatientRegistrationTest {
     @Value("${hl7_server.use_ssl}")
     private boolean useSSL;
 
-    private HapiContext context;
+    @Autowired
+    private HapiContext hapiContext;
 
     private Connection connection;
 
@@ -62,10 +59,7 @@ public class PatientRegistrationTest {
 
     @Before
     public void before() throws HL7Exception {
-        context = new DefaultHapiContext();
-        context.setLowerLayerProtocol(new MinLowerLayerProtocol(true));
-
-        connection = context.newClient(host, port, useSSL);
+        connection = hapiContext.newClient(host, port, useSSL);
         initiator = connection.getInitiator();
     }
 
@@ -80,7 +74,7 @@ public class PatientRegistrationTest {
     @Test
     public void shouldCreatePatientIfOneNotExists() throws HL7Exception, IOException, LLPException {
         Patient adamKowalski = createAdamKowalski();
-        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
@@ -93,7 +87,7 @@ public class PatientRegistrationTest {
     @Test
     public void shouldNotTryToCreateNewPatientIfOneExists() throws HL7Exception, IOException, LLPException {
         patientService.save(createAdamKowalski());
-        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
@@ -104,7 +98,7 @@ public class PatientRegistrationTest {
     @Test
     public void shouldCreatePatientWithoutPesel() throws HL7Exception, IOException, LLPException {
         String newPatientHl7Id = createAdamKowalski().getHl7Id();
-        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessageWithoutPesel);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessageWithoutPesel);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
@@ -117,7 +111,7 @@ public class PatientRegistrationTest {
     @Test
     public void shouldCreateStay() throws HL7Exception, IOException, LLPException {
         Stay adamKowalskiStay = createAdamKowalskiStay();
-        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessage);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
@@ -130,7 +124,7 @@ public class PatientRegistrationTest {
     @Test
     public void shouldCreateStayWithoutDischarge() throws HL7Exception, IOException, LLPException {
         String newStayHl7Id = createAdamKowalskiStay().getHl7Id();
-        ADT_A01 adt_a01 = (ADT_A01) context.getGenericParser().parse(patientRegistrationMessageWithoutDischargeDate);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessageWithoutDischargeDate);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 
