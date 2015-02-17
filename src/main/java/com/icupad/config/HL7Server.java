@@ -45,6 +45,7 @@ public class HL7Server {
     public HapiContext hapiContext(MinLowerLayerProtocol minLowerLayerProtocol) {
         HapiContext context = new DefaultHapiContext();
         context.setLowerLayerProtocol(minLowerLayerProtocol);
+        context.getParserConfiguration().setDefaultObx2Type("ST");
         return context;
     }
 

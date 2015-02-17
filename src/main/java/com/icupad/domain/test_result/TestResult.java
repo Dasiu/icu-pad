@@ -1,44 +1,93 @@
 package com.icupad.domain.test_result;
 
 import com.icupad.domain.BaseEntity;
-import com.icupad.domain.Comment;
-import com.icupad.domain.Stay;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-public abstract class TestResult extends BaseEntity {
-    @OneToOne
-    private Comment comment;
+@Entity
+public class TestResult extends BaseEntity {
+    @Column(nullable = false, unique = true)
+    @Size(min = 1, max = 255)
+    @NotNull
+    private String hl7Id;
 
-    @OneToOne
-    private Stay stay;
+    @Column(nullable = false)
+    private double value;
 
-    private LocalDateTime executionDate;
+    @Column(nullable = false)
+    @Size(min = 1, max = 255)
+    @NotNull
+    private String unit;
 
-    public Comment getComment() {
-        return comment;
+    @Size(max = 255)
+    private String norm;
+
+    @Enumerated(EnumType.STRING)
+    private Abnormality abnormality;
+
+    private LocalDateTime resultDate;
+
+    private TestResultExecutor executor;
+
+    public String getHl7Id() {
+        return hl7Id;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setHl7Id(String hl7Id) {
+        this.hl7Id = hl7Id;
     }
 
-    public Stay getStay() {
-        return stay;
+    public double getValue() {
+        return value;
     }
 
-    public void setStay(Stay stay) {
-        this.stay = stay;
+    public void setValue(double value) {
+        this.value = value;
     }
 
-    public LocalDateTime getExecutionDate() {
-        return executionDate;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setExecutionDate(LocalDateTime executionDate) {
-        this.executionDate = executionDate;
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getNorm() {
+        return norm;
+    }
+
+    public void setNorm(String norm) {
+        this.norm = norm;
+    }
+
+    public Abnormality getAbnormality() {
+        return abnormality;
+    }
+
+    public void setAbnormality(Abnormality abnormality) {
+        this.abnormality = abnormality;
+    }
+
+    public LocalDateTime getResultDate() {
+        return resultDate;
+    }
+
+    public void setResultDate(LocalDateTime resultDate) {
+        this.resultDate = resultDate;
+    }
+
+    public TestResultExecutor getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(TestResultExecutor executor) {
+        this.executor = executor;
     }
 }

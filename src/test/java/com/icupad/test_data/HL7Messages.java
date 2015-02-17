@@ -32,4 +32,63 @@ public class HL7Messages {
 
     public static final String patientDetailsUpdateMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A08|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|M|||Piłsudskiego^112a&2b^Poznań^^64-500";
+
+    public static final String testResultsMessage = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||80240344518|47064||NazwiskoTest^ImięTest||19800324|M|||Street^14&10^Londyn^^61-200|\r" +
+            "PV1||I|Oddział Internistyczny||||||||||||||2844^Aliak^Magda^2233449||PO14860|||||||||||||||||||||||||20100203094900|20140512083600|\r" +
+            "ORC|LAB_13710|\r" +
+            "OBR|1|LAB_5_12||Morfologia - hematokryt|||20100514143200|\r" +
+            "OBX|1||LAB_8736||,444|L/L|  0,37     - 0,51|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|2|LAB_5_263||Morfologia - Wskaznik anizocytozy|||20100514143200|\r" +
+            "OBX|1||LAB_8735||12,2|%|  11,5     - 14,5|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|3|LAB_5_261||Morfologia - Srednia masa hemoglobiny|||20100514143200|\r" +
+            "OBX|1||LAB_8734||2,2|fmol|H 1,7      - 2,1      H|H||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|4|LAB_5_260||Morfologia - Srednia obj.krwinki|||20100514143200|\r" +
+            "OBX|1||LAB_8733||99|fL|  84       - 100|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|5|LAB_5_17||Morfologia - płytki krwi|||20100514143200|\r" +
+            "OBX|1||LAB_8732||333|G/L|  140      - 350|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|6|LAB_5_11||Morfologia - hemoglobina|||20100514143200|\r" +
+            "OBX|1||LAB_8731||8|mmol/L|  7,5      - 10,|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|7|LAB_5_10||Morfologia - Erytocyty|||20100514143200|\r" +
+            "OBX|1||LAB_8730||2|T/L|L 4,       - 5,3      L|L||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|8|LAB_5_6||Morfologia - Leukocyty|||20100514143200|\r" +
+            "OBX|1||LAB_8729||12,1|G/L|H 4,1      - 10,0     H|H||||||20100514143200||465^Lab^Anna|\r";
+
+    public static final String testResultsMessage2 = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124644||ORU^R01|26622|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||79062928519|48966||Lawendowski^Nikol||19790629|M|||Pusta^11&2^Jarock^^20999|\r" +
+            "PV1||I|Oddział zakaźny||||||||||||||10^Administrator^System^9999991||PO20384|||||||||||||||||||||||||20140630103100|20140710144300|\r" +
+            "ORC|LAB_16420|\r" +
+            "OBR|1|LAB_103_104||Mocz - badanie ogólne - Glukoza1|||20140714144655|\r" +
+            "OBX|1||LAB_10229||0|mg/dl|  0,       - 0,       ujemna ;   \\.br\\dodatnia|\"\"||||||20140714144655||1^Administrator^Systemu Dev|\r" +
+            "OBR|2|LAB_47||Transaminaza Alaninowa|||20140714144648|\r" +
+            "OBX|1||LAB_10227||0|IU/l|  < 40|\"\"||||||20140714144648||1^Administrator^Systemu Dev|\r" +
+            "OBR|3|LAB_81||Hiv-Przeciwciała|||20140714150724|\r" +
+            "OBX|1||LAB_10230||\"\"|brak|  ujemny|\"\"||||||20140714150724||1^Administrator^Systemu Dev|\r" +
+            "OBR|4|LAB_55||Opad|||20140714144642|\r" +
+            "OBX|1||LAB_10226||12|mm/h|H < 10,0     H|H||||||20140714144642||1^Administrator^Systemu Dev|\r" +
+            "OBR|5|LAB_48||Transaminaza Asparaginowa|||20140714144651|\r" +
+            "OBX|1||LAB_10228||0|IU/l|  < 35|\"\"||||||20140714144651||1^Administrator^Systemu Dev|";
+
+    public static final String testResultsMessage3= "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124409||ORU^R01|26606|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||99999999999|10113||Nazwisko^Imię||19700701|F|||Moniuszki^12&11^Poznan^^61-310|\r" +
+            "PV1||I|Oddział Chirurgii Oka||||||||||||||11^Admin^Test^8899991||PO11086|||||||||||||||||||||||||20040831161300|20041026100000|\r" +
+            "ORC|LAB_4709|\r" +
+            "OBR|1|LAB_3||Potas w surowicy|||20040921105353|\r" +
+            "OBX|1||LAB_2336||4,4|mmol/l|  3,5  -   5,5|\"\"||||||20040921105353||362^Laboratorium-Długienazwisko^Adminh-Administ|\r" +
+            "OBR|2|LAB_1||Sód w surowicy|||20040921105353|\r" +
+            "OBX|1||LAB_2335||148|mmol/l|  138  -  148   (Norma sodu)|\"\"||||||20040921105353||362^Laboratorium-Długienazwisko^Adminh-Administ|\r" +
+            "OBR|3|LAB_139||Chlorki w surowicy|||20040921105353|\r" +
+            "OBX|1||LAB_2337||111|mmol/l|H 98  -  110 H|H||||||20040921105353||362^Laboratorium-Długienazwisko^Adminh-Administ|\r";
+
+    public static final String testResultsMessage4 = "MSH|^~\\&|SENDERAPP|SENDERFAC|COVCDR|COVCDR|20130212221503||ORU^R01|1676326503009050|P|2.3\r" +
+            "PID|1||MRN101||DOE^JOHN^A||20000101|M||W|1 Campus Martius^^Detroit^MI^48226||(313)227-7300||EN|S|||111-11-1111|||H\r" +
+            "PV1|1|U| 12E^1211^01||||1689885733^ORANGE TEAM, OMNI|||Med||||Tra|||99999999^SMITH^KEVIN^^^^MD|I|000000000000|YY|P||||||||||||||||||||Ac|||20130224080500\r" +
+            "ORC|RE|F78520223|000000000^LA||CM||||20130226020200||||  PICU|||^RESULT PERFORMED|||RES\r" +
+            "OBR|1|F78520223|1305611705^LA|0101301^COMPLETE BLOOD COUNT^COMPLETE BLOOD COUNT|||20130226010600|20130226020200||2632||||20130226014200||333333^GEORGE, BOB|||||0001305611705|20130226020200|||F||^^^20130226043000^^EA~^^^^^EA\r" +
+            "OBX|1|NM|0106550^WHITE BLOOD CELL COUNT^WHITE BLOOD CELL COUNT||7.9|10e9/L|4.3-11.0||||F|||20130226020200|34333^Kelly, Bacon^^00010033^MOLIS XE2|RES\r" +
+            "OBX|2|NM|0104650^RBCx10e12^RBCx10e12||4.09|10e12/L|4.53-5.73|L|||F|||20130226020200|34333^Kelly, Bacon^^00010033^MOLIS XE2|RES\r" +
+            "OBX|3|NM|0102150^HEMOGLOBIN^HEMOGLOBIN||12.9|g/dL|13.6-17.4|L|||F|||20130226020200|34333^Kelly, Bacon^^00010033^MOLIS XE2|RES\r" +
+            "OBX|4|NM|0102100^HEMATOCRIT^HEMATOCRIT||37.5|%|40.7-50.8|L|||F|||20130226020200|34333^Kelly, Bacon^^00010033^MOLIS XE2|RES\r" +
+            "OBX|5|NM|0103500^MEAN CORPUSCULAR VOLUME^MEAN CORPUSCULAR VOLUME||91.7|fL|81.6-96.8||||F|||20130226020200|34333^Kelly, Bacon^^00010033^MOLIS XE2|RES\r" +
+            "NTE|1||Test performed at Tulsa";
 }

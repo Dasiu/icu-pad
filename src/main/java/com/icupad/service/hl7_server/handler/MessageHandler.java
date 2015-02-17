@@ -7,7 +7,7 @@ import ca.uhn.hl7v2.model.v23.message.ACK;
 import java.io.IOException;
 
 public interface MessageHandler<M extends Message> {
-    Class<M> getMessageType();
-
     ACK handle(M m) throws IOException, HL7Exception;
+
+    Class<M> getMessageType();
 }
