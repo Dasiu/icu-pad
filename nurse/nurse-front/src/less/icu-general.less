@@ -1,0 +1,55 @@
+table.collapsible-table {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	/*color: green;*/
+	
+	.collapsiable-first-row {
+		width: 300px;
+	}
+	
+	thead {
+		/*color: blue;*/
+		tr {
+			td {
+				/*border: 1px solid gray;*/
+				/*color: blue;*/
+				width: auto;
+			}
+		}
+	}
+	tbody {
+		/*color: red;*/
+		tr {
+			td {
+				/*color: green;*/
+				width: 300px;
+				/*border: 1px solid gray;*/
+			}
+			td:nth-child(even) {
+				background: #eeeeee;
+			}
+			td+td {
+				width: auto;
+			}
+		}
+	}
+}
+
+.user-name {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.table-container {
+	display: table;
+	width: 100%;
+	
+	.row {
+		display: table-row;
+		
+		.cell {
+			display: table-cell;
+		}
+	}
+}

@@ -3,3 +3,8 @@ build
 .gradle
 application-dev.properties
 application-test.properties
+/bin/
+
+**/.classpath
+**/.project
+**/.settings/

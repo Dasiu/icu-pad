@@ -1,0 +1,25 @@
+<section ng-app="ICUPad" ng-controller="NurseController" class="section container-fluid">
+  <h1 class="page-header">Proces pielęgnowania</h1>
+
+  <label class="checkbox">
+  <accordion close-others="false">
+    <accordion-group heading="{{i.name}}" ng-repeat="i in data">
+		<table class="collapsible-table table table-hover table-condensed">
+			<col span="1" class="collapsiable-first-row">
+			<thead>
+				<tr>
+					<td></td>
+					<td ng-repeat="h in hours">{{h}}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="a in i.activities">
+					<td>{{a.name}}</td>
+					<td ng-repeat="h in hours">0</td>
+				</tr>
+			</tbody>
+		</table>
+    </accordion-group>
+  </accordion>
+  
+</section>
