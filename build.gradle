@@ -39,7 +39,7 @@ dependencies {
     runtime group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
 }
 
-subprojects {
+configure (subprojects - project(":nurse:nurse-front")) {
 	apply plugin: 'java'
 	
 	repositories {

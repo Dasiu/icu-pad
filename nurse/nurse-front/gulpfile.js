@@ -207,7 +207,7 @@ gulp.task('js', function() {
     streamqueue({ objectMode: true },
       gulp.src(config.vendor.js),
       gulp.src('./src/js/**/*.js').pipe(ngFilesort()),
-      gulp.src(['src/templates/**/*.html']).pipe(templateCache({ module: 'ICUPadNurse' }))
+      gulp.src(['src/templates/**/*.html']).pipe(templateCache({ module: 'ICUPad' }))
     )
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
