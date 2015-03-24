@@ -1,3 +1,4 @@
+include 'server'
 include 'server:nurse'
 include 'server:nurse:nurse-rest'
 include 'server:nurse:nurse-service'

@@ -1,2 +1,18 @@
-dependencies {
-}
+	def springBootVersion = '1.2.0.RELEASE'
+	
+	configurations {
+	    // have to be excluded - dependency clash
+	    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+	
+	dependencies {
+		compile project(":server:nurse:nurse-service")
+	
+		compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+		compile group: 'com.h2database', name: 'h2', version: '1.4.177'
+
+		testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+		testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'
+
+	}
+	
