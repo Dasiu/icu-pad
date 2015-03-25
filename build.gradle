@@ -1,11 +1,21 @@
+buildscript {
+    ext {
+        springBootVersion = '1.2.2.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
 apply plugin: 'java'
-apply plugin: 'application'
+apply plugin: 'spring-boot'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 version = '1.0'
-mainClassName = "com.icupad.Application"
-
-def springBootVersion = '1.2.0.RELEASE'
 
 repositories {
     mavenLocal()
@@ -13,8 +23,11 @@ repositories {
 }
 
 configurations {
-    // have to be excluded - dependency clash
+    // excluded, because dependency clash between spring boot modules
     all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+
+    // excluded, because java-faker is adding redundant slf4j binding:
+    all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
 }
 
 dependencies {
@@ -33,6 +46,8 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.4.4'
 
     compile group: 'ca.uhn.hapi', name: 'hapi-structures-v23', version: '2.2'
+
+    compile 'org.apache.commons:commons-lang3:3.3.2'
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'
