@@ -1,8 +1,7 @@
-include 'nurse'
-include 'nurse:nurse-front'
-include 'nurse:nurse-rest'
-include 'nurse:nurse-service'
-include 'nurse:nurse-model'
+include 'server:nurse'
+include 'server:nurse:nurse-rest'
+include 'server:nurse:nurse-service'
+include 'server:nurse:nurse-model'
 
 rootProject.name = 'icupad'
 
