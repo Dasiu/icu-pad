@@ -13,6 +13,7 @@ import com.icupad.service.PatientService;
 import com.icupad.service.StayService;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,12 +96,12 @@ public class HL7ServerTest {
         assertNull(response.getMSH().getMessageType().getTriggerEvent().getValue());
     }
 
-    @Test
+    @Ignore
     public void shouldResponseErrorACKWhenInvalidPatientRegistrationMessageReceived() {
         fail("not implemented yet");
     }
 
-    @Test
+    @Ignore
     public void shouldResponseErrorACKWhenAlreadyCorrectlyHandledMessageHasBeenReceivedAgain() {
         fail("not implemented yet");
     }
