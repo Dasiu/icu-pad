@@ -1,17 +1,18 @@
 package com.icupad.service.hl7_server;
 
+import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
+import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.Application;
-import com.icupad.service.PatientService;
-import com.icupad.service.StayService;
-import com.icupad.service.TestRequestService;
-import com.icupad.service.TestResultService;
+import com.icupad.domain.Stay;
+import com.icupad.service.*;
 import com.icupad.test_data.HL7Messages;
+import com.icupad.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
+import static com.icupad.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
 import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles("test")
@@ -57,6 +59,9 @@ public class TestResultTest {
     @Autowired
     private TestRequestService testRequestService;
 
+    @Autowired
+    private TestService testService;
+
     @Before
     public void before() throws HL7Exception {
         connection = hapiContext.newClient(host, port, useSSL);
@@ -67,44 +72,104 @@ public class TestResultTest {
     public void after() {
         connection.close();
 
+        testResultsService.deleteAll();
+        testRequestService.deleteAll();
+        testService.deleteAll();
         stayService.deleteAll();
         patientService.deleteAll();
     }
 
     @Test
-    public void shouldSaveTestRequest() throws HL7Exception, IOException, LLPException {
+    public void shouldSaveTestRequests() throws HL7Exception, LLPException, IOException {
+        createAndSaveAdamKowalskisStay();
         ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
 
-        initiator.sendAndReceive(oru_r01);
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
 
-        assertEquals(1, testRequestService.count());
+        assertEquals(2, testRequestService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
-//    @Test
-//    public void shouldSaveTestRequest2() throws HL7Exception, IOException, LLPException {
-//        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage2);
-//
-//        initiator.sendAndReceive(oru_r01);
-//
-//        assertEquals(1, testRequestService.count());
-//    }
-//
-//    @Test
-//    public void shouldSaveTestRequest3() throws HL7Exception, IOException, LLPException {
-//        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage3);
-////        Message parse = hapiContext.getPipeParser().parse(HL7Messages.testResultsMessage);
-//
-//        initiator.sendAndReceive(oru_r01);
-//
-//        assertEquals(1, testRequestService.count());
-//    }
-//
-//    @Test
-//    public void shouldSaveTestRequest4() throws HL7Exception, IOException, LLPException {
-//        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage4);
-//
-//        initiator.sendAndReceive(oru_r01);
-//
-//        assertEquals(1, testRequestService.count());
-//    }
+    @Test
+    public void shouldSaveNewTypeOfTest() throws HL7Exception, LLPException, IOException {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
+
+        assertEquals(2, testService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldNotDuplicateTests() throws HL7Exception, LLPException, IOException {
+        createAndSaveAdamKowalskisStay();
+        createAndSaveTest();
+        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
+
+        assertEquals(2, testService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldSaveTestResults() throws HL7Exception, LLPException, IOException {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
+
+        assertEquals(2, testResultsService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldResponseErrorACKIfStayDoesNotExist() throws HL7Exception, LLPException, IOException {
+        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
+
+        assertEquals(AcknowledgmentCode.CE, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldIgnoreMissingResults() throws HL7Exception, IOException, LLPException {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 oru_r01 =
+                (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessageWithOneMissingResult);
+
+        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
+
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+        assertEquals(1, testRequestService.count());
+        assertEquals(1, testResultsService.count());
+    }
+
+    @Test
+    public void shouldNotDuplicateTestResults() throws HL7Exception, IOException, LLPException {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 missingResult =
+                (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessageWithOneMissingResult);
+        ORU_R01 completeResults = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        initiator.sendAndReceive(missingResult);
+        ACK ack = (ACK) initiator.sendAndReceive(completeResults);
+
+        assertEquals(2, testRequestService.count());
+        assertEquals(2, testResultsService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    private void createAndSaveTest() {
+        com.icupad.domain.Test test = new com.icupad.domain.Test();
+        test.setName("Morfologia - hematokryt");
+        testService.save(test);
+    }
+
+    private void createAndSaveAdamKowalskisStay() {
+        Stay adamKowalskiStay = Stays.createAdamKowalskiStay();
+        patientService.save(adamKowalskiStay.getPatient());
+        stayService.save(adamKowalskiStay);
+    }
 }
