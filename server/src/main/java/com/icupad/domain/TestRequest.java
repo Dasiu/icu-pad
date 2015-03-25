@@ -1,7 +1,5 @@
 package com.icupad.domain;
 
-import com.icupad.domain.BaseEntity;
-import com.icupad.domain.Test;
 import com.icupad.repository.validation.constraints.Past;
 
 import javax.persistence.Column;

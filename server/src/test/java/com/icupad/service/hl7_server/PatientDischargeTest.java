@@ -28,9 +28,9 @@ import java.time.LocalDateTime;
 
 import static com.icupad.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
 import static com.icupad.test_data.HL7Messages.patientDischargeMessage;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)

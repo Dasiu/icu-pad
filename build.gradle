@@ -13,20 +13,13 @@ buildscript {
 
 apply plugin: 'spring-boot'
 
+mainClassName = "com.icupad.Application"
 sourceCompatibility = JavaVersion.VERSION_1_8
 version = '1.0'
 
 repositories {
     mavenLocal()
     mavenCentral()
-}
-
-configurations {
-    // excluded, because dependency clash between spring boot modules
-    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-
-    // excluded, because java-faker is adding redundant slf4j binding:
-    all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
 }
 
 subprojects {
@@ -39,6 +32,11 @@ subprojects {
         mavenCentral()
     }
 
+    configurations {
+        // excluded, because dependency clash between spring boot modules
+        all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
     dependencies {
         compile group: 'org.springframework', name: 'springloaded', version: '1.2.1.RELEASE'
 
@@ -47,8 +45,6 @@ subprojects {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j', version: springBootVersion
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
-
-        compile group: 'com.github.javafaker', name: 'javafaker', version: '0.3'
 
         compile group: 'com.h2database', name: 'h2', version: '1.4.177'
 
