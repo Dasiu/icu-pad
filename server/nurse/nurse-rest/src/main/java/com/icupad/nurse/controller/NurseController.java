@@ -1,20 +1,28 @@
 package com.icupad.nurse.controller;
 
-import java.util.Arrays;
-import java.util.Collection;
+import com.icupad.nurse.model.NurseFunction;
+import com.icupad.nurse.service.NurseFunctionService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.icupad.nurse.model.Function;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/nurse")
 public class NurseController {
-	
+
+	private final NurseFunctionService functionService;
+
+	@Autowired
+	public NurseController(NurseFunctionService functionService) {
+		this.functionService = functionService;
+	}
+
 	@RequestMapping("/functions")
-	public Collection<Function> findAllFunctions() {
-		return Arrays.asList(new Function());
+	public Collection<NurseFunction> findAllFunctions() {
+		return functionService.findAll();
 	}
 
 }

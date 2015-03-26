@@ -3,21 +3,20 @@ package com.icupad.nurse.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Problem extends BaseEntity {
+	
 	@NotNull
 	@Column(length = 50)
 	protected String name;
 
 	@NotNull
 	@ManyToOne
-	private Function function;
+	@JoinColumn(name = "function_id")
+	private NurseFunction function;
 
 	@ManyToMany
 	private List<Activity> activities = new ArrayList<>();
@@ -30,11 +29,11 @@ public class Problem extends BaseEntity {
 		this.name = name;
 	}
 
-	public Function getFunction() {
+	public NurseFunction getFunction() {
 		return function;
 	}
 
-	public void setFunction(Function function) {
+	public void setFunction(NurseFunction function) {
 		this.function = function;
 	}
 

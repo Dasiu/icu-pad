@@ -1,13 +1,17 @@
 package com.icupad.nurse.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class BaseEntity {
+	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	private Long id;
+
+	public Long getId() {
+		return id;
+	}
 
 }
