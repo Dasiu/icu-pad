@@ -48,11 +48,7 @@ public class PIDParser implements Parser<PID, Patient> {
     private String getHouseNumber(XAD xad) {
         Pattern findHouseNumberAfterAndCharacterInPIDSegment = Pattern.compile("PID.+?&(.+?)\\^");
         Matcher m = findHouseNumberAfterAndCharacterInPIDSegment.matcher(xad.getMessage().toString());
-        if (m.find()) {
-            return m.group(1);
-        } else {
-            throw new MissingHouseNumberException();
-        }
+        return m.find() ? m.group(1) : null;
     }
 
     private String getPostalCode(XAD xad) {
@@ -103,6 +99,6 @@ public class PIDParser implements Parser<PID, Patient> {
 
     private String getPesel(PID pid) {
         String pesel = pid.getPatientIDExternalID().getID().getValue();
-        return pesel.equals(peselNullValue) ? null : pesel;
+        return pesel == null || pesel.equals(peselNullValue) ? null : pesel;
     }
 }

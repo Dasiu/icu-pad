@@ -15,4 +15,9 @@ public class TestRequestServiceImpl extends AbstractBaseService<TestRequest> imp
 
         this.testRequestRepository = testRequestRepository;
     }
+
+    @Override
+    public TestRequest findByHl7Id(String hl7Id) {
+        return testRequestRepository.findByHl7Id(hl7Id);
+    }
 }

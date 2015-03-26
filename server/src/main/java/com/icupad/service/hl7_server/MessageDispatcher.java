@@ -42,14 +42,15 @@ public class MessageDispatcher implements Application {
 
             return ack;
         } catch (StayNotFoundException e) {
-            logger.error(e);
+            logger.error("Invalid message", e);
 
-            throw new ApplicationException(e);
+            throw new HL7Exception(e);
         } catch (IOException | RuntimeException e) {
-            logger.error(e);
+            logger.error("Internal error", e);
 
-            // exception message should not be included in ACK, it might contains sensitive data
-            throw new RuntimeException();
+            // exception message and stack trace should not be included in ACK, it might contains sensitive data,
+            // that is why exception is rethrown
+            throw new ApplicationException("Internal error");
         }
     }
 

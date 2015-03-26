@@ -4,7 +4,10 @@ build
 application-dev.properties
 application-test.properties
 /bin/
+**/id_file
 
 **/.classpath
 **/.project
 **/.settings/
+
+*.iml

@@ -3,7 +3,7 @@ package com.icupad.test_utils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.mockito.internal.matchers.Not;
+import org.hamcrest.core.IsNot;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -26,7 +26,7 @@ public class ValidationUtils {
     }
 
     public static Matcher<Set<ConstraintViolation<Object>>> fails() {
-        return new Not(new PassesValidation());
+        return new IsNot<>(new PassesValidation());
     }
 
     static class PassesValidation extends BaseMatcher<Set<ConstraintViolation<Object>>> {

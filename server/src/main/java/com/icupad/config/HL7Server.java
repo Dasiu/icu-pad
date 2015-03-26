@@ -52,7 +52,7 @@ public class HL7Server {
     @Bean
     public MinLowerLayerProtocol minLowerLayerProtocol() {
         MinLowerLayerProtocol minLowerLayerProtocol = new MinLowerLayerProtocol(false);
-        minLowerLayerProtocol.setCharset(Charset.forName("UTF-8"));
+        minLowerLayerProtocol.setCharset(Charset.forName("windows-1250"));
         return minLowerLayerProtocol;
     }
 }

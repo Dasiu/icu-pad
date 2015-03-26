@@ -20,6 +20,8 @@ import java.util.Locale;
 public class OBXParser implements Parser<OBX, TestResult> {
     private static final Logger logger = Logger.getLogger(OBXParser.class);
 
+    private static final String testResultNullValue = "\"\"";
+
     @Override
     public TestResult parse(OBX obx) throws HL7Exception {
         TestResult testResult = new TestResult();
@@ -70,11 +72,19 @@ public class OBXParser implements Parser<OBX, TestResult> {
         return obx.getUnits().getIdentifier().getValue();
     }
 
-    private double getTestResult(OBX obx) {
-        try {
-            ST st = (ST) obx.getObservationValue()[0].getData();
-            String testResultStr = st.getValue();
+    private Double getTestResult(OBX obx) {
+        ST st = (ST) obx.getObservationValue()[0].getData();
+        String testResultStr = st.getValue();
 
+        return isTestResultMissing(testResultStr) ? null : parseTestResult(testResultStr);
+    }
+
+    private boolean isTestResultMissing(String testResultStr) {
+        return testResultNullValue.equals(testResultStr);
+    }
+
+    private double parseTestResult(String testResultStr) {
+        try {
             Locale polishLocale = new Locale("pl", "PL");
             NumberFormat numberFormat = NumberFormat.getInstance(polishLocale);
             return numberFormat.parse(testResultStr).doubleValue();
