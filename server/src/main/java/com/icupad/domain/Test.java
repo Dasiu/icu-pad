@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Test extends BaseEntity {
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 2000)
     @Size(min = 1, max = 2000)
     @NotNull
     private String name;
