@@ -1,8 +1,8 @@
 def springBootVersion = '1.2.0.RELEASE'
 
 configurations {
-    // have to be excluded - dependency clash
-    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	// excluded, because dependency clash between spring boot modules
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 }
 
 dependencies {
