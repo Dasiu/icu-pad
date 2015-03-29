@@ -1,14 +1,12 @@
 package com.icupad.hl7_gateway.domain;
 
 import com.icupad.hl7_gateway.utils.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 
 import static com.icupad.test_utils.ValidationUtils.*;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 public class StayTest {
     @Test
@@ -47,11 +45,6 @@ public class StayTest {
         Stay stay = new Stay();
 
         assertThat(validationFor(stay, onProperty("type")), fails());
-    }
-
-    @Ignore
-    public void admittingDoctorShouldBeValid() {
-        fail("not implemented yet");
     }
 
     @Test

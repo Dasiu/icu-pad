@@ -21,6 +21,9 @@ public class Stay extends BaseEntity {
     @Embedded
     private AssignedPatientLocation assignedPatientLocation;
 
+    @Embedded
+    private AdmittingDoctor admittingDoctor;
+
     @Column(nullable = false)
     @Past
     @NotNull
@@ -132,5 +135,13 @@ public class Stay extends BaseEntity {
                 ", active=" + active +
                 ", patient=" + patient +
                 '}';
+    }
+
+    public AdmittingDoctor getAdmittingDoctor() {
+        return admittingDoctor;
+    }
+
+    public void setAdmittingDoctor(AdmittingDoctor admittingDoctor) {
+        this.admittingDoctor = admittingDoctor;
     }
 }
