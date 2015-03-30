@@ -2,8 +2,10 @@ package com.icupad.hl7_gateway.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
+import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
+import ca.uhn.hl7v2.model.v23.segment.PID;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.Test;
@@ -13,7 +15,7 @@ import com.icupad.hl7_gateway.service.StayService;
 import com.icupad.hl7_gateway.service.TestRequestService;
 import com.icupad.hl7_gateway.service.TestResultService;
 import com.icupad.hl7_gateway.service.TestService;
-import com.icupad.hl7_gateway.service.hl7_server.StayNotFoundException;
+import com.icupad.hl7_gateway.service.hl7_server.RegisterPatient;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBRParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBXParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PV1Parser;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
+    private final RegisterPatient registerPatient;
     private final StayService stayService;
     private final PV1Parser pv1Parser;
     private final OBRParser obrParser;
@@ -37,13 +40,15 @@ public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
     private final TestResultService testResultService;
 
     @Autowired
-    public TestResultsHandler(StayService stayService,
+    public TestResultsHandler(RegisterPatient registerPatient,
+                              StayService stayService,
                               TestRequestService testRequestService,
                               TestResultService testResultService,
                               TestService testService,
                               PV1Parser pv1Parser,
                               OBRParser obrParser,
                               OBXParser obxParser) {
+        this.registerPatient = registerPatient;
         this.stayService = stayService;
         this.testRequestService = testRequestService;
         this.testResultService = testResultService;
@@ -55,30 +60,47 @@ public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
 
     @Override
     public ACK handle(ORU_R01 oru_r01) throws IOException, HL7Exception {
-        Stay existingStay = getStay(oru_r01);
-
-        if (existingStay != null) {
-            List<Triple<Test, TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
-            List<Triple<Test, TestRequest, TestResult>> filteredTestsRequestsAndResults =
-                    filterOutIrrelevantData(testsRequestsAndResults);
-
-            saveNewTests(filteredTestsRequestsAndResults);
-
-            filteredTestsRequestsAndResults.stream()
-                    .map(this::mergeTestWithDB)
-                    .map(this::associateTestRequestWithTest)
-                    .forEach(testRequestService::save);
-
-            filteredTestsRequestsAndResults.stream()
-                    .map(this::mergeTestRequestWithDB)
-                    .map(this::associateTestResultWithTestRequest)
-                    .map(testResult -> associateTestResultWithStay(testResult, existingStay))
-                    .forEach(testResultService::save);
-        } else {
-            throw new StayNotFoundException();
+        if (!isPatientRegistered(oru_r01)) {
+            registerPatient.accept(getPID(oru_r01), getPV1(oru_r01));
         }
 
+        handleResults(oru_r01);
+
         return generateACK(oru_r01);
+    }
+
+    @Override
+    public Class<ORU_R01> getMessageType() {
+        return ORU_R01.class;
+    }
+
+    private void handleResults(ORU_R01 oru_r01) throws HL7Exception {
+        Stay stay = getStay(oru_r01);
+
+        List<Triple<Test, TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
+        List<Triple<Test, TestRequest, TestResult>> filteredTestsRequestsAndResults =
+                filterOutIrrelevantData(testsRequestsAndResults);
+
+        saveNewTests(filteredTestsRequestsAndResults);
+
+        filteredTestsRequestsAndResults.stream()
+                .map(this::mergeTestWithDB)
+                .map(this::associateTestRequestWithTest)
+                .forEach(testRequestService::save);
+
+        filteredTestsRequestsAndResults.stream()
+                .map(this::mergeTestRequestWithDB)
+                .map(this::associateTestResultWithTestRequest)
+                .map(testResult -> associateTestResultWithStay(testResult, stay))
+                .forEach(testResultService::save);
+    }
+
+    private PID getPID(ORU_R01 oru_r01) {
+        return getHl7Patient(oru_r01).getPID();
+    }
+
+    private boolean isPatientRegistered(ORU_R01 oru_r01) throws HL7Exception {
+        return getStay(oru_r01) != null;
     }
 
     private List<Triple<Test, TestRequest, TestResult>>
@@ -89,15 +111,18 @@ public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Class<ORU_R01> getMessageType() {
-        return ORU_R01.class;
-    }
-
     private Stay getStay(ORU_R01 oru_r01) throws HL7Exception {
-        PV1 pv1 = oru_r01.getRESPONSE().getPATIENT().getVISIT().getPV1();
+        PV1 pv1 = getPV1(oru_r01);
         String stayHl7Id = pv1Parser.parse(pv1).getHl7Id();
         return stayService.findByHl7Id(stayHl7Id);
+    }
+
+    private PV1 getPV1(ORU_R01 oru_r01) {
+        return getHl7Patient(oru_r01).getVISIT().getPV1();
+    }
+
+    private ORU_R01_PATIENT getHl7Patient(ORU_R01 oru_r01) {
+        return oru_r01.getRESPONSE().getPATIENT();
     }
 
     private List<Triple<Test, TestRequest, TestResult>> parseOBRAndOBX(ORU_R01 oru_r01) throws HL7Exception {

@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
-public class TestResultTest {
+public class TestResultsTest {
     private static final String host = "localhost";
 
     @Value("${hl7_server.port}")
@@ -125,12 +125,14 @@ public class TestResultTest {
     }
 
     @Test
-    public void shouldResponseErrorACKIfStayDoesNotExist() throws HL7Exception, LLPException, IOException {
+    public void shouldRegisterPatientIfHasNotBeenRegisteredAlready() throws HL7Exception, LLPException, IOException {
         ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
 
         ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
 
-        assertEquals(AcknowledgmentCode.CE, getAcknowledgmentCode(ack));
+        assertEquals(1, patientService.count());
+        assertEquals(1, stayService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
     @Test
