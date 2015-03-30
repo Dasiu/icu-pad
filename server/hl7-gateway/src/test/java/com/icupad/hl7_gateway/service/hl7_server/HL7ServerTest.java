@@ -1,5 +1,6 @@
 package com.icupad.hl7_gateway.service.hl7_server;
 
+import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
@@ -13,7 +14,6 @@ import com.icupad.hl7_gateway.service.PatientService;
 import com.icupad.hl7_gateway.service.StayService;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
+import static com.icupad.hl7_gateway.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
 import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithInvalidPesel;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,10 +73,10 @@ public class HL7ServerTest {
     public void shouldResponseValidMSASegment() throws HL7Exception, IOException, LLPException {
         Message messageWithMSHSegment = hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
-        ACK response = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
+        ACK ack = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
 
-        assertMessageControlId(response, messageWithMSHSegment);
-        assertAcknowledgmentCode(response);
+        assertMessageControlId(ack, messageWithMSHSegment);
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
     @Test
@@ -84,31 +86,20 @@ public class HL7ServerTest {
 
         ACK response = (ACK) initiator.sendAndReceive(messageWhichWillRaiseException);
 
-        assertNull(response.getMSH().getMessageType().getTriggerEvent().getValue());
+        assertNull(getMessageTriggerEvent(response));
     }
 
     @Test
     public void shouldResponseACKWithoutTriggerEventInCaseOfError() throws HL7Exception, IOException, LLPException {
         Message messageWithMSHSegment = hapiContext.getGenericParser().parse(patientRegistrationMessage);
 
-        ACK response = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
+        ACK ack = (ACK) initiator.sendAndReceive(messageWithMSHSegment);
 
-        assertNull(response.getMSH().getMessageType().getTriggerEvent().getValue());
+        assertNull(getMessageTriggerEvent(ack));
     }
 
-    @Ignore
-    public void shouldResponseErrorACKWhenInvalidPatientRegistrationMessageReceived() {
-        fail("not implemented yet");
-    }
-
-    @Ignore
-    public void shouldResponseErrorACKWhenAlreadyCorrectlyHandledMessageHasBeenReceivedAgain() {
-        fail("not implemented yet");
-    }
-
-    private void assertAcknowledgmentCode(ACK response) {
-        String actualAcknowledgementCode = response.getMSA().getAcknowledgementCode().getValue();
-        assertEquals("CA", actualAcknowledgementCode);
+    private String getMessageTriggerEvent(ACK response) {
+        return response.getMSH().getMessageType().getTriggerEvent().getValue();
     }
 
     private void assertMessageControlId(ACK response, Message messageWithMSHSegment) {
