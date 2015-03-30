@@ -8,7 +8,7 @@ import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 import com.icupad.hl7_gateway.domain.AssignedPatientLocation;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.StayType;
-import com.icupad.hl7_gateway.service.hl7_server.MissingStayTypeException;
+import com.icupad.hl7_gateway.service.hl7_server.InvalidStayTypeException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -63,12 +63,20 @@ public class PV1Parser implements Parser<PV1, Stay> {
 
     private StayType getType(PV1 pv1) {
         switch (pv1.getPatientClass().getValue()) {
+            case "B":
+                return StayType.OBSTETRICS;
+            case "E":
+                return StayType.EMERGENCY;
             case "I":
                 return StayType.INPATIENT;
             case "O":
                 return StayType.OUTPATIENT;
+            case "P":
+                return StayType.PREADMIT;
+            case "R":
+                return StayType.RECURRING_PATIENT;
             default:
-                throw new MissingStayTypeException();
+                throw new InvalidStayTypeException();
         }
     }
 
