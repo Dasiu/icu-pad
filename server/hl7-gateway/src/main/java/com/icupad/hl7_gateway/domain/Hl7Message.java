@@ -12,8 +12,8 @@ public class Hl7Message extends BaseEntity {
     @NotNull
     private String hl7Id;
 
-    @Column(nullable = false, length = 10000) // arbitrary large value. it should be sufficient
-    @Size(min = 1, max = 10000)
+    @Column(nullable = false, length = 65535) // arbitrary large value. it should be sufficient
+    @Size(min = 1, max = 65535)
     @NotNull
     private String body;
 

@@ -4,17 +4,23 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
+
 import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 import com.icupad.hl7_gateway.domain.AssignedPatientLocation;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.StayType;
 import com.icupad.hl7_gateway.service.hl7_server.InvalidStayTypeException;
+
 import org.springframework.stereotype.Component;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
 @Component
 public class PV1Parser implements Parser<PV1, Stay> {
+	
+	private static final LocalDateTime NO_DATE = LocalDateTime.of(1500, 10, 31, 0, 0);
+	
     @Override
     public Stay parse(PV1 pv1) throws HL7Exception {
         Stay stay = new Stay();
@@ -81,11 +87,15 @@ public class PV1Parser implements Parser<PV1, Stay> {
     }
 
     private LocalDateTime convertToLocalDateTime(TSComponentOne timeOfAnEvent) throws HL7Exception {
-        return timeOfAnEvent.isEmpty() ? null : LocalDateTime.of(timeOfAnEvent.getYear(),
-                timeOfAnEvent.getMonth(),
-                timeOfAnEvent.getDay(),
-                timeOfAnEvent.getHour(),
-                timeOfAnEvent.getMinute(),
-                timeOfAnEvent.getSecond());
+    	try {
+	        return timeOfAnEvent.isEmpty() ? null : LocalDateTime.of(timeOfAnEvent.getYear(),
+	                timeOfAnEvent.getMonth(),
+	                timeOfAnEvent.getDay(),
+	                timeOfAnEvent.getHour(),
+	                timeOfAnEvent.getMinute(),
+	                timeOfAnEvent.getSecond());
+    	} catch (DateTimeException e) {
+    		return NO_DATE;
+    	}
     }
 }
