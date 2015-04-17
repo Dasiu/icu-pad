@@ -1,5 +1,6 @@
 package com.icupad.nurse.service.impl;
 
+import com.icupad.nurse.model.ExecutedNurseFunction;
 import com.icupad.nurse.model.NurseFunction;
 import com.icupad.nurse.repository.NurseFunctionRepository;
 import com.icupad.nurse.service.NurseFunctionService;
@@ -7,7 +8,7 @@ import com.icupad.nurse.service.NurseFunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.*;
 
 @Component
 class NurseFunctionServiceImpl implements NurseFunctionService {
@@ -20,8 +21,14 @@ class NurseFunctionServiceImpl implements NurseFunctionService {
 	}
 
 	@Override
-	public Collection<NurseFunction> findAll() {
+	public Collection<NurseFunction> findAllFunctions() {
 		return functionRepository.findAll();
+	}
+
+	@Override
+	public List<ExecutedNurseFunction> findExecutedFunctionsByPatientAndDay(Long patinetId, Date date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

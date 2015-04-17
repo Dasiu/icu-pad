@@ -25,14 +25,10 @@ public class Patient extends BaseEntity {
     @NotNull
     private String name;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30)
     @Size(min = 1, max = 30)
-    @NotNull
     private String surname;
 
-    @Column(nullable = false)
-    @Past
-    @NotNull
     private LocalDateTime birthDate;
 
     @Column(nullable = false)

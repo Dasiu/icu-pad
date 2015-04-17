@@ -1,15 +1,18 @@
 package com.icupad.nurse.controller;
 
+import static com.icupad.nurse.provider.PatientProvider.idOfExistingUser;
 import static com.jayway.restassured.RestAssured.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.icupad.common.controller.RestDateFormat;
 import com.icupad.nurse.config.NurseApplication;
+import com.icupad.nurse.model.ExecutedNurseFunction;
 import com.icupad.nurse.model.NurseFunction;
+import com.icupad.nurse.model.external.Patient;
 import com.jayway.restassured.RestAssured;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @ActiveProfiles("test")
@@ -35,8 +39,8 @@ public class NurseModuleTest {
     private int port;
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void shouldReturnFunctions() {
-		@SuppressWarnings("unchecked")
 		Collection<NurseFunction> functions =
 		when().
 			get("/nurse/functions").
@@ -45,8 +49,8 @@ public class NurseModuleTest {
 	}
 	
 	@Test
+	@SuppressWarnings("unchecked")
 	public void functionsNumberShouldBe10() {
-		@SuppressWarnings("unchecked")
 		Collection<NurseFunction> functions =
 		when().
 			get("/nurse/functions").
@@ -54,6 +58,39 @@ public class NurseModuleTest {
 		assertThat(functions.size()).isEqualTo(10);
 	}
 	
+	@Test
+	public void shouldReturn200WhenRequestForExistingExecutedActivities() {
+		//given
+			Patient patient = existingPatinetWithExecutedActivities();
+			String today = RestDateFormat.format(LocalDateTime.now());
+		when().
+			get("/nurse/functions/executed?patient_id={id}&date={date}", patient.getId(), today).
+		then().
+			statusCode(200);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	@Ignore
+	public void shouldReturnExecutedActivities() {
+		//given
+			Patient patient = existingPatinetWithExecutedActivities();
+			String today = RestDateFormat.format(LocalDateTime.now());
+		//when
+			Collection<ExecutedNurseFunction> executedFunctions = 
+				when().
+					get("/nurse/functions/executed?patient_id={id}&date={date}", patient.getId(), today).as(Collection.class);
+		// then
+			assertThat(executedFunctions).isNotNull();
+			assertThat(executedFunctions).isNotEmpty();
+	}
+	
+	private Patient existingPatinetWithExecutedActivities() {
+		Patient patient = new Patient();
+		patient.setId(idOfExistingUser());
+		return patient;
+	}
+
 	@Before
     public void restAssuredConfig() {
 		RestAssured.port = port;

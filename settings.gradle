@@ -1,6 +1,5 @@
 include 'server'
 include 'server:hl7-gateway'
-include 'server:nurse'
 include 'server:nurse:nurse-rest'
 include 'server:nurse:nurse-service'
 include 'server:nurse:nurse-model'
