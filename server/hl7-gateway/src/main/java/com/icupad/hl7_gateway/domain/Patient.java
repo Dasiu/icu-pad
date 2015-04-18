@@ -2,11 +2,10 @@ package com.icupad.hl7_gateway.domain;
 
 import com.icupad.hl7_gateway.repository.validation.constraints.Past;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 public class Patient extends BaseEntity {
@@ -25,10 +24,14 @@ public class Patient extends BaseEntity {
     @NotNull
     private String name;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     @Size(min = 1, max = 30)
+    @NotNull
     private String surname;
 
+    @Column(nullable = false)
+    @Past
+    @NotNull
     private LocalDateTime birthDate;
 
     @Column(nullable = false)

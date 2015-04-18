@@ -1,5 +1,7 @@
 package com.icupad.nurse.model;
 
+import com.icupad.common.model.BaseEntity;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.MappedSuperclass;

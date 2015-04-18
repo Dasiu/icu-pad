@@ -1,5 +1,7 @@
 package com.icupad.nurse.model;
 
+import com.icupad.common.model.BaseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 

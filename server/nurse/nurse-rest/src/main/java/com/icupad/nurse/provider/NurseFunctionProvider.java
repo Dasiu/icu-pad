@@ -1,7 +1,5 @@
 package com.icupad.nurse.provider;
 
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
 import com.icupad.nurse.model.Activity;
 import com.icupad.nurse.model.NurseFunction;
 import com.icupad.nurse.repository.NurseFunctionRepository;
@@ -15,90 +13,9 @@ import java.util.List;
 @Component
 class NurseFunctionProvider {
 	
-	private static final Multimap<String, String> rawData = LinkedListMultimap.create(10);
+	private final List<NurseFunction> functions = new ArrayList<>();
 
 	private final NurseFunctionRepository functionRepository;
-	
-	static {
-		String function;
-		
-		function = "Stan psychospołeczny, rozwój psychoruchowy";
-		rawData.put(function, "Komunikacja werbalna / niewerbalna");
-		rawData.put(function, "Zastępcze metody komunikacji");
-		rawData.put(function, "Zapewnienie bezpieczeństwa");
-		rawData.put(function, "Ograniczenie ruchów");
-		rawData.put(function, "Włączenie rodziny do pielęgnacji");
-		rawData.put(function, "Wizyta rodziny");
-		rawData.put(function, "Wizyta osoby duchownej");
-		rawData.put(function, "Zabawa / edukacja");
-		rawData.put(function, "Samoopieka");
-		
-		function = "Oddychanie";
-		rawData.put(function, "Ocena odsłuchowa");
-		rawData.put(function, "Odsysanie wydzieliny + rozprężanie");
-		rawData.put(function, "Ćwiczenia oddechowe");
-		rawData.put(function, "Oklepywanie klatki piersiowej");
-		rawData.put(function, "Drenaż ułożeniowy");
-		rawData.put(function, "Nabulizacja / tlenoterapia");
-		
-		function = "Żywienie";
-		rawData.put(function, "Karmienie smoczek / łużeczka");
-		rawData.put(function, "Karmienie sonda / gastrostomia");
-		rawData.put(function, "Karmienie piersią");
-		
-		function = "Wydalanie";
-		rawData.put(function, "Stolec / Enema");
-		rawData.put(function, "Masaż brzucha / czopek");
-		rawData.put(function, "Cewnik urologiczny założenie / usunięcie");
-		rawData.put(function, "Dobowa / godzinowa zbiórka moczu");
-		rawData.put(function, "");
-		
-		function = "Skóra i błony śluzowe";
-		rawData.put(function, "Toaleta całego ciała");
-		rawData.put(function, "Toaleta częściowa");
-		rawData.put(function, "Toaleta przeciwodleżynowa");
-		rawData.put(function, "Toaleta jamy ustnej");
-		rawData.put(function, "Pielęgnacja oczu");
-		rawData.put(function, "Zmiana bielizny pościelowej");
-		rawData.put(function, "Zmiana bielizny osobistej");
-		rawData.put(function, "Toaleta pępka");
-		rawData.put(function, "Kąpiel lecznicza");
-		
-		function = "Narząd ruchu";
-		rawData.put(function, "Ułożenie na plecach");
-		rawData.put(function, "Ułożenie na boku P / L");
-		rawData.put(function, "Ułożenie na brzuchu");
-		rawData.put(function, "Ćwiczenie bierne");
-		rawData.put(function, "Ćwiczenie czynne");
-		rawData.put(function, "Masaż");
-		
-		function = "Termoregulacja";
-		rawData.put(function, "Chłodzenie fizyczne");
-		rawData.put(function, "Ogrzewanie");
-		rawData.put(function, "Inkubator");
-		
-		function = "Kaniule";
-		rawData.put(function, "Płukanie kaniul tętniczych");
-		rawData.put(function, "Płukanie kaniul obwodowych");
-		rawData.put(function, "Płukanie kaniul centralnych / heparynizacja");
-		rawData.put(function, "Zmiana oklejania kaniul");
-		rawData.put(function, "Wymiana igły do portu");
-		rawData.put(function, "Płukanie portu");
-		
-		function = "Diagnostyka";
-		rawData.put(function, "RTG");
-		rawData.put(function, "USG");
-		rawData.put(function, "ECHO / EKG / EEG");
-		rawData.put(function, "Transport poza oddział");
-		
-		function = "Zabiegi leczniczo-pielęgnacyjne";
-		rawData.put(function, "Zmiana opatruniku na ranie");
-		rawData.put(function, "Udrażanianie drenów");
-		rawData.put(function, "Drenaż");
-		rawData.put(function, "Fototerapia");
-		rawData.put(function, "Kompresy / okłady");
-		rawData.put(function, "Asystowanie przy zabiegu");
-	}
 	
 	@Autowired
 	public NurseFunctionProvider(NurseFunctionRepository nurseFunctionRepository) {
@@ -106,18 +23,95 @@ class NurseFunctionProvider {
 	}
 	
 	public void provide() {
-		List<NurseFunction> functions = new ArrayList<>();
+		NurseFunction function;
 		
-		for (String functionName : rawData.keySet()) {
-			NurseFunction function = new NurseFunction();
-			function.setName(functionName);
-			functions.add(function);
-			for (String activityName : rawData.get(functionName)) {
-				Activity activity = new Activity();
-				activity.setName(activityName);
-				function.addActivity(activity);
-			}
-		}
+		function = new NurseFunction("01_SPS", "Stan psychospołeczny, rozwój psychoruchowy");
+		functions.add(function);
+		function.addActivity(new Activity("01_SPS_KWN", "Komunikacja werbalna / niewerbalna"));
+		function.addActivity(new Activity("02_SPS_ZMK", "Zastępcze metody komunikacji"));
+		function.addActivity(new Activity("02_SPS_ZMK", "Zastępcze metody komunikacji"));
+		function.addActivity(new Activity("03_SPS_ZBE", "Zapewnienie bezpieczeństwa"));
+		function.addActivity(new Activity("04_SPS_ORU", "Ograniczenie ruchów"));
+		function.addActivity(new Activity("05_SPS_WRO", "Włączenie rodziny do pielęgnacji"));
+		function.addActivity(new Activity("06_SPS_WIR", "Wizyta rodziny"));
+		function.addActivity(new Activity("07_SPS_WOD", "Wizyta osoby duchownej"));
+		function.addActivity(new Activity("08_SPS_ZED", "Zabawa / edukacja"));
+		function.addActivity(new Activity("09_SPS_SAM", "Samoopieka"));
+		
+		function = new NurseFunction("02_ODD", "Oddychanie");
+		functions.add(function);
+		function.addActivity(new Activity("10_ODD_OOD", "Ocena odsłuchowa"));
+		function.addActivity(new Activity("11_ODD_OWR", "Odsysanie wydzieliny + rozprężanie"));
+		function.addActivity(new Activity("12_ODD_COD", "Ćwiczenia oddechowe"));
+		function.addActivity(new Activity("13_ODD_OKP", "Oklepywanie klatki piersiowej"));
+		function.addActivity(new Activity("14_ODD_DRU", "Drenaż ułożeniowy"));
+		function.addActivity(new Activity("15_ODD_NTL", "Nabulizacja / tlenoterapia"));
+		
+		function = new NurseFunction("03_ZYW", "Żywienie");
+		functions.add(function);
+		function.addActivity(new Activity("16_ZYW_SMO", "Karmienie smoczek / łyżeczka"));
+		function.addActivity(new Activity("17_ZYW_SON", "Karmienie sonda / gastrostomia"));
+		function.addActivity(new Activity("18_ZYW_PIE", "Karmienie piersią"));
+		
+		function = new NurseFunction("04_WYD", "Wydalanie");
+		functions.add(function);
+		function.addActivity(new Activity("19_WYD_STO", "Stolec / Enema"));
+		function.addActivity(new Activity("20_WYD_MAS", "Masaż brzucha / czopek"));
+		function.addActivity(new Activity("21_WYD_SEW", "Cewnik urologiczny założenie / usunięcie"));
+		function.addActivity(new Activity("22_WYD_MOC", "Dobowa / godzinowa zbiórka moczu"));
+		function.addActivity(new Activity("23_WYD_RUR", "Sucha rurka"));
+		
+		function = new NurseFunction("05_SBS", "Skóra i błony śluzowe");
+		functions.add(function);
+		function.addActivity(new Activity("24_SBS_TCI", "Toaleta całego ciała"));
+		function.addActivity(new Activity("25_SBS_TCZ", "Toaleta częściowa"));
+		function.addActivity(new Activity("26_SBS_TPR", "Toaleta przeciwodleżynowa"));
+		function.addActivity(new Activity("27_SBS_TJB", "Toaleta jamy ustnej"));
+		function.addActivity(new Activity("28_SBS_OCZ", "Pielęgnacja oczu"));
+		function.addActivity(new Activity("29_SBS_BPO", "Zmiana bielizny pościelowej"));
+		function.addActivity(new Activity("30_SBS_BOS", "Zmiana bielizny osobistej"));
+		function.addActivity(new Activity("31_SBS_TPE", "Toaleta pępka"));
+		function.addActivity(new Activity("32_SBS_KAP", "Kąpiel lecznicza"));
+		
+		function = new NurseFunction("06_NRU", "Narząd ruchu");
+		functions.add(function);
+		function.addActivity(new Activity("33_NRU_PLE", "Ułożenie na plecach"));
+		function.addActivity(new Activity("34_NRU_BOK", "Ułożenie na boku P / L"));
+		function.addActivity(new Activity("35_NRU_BRZ", "Ułożenie na brzuchu"));
+		function.addActivity(new Activity("36_NRU_CWB", "Ćwiczenie bierne"));
+		function.addActivity(new Activity("37_NRU_CWC", "Ćwiczenie czynne"));
+		function.addActivity(new Activity("38_NRU_MAS", "Masaż"));
+		
+		function = new NurseFunction("07_TER", "Termoregulacja");
+		functions.add(function);
+		function.addActivity(new Activity("39_TER_CHL", "Chłodzenie fizyczne"));
+		function.addActivity(new Activity("40_TER_OGR", "Ogrzewanie"));
+		function.addActivity(new Activity("41_TER_INK", "Inkubator"));
+		
+		function = new NurseFunction("08_KAN", "Kaniule");
+		functions.add(function);
+		function.addActivity(new Activity("42_KAN_PTE", "Płukanie kaniul tętniczych"));
+		function.addActivity(new Activity("43_KAN_POB", "Płukanie kaniul obwodowych"));
+		function.addActivity(new Activity("44_KAN_PCH", "Płukanie kaniul centralnych / heparynizacja"));
+		function.addActivity(new Activity("45_KAN_ZMO", "Zmiana oklejania kaniul"));
+		function.addActivity(new Activity("46_KAN_WYI", "Wymiana igły do portu"));
+		function.addActivity(new Activity("47_KAN_WPO", "Płukanie portu"));
+		
+		function = new NurseFunction("09_DIA", "Diagnostyka");
+		functions.add(function);
+		function.addActivity(new Activity("48_DIA_RTG", "RTG"));
+		function.addActivity(new Activity("49_DIA_USG", "USG"));
+		function.addActivity(new Activity("50_DIA_EEE", "ECHO / EKG / EEG"));
+		function.addActivity(new Activity("51_DIA_TRA", "Transport poza oddział"));
+		
+		function = new NurseFunction("10_ZLP", "Zabiegi leczniczo-pielęgnacyjne");
+		functions.add(function);
+		function.addActivity(new Activity("52_ZLP_OPA", "Zmiana opatruniku na ranie"));
+		function.addActivity(new Activity("53_ZLP_UDR", "Udrażanianie drenów"));
+		function.addActivity(new Activity("54_ZLP_DRE", "Drenaż"));
+		function.addActivity(new Activity("55_ZLP_FOT", "Fototerapia"));
+		function.addActivity(new Activity("56_ZLP_KOM", "Kompresy / okłady"));
+		function.addActivity(new Activity("57_ZLP_ASY", "Asystowanie przy zabiegu"));
 		
 		functionRepository.save(functions);
 	}

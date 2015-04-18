@@ -1,6 +1,6 @@
 package com.icupad.nurse.model.external;
 
-import com.icupad.nurse.model.BaseEntity;
+import com.icupad.common.model.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

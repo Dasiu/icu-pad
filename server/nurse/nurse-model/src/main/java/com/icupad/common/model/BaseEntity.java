@@ -1,4 +1,4 @@
-package com.icupad.nurse.model;
+package com.icupad.common.model;
 
 import javax.persistence.*;
 

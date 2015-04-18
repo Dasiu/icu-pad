@@ -7,17 +7,29 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class NurseFunction extends BaseEntity {
+public class NurseFunction {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String code;
 	
     @NotNull
     @Column(length = 50)
-    protected String name;
+    private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "function_id", referencedColumnName = "id")
+    @JoinColumn(name = "function_code", referencedColumnName = "code")
     private List<Activity> activities = new ArrayList<>();
 
-    public String getName() {
+    protected NurseFunction() {
+	}
+
+	public NurseFunction(String code, String name) {
+		this.setCode(code);
+		this.name = name;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -32,4 +44,12 @@ public class NurseFunction extends BaseEntity {
     public void addActivity(Activity activity) {
     	getActivities().add(activity);
     }
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 }

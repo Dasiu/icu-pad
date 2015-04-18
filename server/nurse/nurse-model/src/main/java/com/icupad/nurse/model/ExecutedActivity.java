@@ -15,8 +15,8 @@ public class ExecutedActivity extends TestResult {
 	private Activity activity;
 
 	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Person executedBy;
+	@ManyToOne
+	private ExecutedActivityType type;
 	
 	@NotNull
 	@ManyToOne
@@ -28,14 +28,6 @@ public class ExecutedActivity extends TestResult {
 	
 	@NotNull
 	private Short hour;
-
-	public Person getExecutedBy() {
-		return executedBy;
-	}
-
-	public void setExecutedBy(Person executedBy) {
-		this.executedBy = executedBy;
-	}
 
 	public Activity getActivity() {
 		return activity;
@@ -59,5 +51,21 @@ public class ExecutedActivity extends TestResult {
 
 	public void setHour(Short hour) {
 		this.hour = hour;
+	}
+
+	public ExecutedActivityType getType() {
+		return type;
+	}
+
+	public void setType(ExecutedActivityType type) {
+		this.type = type;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 }
