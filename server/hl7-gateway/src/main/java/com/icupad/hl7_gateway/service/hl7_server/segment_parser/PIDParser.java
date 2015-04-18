@@ -1,7 +1,6 @@
 package com.icupad.hl7_gateway.service.hl7_server.segment_parser;
 
-import ca.uhn.hl7v2.model.DataTypeException;
-import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
+import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.XAD;
 import ca.uhn.hl7v2.model.v23.segment.PID;
 import com.icupad.hl7_gateway.domain.Address;
@@ -14,12 +13,14 @@ import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUtils.convertToLocalDateTime;
+
 @Component
 public class PIDParser implements Parser<PID, Patient> {
     private static final String peselNullValue = "00000000000";
 
     @Override
-    public Patient parse(PID pid) throws DataTypeException {
+    public Patient parse(PID pid) throws HL7Exception {
         Patient patient = new Patient();
 
         patient.setHl7Id(getHl7Id(pid));
@@ -81,9 +82,8 @@ public class PIDParser implements Parser<PID, Patient> {
         }
     }
 
-    private LocalDateTime getDateOfBirth(PID pid) throws DataTypeException {
-        TSComponentOne timeOfAnEvent = pid.getDateOfBirth().getTimeOfAnEvent();
-        return LocalDateTime.of(timeOfAnEvent.getYear(), timeOfAnEvent.getMonth(), timeOfAnEvent.getDay(), 0, 0);
+    private LocalDateTime getDateOfBirth(PID pid) throws HL7Exception {
+        return convertToLocalDateTime(pid.getDateOfBirth().getTimeOfAnEvent());
     }
 
     private String getSurname(PID pid) {

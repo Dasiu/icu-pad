@@ -122,9 +122,24 @@ public class PatientRegistrationTest {
     }
 
     @Test
-    public void shouldCreateStayWithoutDischarge() throws HL7Exception, IOException, LLPException {
+    public void shouldCreateStayWhenDischargeDateIsNull() throws HL7Exception, IOException, LLPException {
         String newStayHl7Id = createAdamKowalskiStay().getHl7Id();
-        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser().parse(patientRegistrationMessageWithoutDischargeDate);
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser()
+                .parse(patientRegistrationMessageWithNullDischargeDate);
+
+        ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
+
+        Stay actualStay = stayService.findByHl7Id(newStayHl7Id);
+        assertNotNull(actualStay);
+        assertEquals(null, actualStay.getDischargeDate());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldCreateStayWhenDischargeDateIsEmptyString() throws HL7Exception, IOException, LLPException {
+        String newStayHl7Id = createAdamKowalskiStay().getHl7Id();
+        ADT_A01 adt_a01 = (ADT_A01) hapiContext.getGenericParser()
+                .parse(patientRegistrationMessageWithDischargeDateAsEmptyString);
 
         ACK ack = (ACK) initiator.sendAndReceive(adt_a01);
 

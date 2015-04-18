@@ -1,23 +1,22 @@
 package com.icupad.hl7_gateway.service.hl7_server.segment_parser;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.v23.datatype.ST;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
 import ca.uhn.hl7v2.model.v23.segment.OBX;
-
 import com.icupad.hl7_gateway.domain.Abnormality;
 import com.icupad.hl7_gateway.domain.TestResult;
 import com.icupad.hl7_gateway.domain.TestResultExecutor;
-
 import com.icupad.hl7_gateway.service.hl7_server.InvalidTestResultFormat;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.*;
+import java.time.LocalDateTime;
 import java.util.Locale;
+
+import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUtils.convertToLocalDateTime;
 
 @Component
 public class OBXParser implements Parser<OBX, TestResult> {
@@ -50,9 +49,8 @@ public class OBXParser implements Parser<OBX, TestResult> {
         return testResultExecutor;
     }
 
-    private LocalDateTime getResultDate(OBX obx) throws DataTypeException {
-        Instant instant = obx.getDateTimeOfTheObservation().getTimeOfAnEvent().getValueAsDate().toInstant();
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    private LocalDateTime getResultDate(OBX obx) throws HL7Exception {
+        return convertToLocalDateTime(obx.getDateTimeOfTheObservation().getTimeOfAnEvent());
     }
 
     private Abnormality getAbnormality(OBX obx) {

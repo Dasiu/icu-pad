@@ -13,9 +13,13 @@ public class HL7Messages {
             "PID||00000000000|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100";
 
-    public static final String patientRegistrationMessageWithoutDischargeDate = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
+    public static final String patientRegistrationMessageWithNullDischargeDate = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700";
+
+    public static final String patientRegistrationMessageWithDischargeDateAsEmptyString = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +
+            "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
+            "PV1||I|Klinika||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|\"\"";
 
     public static final String patientDischargeMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A03|12345|P|2.3|||PL||PL\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +

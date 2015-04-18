@@ -1,26 +1,21 @@
 package com.icupad.hl7_gateway.service.hl7_server.segment_parser;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.v23.datatype.TSComponentOne;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
-
 import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 import com.icupad.hl7_gateway.domain.AssignedPatientLocation;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.StayType;
 import com.icupad.hl7_gateway.service.hl7_server.InvalidStayTypeException;
-
 import org.springframework.stereotype.Component;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
+
+import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUtils.convertToLocalDateTime;
 
 @Component
 public class PV1Parser implements Parser<PV1, Stay> {
-	
-	private static final LocalDateTime NO_DATE = LocalDateTime.of(1500, 10, 31, 0, 0);
-	
     @Override
     public Stay parse(PV1 pv1) throws HL7Exception {
         Stay stay = new Stay();
@@ -52,13 +47,11 @@ public class PV1Parser implements Parser<PV1, Stay> {
     }
 
     private LocalDateTime getDischargeDate(PV1 pv1) throws HL7Exception {
-        TSComponentOne timeOfAnEvent = pv1.getDischargeDateTime().getTimeOfAnEvent();
-        return convertToLocalDateTime(timeOfAnEvent);
+        return convertToLocalDateTime(pv1.getDischargeDateTime().getTimeOfAnEvent());
     }
 
     private LocalDateTime getAdmitDate(PV1 pv1) throws HL7Exception {
-        TSComponentOne timeOfAnEvent = pv1.getAdmitDateTime().getTimeOfAnEvent();
-        return convertToLocalDateTime(timeOfAnEvent);
+        return convertToLocalDateTime(pv1.getAdmitDateTime().getTimeOfAnEvent());
     }
 
     private AssignedPatientLocation getAssignedPatientLocation(PV1 pv1) {
@@ -84,18 +77,5 @@ public class PV1Parser implements Parser<PV1, Stay> {
             default:
                 throw new InvalidStayTypeException();
         }
-    }
-
-    private LocalDateTime convertToLocalDateTime(TSComponentOne timeOfAnEvent) throws HL7Exception {
-    	try {
-	        return timeOfAnEvent.isEmpty() ? null : LocalDateTime.of(timeOfAnEvent.getYear(),
-	                timeOfAnEvent.getMonth(),
-	                timeOfAnEvent.getDay(),
-	                timeOfAnEvent.getHour(),
-	                timeOfAnEvent.getMinute(),
-	                timeOfAnEvent.getSecond());
-    	} catch (DateTimeException e) {
-    		return NO_DATE;
-    	}
     }
 }
