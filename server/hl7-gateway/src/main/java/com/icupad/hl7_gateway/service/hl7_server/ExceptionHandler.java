@@ -15,28 +15,29 @@ public class ExceptionHandler implements ReceivingApplicationExceptionHandler {
     @Override
     public String processException(String incomingMessage, Map<String, Object> incomingMetadata,
                                    String outgoingMessage, Exception e) throws HL7Exception {
-        logger.error(incomingMessage);
-        logger.error(incomingMessage);
         logger.error(outgoingMessage);
-        logger.error(e);
 
-        String responseWithCorrectedAcknowledgmentCode = correctAcknowledgementCode(outgoingMessage, AcknowledgmentCode.CE);
-        String correctedResponse = deleteTriggerEvent(responseWithCorrectedAcknowledgmentCode);
+        if (wasEncodingExceptionThrown(outgoingMessage)) {
+            throw new HL7Exception("Processing Error", e);
+        } else {
+            String responseWithCorrectedAcknowledgmentCode = correctAcknowledgementCode(outgoingMessage, AcknowledgmentCode.CE);
+            return deleteTriggerEvent(responseWithCorrectedAcknowledgmentCode);
+        }
+    }
 
-        logger.error(outgoingMessage);
-        return correctedResponse;
+    private boolean wasEncodingExceptionThrown(String outgoingMessage) {
+        // if outgoingMessage is null, it means happi lib can not process message
+        // and EncodingNotSupportedException thrown
+        return outgoingMessage == null;
     }
 
     private String deleteTriggerEvent(String ackStr) {
-        if (ackStr == null) return null;
-
         String findMessageTypeSegment = "\\|ACK.+?\\|";
         String messageTypeSegmentWithoutTriggerEvent = "|ACK|";
         return ackStr.replaceFirst(findMessageTypeSegment, messageTypeSegmentWithoutTriggerEvent);
     }
 
     private String correctAcknowledgementCode(String outgoingMessage, AcknowledgmentCode acknowledgmentCode) {
-        if (outgoingMessage == null) return null;
         AcknowledgmentCode defaultErrorAcknowledgmentCode = AcknowledgmentCode.AE;
 
         return outgoingMessage.replace(defaultErrorAcknowledgmentCode.toString(), acknowledgmentCode.toString());
