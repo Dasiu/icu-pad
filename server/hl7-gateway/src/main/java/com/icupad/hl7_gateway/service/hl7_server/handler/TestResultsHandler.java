@@ -3,7 +3,6 @@ package com.icupad.hl7_gateway.service.hl7_server.handler;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_ORDER_OBSERVATION;
 import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
-import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import ca.uhn.hl7v2.model.v23.segment.PID;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
@@ -24,12 +23,11 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
+public class TestResultsHandler implements MessageHandler<ORU_R01> {
     private final RegisterPatient registerPatient;
     private final StayService stayService;
     private final PV1Parser pv1Parser;
@@ -59,14 +57,12 @@ public class TestResultsHandler extends AbstractMessageHandler<ORU_R01> {
     }
 
     @Override
-    public ACK handle(ORU_R01 oru_r01) throws IOException, HL7Exception {
+    public void handle(ORU_R01 oru_r01) throws HL7Exception {
         if (!isPatientRegistered(oru_r01)) {
             registerPatient.accept(getPID(oru_r01), getPV1(oru_r01));
         }
 
         handleResults(oru_r01);
-
-        return generateACK(oru_r01);
     }
 
     @Override

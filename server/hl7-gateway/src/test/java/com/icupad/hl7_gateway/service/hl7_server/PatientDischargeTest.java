@@ -85,15 +85,6 @@ public class PatientDischargeTest {
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
-    @Test
-    public void shouldResponseErrorACKIfStayDoesNotExist() throws HL7Exception, LLPException, IOException {
-        ADT_A03 adt_a03 = (ADT_A03) hapiContext.getGenericParser().parse(patientDischargeMessage);
-
-        ACK ack = (ACK) initiator.sendAndReceive(adt_a03);
-
-        assertEquals(AcknowledgmentCode.CE, getAcknowledgmentCode(ack));
-    }
-
     private void createAndSaveAdamKowalskisStay() {
         Stay adamKowalskiStay = Stays.createAdamKowalskiStay();
         patientService.save(adamKowalskiStay.getPatient());

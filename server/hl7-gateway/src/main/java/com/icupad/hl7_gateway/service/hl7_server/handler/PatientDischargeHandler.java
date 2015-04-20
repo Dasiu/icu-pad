@@ -1,7 +1,6 @@
 package com.icupad.hl7_gateway.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A03;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.service.StayService;
@@ -10,10 +9,8 @@ import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PV1Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
-public class PatientDischargeHandler extends AbstractMessageHandler<ADT_A03> {
+public class PatientDischargeHandler implements MessageHandler<ADT_A03> {
     private final StayService stayService;
     private final PV1Parser pv1Parser;
 
@@ -29,7 +26,7 @@ public class PatientDischargeHandler extends AbstractMessageHandler<ADT_A03> {
     }
 
     @Override
-    public ACK handle(ADT_A03 adt_a03) throws IOException, HL7Exception {
+    public void handle(ADT_A03 adt_a03) throws HL7Exception {
         Stay stay = pv1Parser.parse(adt_a03.getPV1());
         Stay existingStay = stayService.findByHl7Id(stay.getHl7Id());
 
@@ -41,7 +38,5 @@ public class PatientDischargeHandler extends AbstractMessageHandler<ADT_A03> {
         } else {
             throw new StayNotFoundException();
         }
-
-        return generateACK(adt_a03);
     }
 }

@@ -83,13 +83,4 @@ public class PatientDetailsUpdateTest {
         assertEquals(Sex.MALE, patient.getSex());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
-
-    @Test
-    public void shouldResponseErrorACKIfPatientDoesNotExist() throws HL7Exception, IOException, LLPException {
-        ADT_A08 adt_a08 = (ADT_A08) hapiContext.getGenericParser().parse(patientDetailsUpdateMessage);
-
-        ACK ack = (ACK) initiator.sendAndReceive(adt_a08);
-
-        assertEquals(AcknowledgmentCode.CE, getAcknowledgmentCode(ack));
-    }
 }
