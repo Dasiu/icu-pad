@@ -19,10 +19,8 @@ import java.util.Locale;
 import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUtils.convertToLocalDateTime;
 
 @Component
-public class OBXParser implements Parser<OBX, TestResult> {
+public class OBXParser extends AbstractParser implements Parser<OBX, TestResult> {
     private static final Logger logger = Logger.getLogger(OBXParser.class);
-
-    private static final String testResultNullValue = "\"\"";
 
     @Override
     public TestResult parse(OBX obx) throws HL7Exception {
@@ -66,22 +64,24 @@ public class OBXParser implements Parser<OBX, TestResult> {
     }
 
     private String getNorm(OBX obx) {
-        return obx.getReferencesRange().getValue();
+        String norm = obx.getReferencesRange().getValue();
+        return parseNullValue(norm);
     }
 
     private String getUnit(OBX obx) {
-        return obx.getUnits().getIdentifier().getValue();
+        String unit = obx.getUnits().getIdentifier().getValue();
+        return parseNullValue(unit);
     }
 
     private Double getTestResult(OBX obx) {
         ST st = (ST) obx.getObservationValue()[0].getData();
         String testResultStr = st.getValue();
 
-        return isTestResultMissing(testResultStr) ? null : parseTestResult(testResultStr);
+        return !isTestResultMissing(testResultStr) ? parseTestResult(testResultStr) : null;
     }
 
     private boolean isTestResultMissing(String testResultStr) {
-        return testResultNullValue.equals(testResultStr);
+        return getEmptyFieldValue().equals(testResultStr);
     }
 
     private double parseTestResult(String testResultStr) {

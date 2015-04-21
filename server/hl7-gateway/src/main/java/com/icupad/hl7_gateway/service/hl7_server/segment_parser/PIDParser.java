@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUtils.convertToLocalDateTime;
 
 @Component
-public class PIDParser implements Parser<PID, Patient> {
+public class PIDParser extends AbstractParser implements Parser<PID, Patient> {
     private static final String peselNullValue = "00000000000";
 
     @Override
@@ -50,23 +50,28 @@ public class PIDParser implements Parser<PID, Patient> {
     private String getHouseNumber(XAD xad) {
         Pattern findHouseNumberAfterAndCharacterInPIDSegment = Pattern.compile("PID.+?&(.+?)\\^");
         Matcher m = findHouseNumberAfterAndCharacterInPIDSegment.matcher(xad.getMessage().toString());
-        return m.find() ? m.group(1) : null;
+        String houseNumber = m.find() ? m.group(1) : null;
+        return parseNullValue(houseNumber);
     }
 
     private String getPostalCode(XAD xad) {
-        return xad.getZipOrPostalCode().getValue();
+        String postalCode = xad.getZipOrPostalCode().getValue();
+        return parseNullValue(postalCode);
     }
 
     private String getCity(XAD xad) {
-        return xad.getCity().getValue();
+        String city = xad.getCity().getValue();
+        return parseNullValue(city);
     }
 
     private String getStreetNumber(XAD xad) {
-        return xad.getOtherDesignation().getValue();
+        String streetNumber = xad.getOtherDesignation().getValue();
+        return parseNullValue(streetNumber);
     }
 
     private String getStreet(XAD xad) {
-        return xad.getStreetAddress().getValue();
+        String street = xad.getStreetAddress().getValue();
+        return parseNullValue(street);
     }
 
     private Sex getSex(PID pid) {
