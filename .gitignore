@@ -3,7 +3,6 @@ build
 .gradle
 application-dev.properties
 /bin/
-msg.log
 **/id_file
 
 **/.classpath
@@ -11,4 +10,6 @@ msg.log
 **/.settings/
 
 *.iml
+
+**/log/
 
