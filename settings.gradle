@@ -17,5 +17,7 @@ include 'server:test-results:test-results-rest'
 include 'server:test-results:test-results-service'
 include 'server:test-results:test-results-model'
 
+include 'server:users'
+
 rootProject.name = 'icupad'
 
