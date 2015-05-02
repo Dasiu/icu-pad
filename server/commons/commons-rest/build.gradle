@@ -1,0 +1,10 @@
+dependencies {
+    compile project(":server:commons:commons-service")
+    compile project(":server:commons:commons-security")
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j', version: springBootVersion
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.4.4'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+}

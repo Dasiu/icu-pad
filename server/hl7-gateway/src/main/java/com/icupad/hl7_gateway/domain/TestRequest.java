@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-public class TestRequest extends BaseEntity {
+public class  TestRequest extends BaseEntity {
     @Column(nullable = false, unique = true)
     @Size(min = 1, max = 255)
     @NotNull

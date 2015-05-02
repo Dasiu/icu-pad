@@ -1,8 +1,21 @@
 include 'server'
+
+include 'server:commons:commons-security'
+include 'server:commons:commons-rest'
+include 'server:commons:commons-service'
+include 'server:commons:commons-model'
+include 'server:commons:commons-utils'
+include 'server:commons:commons-test'
+
 include 'server:hl7-gateway'
+
 include 'server:nurse:nurse-rest'
 include 'server:nurse:nurse-service'
 include 'server:nurse:nurse-model'
+
+include 'server:test-results:test-results-rest'
+include 'server:test-results:test-results-service'
+include 'server:test-results:test-results-model'
 
 rootProject.name = 'icupad'
 
