@@ -27,6 +27,11 @@ public class  TestRequest extends BaseEntity {
     @NotNull
     private Test test;
 
+    @Column(nullable = false)
+    @Size(min = 1)
+    @NotNull
+    private String rawTestName;
+
     public String getHl7Id() {
         return hl7Id;
     }
@@ -49,5 +54,13 @@ public class  TestRequest extends BaseEntity {
 
     public void setTest(Test test) {
         this.test = test;
+    }
+
+    public void setRawTestName(String rawTestName) {
+        this.rawTestName = rawTestName;
+    }
+
+    public String getRawTestName() {
+        return rawTestName;
     }
 }

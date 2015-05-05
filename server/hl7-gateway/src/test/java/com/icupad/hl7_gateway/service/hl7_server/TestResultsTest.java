@@ -9,6 +9,7 @@ import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
+import com.icupad.hl7_gateway.config.ProductionSeed;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.service.*;
 import com.icupad.test_data.HL7Messages;
@@ -62,6 +63,15 @@ public class TestResultsTest {
     @Autowired
     private TestService testService;
 
+    @Autowired
+    private RawTestNameService rawTestNameService;
+
+    @Autowired
+    private TestGroupService testGroupService;
+
+    @Autowired
+    private ProductionSeed productionSeed;
+
     @Before
     public void before() throws HL7Exception {
         connection = hapiContext.newClient(host, port, useSSL);
@@ -74,9 +84,13 @@ public class TestResultsTest {
 
         testResultsService.deleteAll();
         testRequestService.deleteAll();
+        rawTestNameService.deleteAll();
         testService.deleteAll();
+        testGroupService.deleteAll();
         stayService.deleteAll();
         patientService.deleteAll();
+
+        productionSeed.init();
     }
 
     @Test
@@ -87,29 +101,6 @@ public class TestResultsTest {
         ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
 
         assertEquals(2, testRequestService.count());
-        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
-    }
-
-    @Test
-    public void shouldSaveNewTypeOfTest() throws HL7Exception, LLPException, IOException {
-        createAndSaveAdamKowalskisStay();
-        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
-
-        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
-
-        assertEquals(2, testService.count());
-        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
-    }
-
-    @Test
-    public void shouldNotDuplicateTests() throws HL7Exception, LLPException, IOException {
-        createAndSaveAdamKowalskisStay();
-        createAndSaveTest();
-        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
-
-        ACK ack = (ACK) initiator.sendAndReceive(oru_r01);
-
-        assertEquals(2, testService.count());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 
@@ -161,12 +152,6 @@ public class TestResultsTest {
         assertEquals(2, testRequestService.count());
         assertEquals(2, testResultsService.count());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
-    }
-
-    private void createAndSaveTest() {
-        com.icupad.hl7_gateway.domain.Test test = new com.icupad.hl7_gateway.domain.Test();
-        test.setName("Morfologia - hematokryt");
-        testService.save(test);
     }
 
     private void createAndSaveAdamKowalskisStay() {

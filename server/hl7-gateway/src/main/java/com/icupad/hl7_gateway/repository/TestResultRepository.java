@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TestResultRepository extends BaseRepository<TestResult, Long> {
+    TestResult findByHl7Id(String hl7Id);
 }

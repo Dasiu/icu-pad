@@ -6,20 +6,17 @@ import ca.uhn.hl7v2.model.v23.group.ORU_R01_PATIENT;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import ca.uhn.hl7v2.model.v23.segment.PID;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
-import com.icupad.hl7_gateway.domain.Stay;
-import com.icupad.hl7_gateway.domain.Test;
-import com.icupad.hl7_gateway.domain.TestRequest;
-import com.icupad.hl7_gateway.domain.TestResult;
+import com.icupad.hl7_gateway.domain.*;
+import com.icupad.hl7_gateway.service.RawTestNameService;
 import com.icupad.hl7_gateway.service.StayService;
 import com.icupad.hl7_gateway.service.TestRequestService;
 import com.icupad.hl7_gateway.service.TestResultService;
-import com.icupad.hl7_gateway.service.TestService;
+import com.icupad.hl7_gateway.service.hl7_server.MissingTestNameMappingException;
 import com.icupad.hl7_gateway.service.hl7_server.RegisterPatient;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBRParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBXParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PV1Parser;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,28 +31,44 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     private final OBRParser obrParser;
     private final OBXParser obxParser;
     private final TestRequestService testRequestService;
-    private final TestService testService;
     private final TestResultService testResultService;
+    private final RawTestNameService rawTestNameService;
 
     @Autowired
     public TestResultsHandler(RegisterPatient registerPatient,
                               StayService stayService,
                               TestRequestService testRequestService,
                               TestResultService testResultService,
-                              TestService testService,
                               PV1Parser pv1Parser,
                               OBRParser obrParser,
-                              OBXParser obxParser) {
+                              OBXParser obxParser,
+                              RawTestNameService rawTestNameService) {
         this.registerPatient = registerPatient;
         this.stayService = stayService;
         this.testRequestService = testRequestService;
         this.testResultService = testResultService;
-        this.testService = testService;
         this.pv1Parser = pv1Parser;
         this.obrParser = obrParser;
         this.obxParser = obxParser;
+        this.rawTestNameService = rawTestNameService;
     }
 
+    /**
+     * Analyses ORU^R01 message
+     * <p>
+     * First step is to check if patient is registered. If not, registration is executed.
+     * <p>
+     * Then test results are mapped to desired domain models.
+     * <p>
+     * A situation when only partially results are send may occur. Later, in another message, the same results are send
+     * including previously missing results. In that case method prevents test results duplication.
+     *
+     * @param oru_r01 message with test results
+     * @throws HL7Exception
+     * @throws MissingTestNameMappingException To normalize hl7 data structures to desired domain models,
+     *                                         the mappings between raw test names and proper tests name are required.
+     *                                         The method detects missing mappings and throws exception.
+     */
     @Override
     public void handle(ORU_R01 oru_r01) throws HL7Exception {
         if (!isPatientRegistered(oru_r01)) {
@@ -71,24 +84,53 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     }
 
     private void handleResults(ORU_R01 oru_r01) throws HL7Exception {
-        Stay stay = getStay(oru_r01);
-
-        List<Triple<Test, TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
-        List<Triple<Test, TestRequest, TestResult>> filteredTestsRequestsAndResults =
+        List<Pair<TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
+        List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults =
                 filterOutIrrelevantData(testsRequestsAndResults);
 
-        saveNewTests(filteredTestsRequestsAndResults);
+        handleNewRawTestNames(filteredTestsRequestsAndResults);
+        handleTestRequests(filteredTestsRequestsAndResults);
+        handleTestResults(getStay(oru_r01), filteredTestsRequestsAndResults);
+    }
 
-        filteredTestsRequestsAndResults.stream()
-                .map(this::mergeTestWithDB)
-                .map(this::associateTestRequestWithTest)
-                .forEach(testRequestService::save);
-
+    private void handleTestResults(Stay stay, List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults)
+            throws HL7Exception {
         filteredTestsRequestsAndResults.stream()
                 .map(this::mergeTestRequestWithDB)
                 .map(this::associateTestResultWithTestRequest)
                 .map(testResult -> associateTestResultWithStay(testResult, stay))
                 .forEach(testResultService::save);
+    }
+
+    private void handleTestRequests(List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults) {
+        filteredTestsRequestsAndResults.stream()
+                .map(Pair::getLeft)
+                .map(this::associateTestRequestWithTest)
+                .forEach(testRequestService::save);
+    }
+
+    private void handleNewRawTestNames(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+        List<RawTestName> rawTestNames = testsRequestsAndResults.stream()
+                .map(Pair::getLeft)
+                .map(TestRequest::getRawTestName)
+                .filter(this::ifRawTestNameAssociatedWithTestNotExists)
+                .map(this::createRawTestName)
+                .collect(Collectors.toList());
+
+        if (!rawTestNames.isEmpty()) {
+            throw new MissingTestNameMappingException(rawTestNames);
+        }
+    }
+
+    private RawTestName createRawTestName(String rawTestNameStr) {
+        RawTestName rawTestName = new RawTestName();
+        rawTestName.setRawName(rawTestNameStr);
+        return rawTestName;
+    }
+
+    private boolean ifRawTestNameAssociatedWithTestNotExists(String rawTestNameStr) {
+        RawTestName rawTestName = rawTestNameService.findByRawName(rawTestNameStr);
+        return rawTestName == null || rawTestName.getTest() == null;
     }
 
     private PID getPID(ORU_R01 oru_r01) {
@@ -99,8 +141,8 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return getStay(oru_r01) != null;
     }
 
-    private List<Triple<Test, TestRequest, TestResult>>
-    filterOutIrrelevantData(List<Triple<Test, TestRequest, TestResult>> testsRequestsAndResults) {
+    private List<Pair<TestRequest, TestResult>>
+    filterOutIrrelevantData(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
         return testsRequestsAndResults.stream()
                 .filter(this::isTestResultWithValue)
                 .filter(this::doesNotExistInDB)
@@ -121,45 +163,26 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return oru_r01.getRESPONSE().getPATIENT();
     }
 
-    private List<Triple<Test, TestRequest, TestResult>> parseOBRAndOBX(ORU_R01 oru_r01) throws HL7Exception {
+    private List<Pair<TestRequest, TestResult>> parseOBRAndOBX(ORU_R01 oru_r01) throws HL7Exception {
         List<ORU_R01_ORDER_OBSERVATION> observations = oru_r01.getRESPONSE().getORDER_OBSERVATIONAll();
         return observations.stream()
                 .map(this::parseOBRAndOBX)
                 .collect(Collectors.toList());
     }
 
-    private boolean doesNotExistInDB(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
-        TestRequest testRequest = testRequestAndResult.getMiddle();
+    private boolean doesNotExistInDB(Pair<TestRequest, TestResult> testRequestAndResult) {
+        TestRequest testRequest = testRequestAndResult.getLeft();
         return testRequestService.findByHl7Id(testRequest.getHl7Id()) == null;
     }
 
-    private boolean isTestResultWithValue(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
+    private boolean isTestResultWithValue(Pair<TestRequest, TestResult> testRequestAndResult) {
         return testRequestAndResult.getRight().getValue() != null;
     }
 
-    private Triple<Test, TestRequest, TestResult>
-    mergeTestWithDB(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
-        return Triple.of(testService.findByName(testRequestAndResult.getLeft().getName()),
-                testRequestAndResult.getMiddle(),
+    private Pair<TestRequest, TestResult>
+    mergeTestRequestWithDB(Pair<TestRequest, TestResult> testRequestAndResult) {
+        return Pair.of(testRequestService.findByHl7Id(testRequestAndResult.getLeft().getHl7Id()),
                 testRequestAndResult.getRight());
-    }
-
-    private Triple<Test, TestRequest, TestResult>
-    mergeTestRequestWithDB(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
-        return Triple.of(testRequestAndResult.getLeft(),
-                testRequestService.findByHl7Id(testRequestAndResult.getMiddle().getHl7Id()),
-                testRequestAndResult.getRight());
-    }
-
-    private void saveNewTests(List<Triple<Test, TestRequest, TestResult>> testsRequestsAndResults) {
-        testsRequestsAndResults.stream()
-                .map(Triple::getLeft)
-                .filter(this::isTestNotExist)
-                .forEach(testService::save);
-    }
-
-    private boolean isTestNotExist(Test test) {
-        return testService.findByName(test.getName()) == null;
     }
 
     private TestResult associateTestResultWithStay(TestResult testResult, Stay stay) {
@@ -167,27 +190,25 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return testResult;
     }
 
-    private TestResult associateTestResultWithTestRequest(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
-        TestRequest testRequest = testRequestAndResult.getMiddle();
+    private TestResult associateTestResultWithTestRequest(Pair<TestRequest, TestResult> testRequestAndResult) {
+        TestRequest testRequest = testRequestAndResult.getLeft();
         TestResult testResult = testRequestAndResult.getRight();
         testResult.setTestRequest(testRequest);
 
         return testResult;
     }
 
-    private TestRequest associateTestRequestWithTest(Triple<Test, TestRequest, TestResult> testRequestAndResult) {
-        Test test = testRequestAndResult.getLeft();
-        TestRequest testRequest = testRequestAndResult.getMiddle();
+    private TestRequest associateTestRequestWithTest(TestRequest testRequest) {
+        Test test = rawTestNameService.findByRawName(testRequest.getRawTestName()).getTest();
         testRequest.setTest(test);
-
         return testRequest;
     }
 
-    private Triple<Test, TestRequest, TestResult> parseOBRAndOBX(ORU_R01_ORDER_OBSERVATION orderObservation) {
+    private Pair<TestRequest, TestResult> parseOBRAndOBX(ORU_R01_ORDER_OBSERVATION orderObservation) {
         try {
-            Pair<Test, TestRequest> testAndTestRequest = obrParser.parse(orderObservation.getOBR());
+            TestRequest testRequest = obrParser.parse(orderObservation.getOBR());
             TestResult testResult = obxParser.parse(orderObservation.getOBSERVATION().getOBX());
-            return Triple.of(testAndTestRequest.getLeft(), testAndTestRequest.getRight(), testResult);
+            return Pair.of(testRequest, testResult);
         } catch (HL7Exception e) {
             throw new RuntimeException(e);
         }

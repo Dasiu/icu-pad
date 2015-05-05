@@ -10,6 +10,7 @@ import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.segment.MSH;
 import com.icupad.hl7_gateway.domain.Hl7Message;
 import com.icupad.hl7_gateway.service.Hl7MessageService;
+import com.icupad.hl7_gateway.service.RawTestNameService;
 import com.icupad.hl7_gateway.service.hl7_server.handler.MessageHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,21 @@ public class MessageDispatcher implements Application {
 
     private final Map<Class<? extends Message>, MessageHandler<? extends Message>> handlers;
     private final Hl7MessageService hl7MessageService;
+    private final RawTestNameService rawTestNameService;
 
     @Autowired
-    public MessageDispatcher(List<MessageHandler<? extends Message>> handlers, Hl7MessageService hl7MessageService) {
+    public MessageDispatcher(List<MessageHandler<? extends Message>> handlers,
+                             Hl7MessageService hl7MessageService,
+                             RawTestNameService rawTestNameService) {
+        this.rawTestNameService = rawTestNameService;
         this.handlers = handlers.stream().collect(Collectors.toMap(h -> h.getMessageType(), h -> h));
         this.hl7MessageService = hl7MessageService;
     }
 
     /**
+     * Method catches MissingTestNameMappingException in order to save raw test names for which mappings
+     * are missing. This helps in detecting, which mappings are missing and in adding mappings to system.
+     *
      * @param message received message
      * @return response (ACK). If error occur ACK with error status (CE) is send. There is one exception for that.
      * <p>
@@ -61,6 +69,11 @@ public class MessageDispatcher implements Application {
             messageEntity.setProcessedCorrectly(true);
 
             return ack;
+        } catch (MissingTestNameMappingException e) {
+            logger.error(e);
+
+            rawTestNameService.saveIfNotExists(e.getRawTestNames());
+            return generateACK(message);
         } catch (PatientNotFoundException | StayNotFoundException e) {
             logger.error("Invalid message", e);
 

@@ -36,24 +36,38 @@ public class HL7Messages {
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
             "ORC|LAB_13710|\r" +
-            "OBR|1|LAB_5_12||Morfologia - hematokryt|||20100514143200|\r" +
-            "OBX|1||LAB_8736||,444|L/L|  0,37     - 0,51|\"\"||||||20100514143200||465^Lab^Anna|\r" +
-            "OBR|2|LAB_5_263||Morfologia - Wskaznik anizocytozy|||20100514143200|\r" +
-            "OBX|1||LAB_8735||12,2|%|  11,5     - 14,5|\"\"||||||20100514143200||465^Lab^Anna|\r";
+            "OBR|1|LAB_5_12||Morfologia (krew żylna) - Hematokryt|||20100514143200|\r" +
+            "OBX|1||LAB_8736||40,3|%|37,0     - 47,0|\"\"||||||20100514143200||465^Lab^Anna|\r" +
+            "OBR|2|LAB_5_263||Morfologia (krew żylna) - Erytrocyty|||20100514143200|\r" +
+            "OBX|1||LAB_8735||4,66|10^6/µl|4,00     - 5,00|\"\"||||||20100514143200||465^Lab^Anna|\r";
 
     public static final String testResultsMessageWithouTestResultUnitNormAndAbnormality = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
             "ORC|LAB_13710|\r" +
-            "OBR|1|LAB_5_12||Morfologia - hematokryt|||20100514143200|\r" +
+            "OBR|1|LAB_5_12||Morfologia (krew żylna) - Hematokryt|||20100514143200|\r" +
             "OBX|1||LAB_8736||\"\"|\"\"|\"\"|\"\"||||||20100514143200||465^Lab^Anna|\r";
 
     public static final String testResultsMessageWithOneMissingResult = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
             "ORC|LAB_13710|\r" +
-            "OBR|1|LAB_5_12||Morfologia - hematokryt|||20100514143200|\r" +
+            "OBR|1|LAB_5_12||Morfologia (krew żylna) - Hematokryt|||20100514143200|\r" +
             "OBX|1||LAB_8736||,444|L/L|  0,37     - 0,51|\"\"||||||20100514143200||465^Lab^Anna|\r" +
-            "OBR|2|LAB_5_263||Morfologia - Wskaznik anizocytozy|||20100514143200|\r" +
+            "OBR|2|LAB_5_263||Morfologia (krew żylna) - Erytrocyty|||20100514143200|\r" +
             "OBX|1||LAB_8735||\"\"|brak|  11,5     - 14,5|\"\"||||||20100514143200||465^Lab^Anna|\r";
+
+    public static final String bloodGasBeEcfResult = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
+            "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
+            "ORC|LAB_13710|\r" +
+            "OBR|1|LAB_5_12||Gazometria (krew żylna) - Be-Ecf|||20100514143200|\r" +
+            "OBX|1|ST|LAB_25242036||2,1|mmol/L|\"\"|\"\"||||||20100514143200||1463^Dzieszyńska^Iwona|\r";
+
+    public static final String messageWithUnknownTest = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
+            "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
+            "ORC|LAB_13710|\r" +
+            "OBR|1|LAB_5_12||Unknown test|||20100514143200|\r" +
+            "OBX|1|ST|LAB_25242036||2,1|mmol/L|\"\"|\"\"||||||20100514143200||1463^Dzieszyńska^Iwona|\r";
 }
