@@ -6,10 +6,7 @@ import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.TestResult;
-import com.icupad.hl7_gateway.service.PatientService;
-import com.icupad.hl7_gateway.service.StayService;
-import com.icupad.hl7_gateway.service.TestResultService;
-import com.icupad.hl7_gateway.service.TestService;
+import com.icupad.hl7_gateway.service.*;
 import com.icupad.hl7_gateway.service.hl7_server.MissingTestNameMappingException;
 import com.icupad.test_data.HL7Messages;
 import com.icupad.test_data.Stays;
@@ -51,6 +48,9 @@ public class TestResultsTest {
 
     private com.icupad.hl7_gateway.domain.Test beEcfResult;
 
+    @Autowired
+    private TestResultService testResultService;
+
     @Before
     public void before() throws HL7Exception {
         beEcfResult = testService.findByName("Be-Ecf");
@@ -74,6 +74,24 @@ public class TestResultsTest {
         testResultsHandler.handle(oru_r01);
 
         assertThatTestResultIsAssociatedWithTestGroup(getTestResult());
+    }
+
+    @Test
+    public void shouldHandleUnitWithCaretSign() throws HL7Exception {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 oru_r01 =
+                (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.messageWithUnitContainingCaretChar);
+
+        testResultsHandler.handle(oru_r01);
+
+        assertEquals("10^3/ul", getParsedUnit());
+    }
+
+    private String getParsedUnit() {
+        return testResultService.findAll().stream()
+                .findFirst()
+                .get()
+                .getUnit();
     }
 
     @Test

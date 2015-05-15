@@ -9,6 +9,8 @@ import com.icupad.hl7_gateway.domain.TestResult;
 import com.icupad.hl7_gateway.domain.TestResultExecutor;
 import com.icupad.hl7_gateway.service.hl7_server.InvalidTestResultFormat;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.NumberFormat;
@@ -21,6 +23,13 @@ import static com.icupad.hl7_gateway.service.hl7_server.segment_parser.ParserUti
 @Component
 public class OBXParser extends AbstractParser implements Parser<OBX, TestResult> {
     private static final Logger logger = Logger.getLogger(OBXParser.class);
+
+    private final String hl7MessageDelimiter;
+
+    @Autowired
+    public OBXParser(@Value("^")String hl7MessageDelimiter) {
+        this.hl7MessageDelimiter = hl7MessageDelimiter;
+    }
 
     @Override
     public TestResult parse(OBX obx) throws HL7Exception {
@@ -69,8 +78,23 @@ public class OBXParser extends AbstractParser implements Parser<OBX, TestResult>
     }
 
     private String getUnit(OBX obx) {
-        String unit = obx.getUnits().getIdentifier().getValue();
+        String unit = unitIsContainingHl7MessageDelimiter(obx)
+                ? getUnitWithDelimiter(obx)
+                : obx.getUnits().getIdentifier().getValue();
+
         return parseNullValue(unit);
+    }
+
+    private String getUnitWithDelimiter(OBX obx) {
+        String unit;
+        String unitFirstPart = obx.getUnits().getIdentifier().getValue();
+        String unitSecondPart = obx.getUnits().getCe2_Text().getValue();
+        unit = unitFirstPart + hl7MessageDelimiter + unitSecondPart;
+        return unit;
+    }
+
+    private boolean unitIsContainingHl7MessageDelimiter(OBX obx) {
+        return obx.getUnits().getCe2_Text().getValue() != null;
     }
 
     private Double getTestResult(OBX obx) {

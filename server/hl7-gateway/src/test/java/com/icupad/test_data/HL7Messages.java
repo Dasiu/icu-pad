@@ -70,4 +70,11 @@ public class HL7Messages {
             "ORC|LAB_13710|\r" +
             "OBR|1|LAB_5_12||Unknown test|||20100514143200|\r" +
             "OBX|1|ST|LAB_25242036||2,1|mmol/L|\"\"|\"\"||||||20100514143200||1463^Dzieszyńska^Iwona|\r";
+
+    public static final String messageWithUnitContainingCaretChar = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
+            "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
+            "ORC|LAB_13710|\r" +
+            "OBR|1|LAB_5_12||Morfologia (krew żylna) - Hematokryt|||20100514143200|\r" +
+            "OBX|1|ST|LAB_25242036||2,1|10^3/ul|\"\"|\"\"||||||20100514143200||1463^Dzieszyńska^Iwona|\r";
 }
