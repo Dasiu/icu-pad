@@ -57,6 +57,13 @@ public class HL7Messages {
             "OBR|2|LAB_5_263||Kreatynina|||20100514143200|\r" +
             "OBX|1||LAB_8735||\"\"|brak|  11,5     - 14,5|\"\"||||||20100514143200||465^Lab^Anna|\r";
 
+    public static final String completeBloodCountPDWResult = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
+            "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
+            "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
+            "ORC|LAB_13710|\r" +
+            "OBR|1|LAB_5_12||Morfologia (krew żylna) - PDW|||20100514143200|\r" +
+            "OBX|1|ST|LAB_25242036||2,1|fl|\"\"|\"\"||||||20100514143200||1463^Dzieszyńska^Iwona|\r";
+
     public static final String messageWithUnknownTest = "MSH|^~\\&|ESKULAP|RUCH CHORYCH|ICUPad|ICUPad|20150202124004||ORU^R01|26590|P|2.3|||||POL|windows-1250|PL|\r" +
             "PID||69123001518|123456789||Kowalski^Adam||19910210|U|||Piłsudskiego^112a&2b^Poznań^^64-500\r" +
             "PV1||I|Oddział internistyczny||||||||||||||245^Nowak^Tomasz^5289888^||476711|||||||||||||||||||||||||20120422184700|20120424163100\r" +
