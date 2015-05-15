@@ -8,6 +8,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * Represents test type, like for instance blood gas.
+ * <p>
+ * Every test type module should bring its own test type by extending this class and saving its singleton instance.
+ * Instance is needed to associate test mappings with test type.
+ *
+ * @see com.icupad.hl7_gateway.core.domain.TestMapping
+ */
 @Entity
 @DiscriminatorColumn(
         name = "type",
