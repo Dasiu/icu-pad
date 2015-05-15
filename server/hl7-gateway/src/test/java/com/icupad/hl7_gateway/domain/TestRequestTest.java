@@ -57,9 +57,40 @@ public class TestRequestTest {
     }
 
     @Test
-    public void testShouldNotBeNull() {
+    public void nameShouldBeValid() {
+        TestRequest testRequest = new TestRequest();
+        testRequest.setRawTestName("Morfologia");
+
+        assertThat(validationFor(testRequest, onProperty("rawTestName")), succeeds());
+    }
+
+    @Test
+    public void nameShouldNotBeLongerThan2000() {
+        TestRequest testRequest = new TestRequest();
+        testRequest.setRawTestName(StringUtils.of(2001));
+
+        assertThat(validationFor(testRequest, onProperty("rawTestName")), fails());
+    }
+
+    @Test
+    public void nameShouldNotBeNull() {
         TestRequest testRequest = new TestRequest();
 
-        assertThat(validationFor(testRequest, onProperty("test")), fails());
+        assertThat(validationFor(testRequest, onProperty("rawTestName")), fails());
+    }
+
+    @Test
+    public void nameShouldNotBeEmptyString() {
+        TestRequest testRequest = new TestRequest();
+        testRequest.setRawTestName("");
+
+        assertThat(validationFor(testRequest, onProperty("rawTestName")), fails());
+    }
+
+    @Test
+    public void testMappingShouldNotBeNull() {
+        TestRequest testRequest = new TestRequest();
+
+        assertThat(validationFor(testRequest, onProperty("testMapping")), fails());
     }
 }

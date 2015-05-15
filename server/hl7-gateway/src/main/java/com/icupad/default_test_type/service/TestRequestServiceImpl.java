@@ -1,11 +1,12 @@
-package com.icupad.hl7_gateway.service;
+package com.icupad.default_test_type.service;
 
-import com.icupad.hl7_gateway.domain.TestRequest;
-import com.icupad.hl7_gateway.repository.TestRequestRepository;
+import com.icupad.hl7_gateway.service.AbstractBaseService;
+import com.icupad.default_test_type.domain.TestRequest;
+import com.icupad.default_test_type.repository.TestRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("defaultTestRequestService")
 public class TestRequestServiceImpl extends AbstractBaseService<TestRequest> implements TestRequestService {
     private final TestRequestRepository testRequestRepository;
 

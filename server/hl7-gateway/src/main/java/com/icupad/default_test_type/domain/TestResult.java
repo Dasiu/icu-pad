@@ -1,36 +1,37 @@
-package com.icupad.hl7_gateway.domain;
+package com.icupad.default_test_type.domain;
+
+import com.icupad.hl7_gateway.domain.Abnormality;
+import com.icupad.hl7_gateway.domain.BaseEntity;
+import com.icupad.hl7_gateway.domain.Stay;
+import com.icupad.hl7_gateway.domain.TestResultExecutor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class TestResult {
-    @Size(min = 1, max = 255)
-    @NotNull
+/**
+ * There's not guarantee that hl7 will send us same unit and executor for each result in one test panel
+ * (like blood gas for instance), even so normalization (in form of TestPanelResult) was introduced.
+ * For safety - to avoid data lose - unit and executor attributes are left.
+ */
+@Entity(name = "default_test_result")
+public class TestResult extends BaseEntity {
     private String hl7Id;
-
-    @NotNull
     private Double value;
-
-    @Size(min = 1, max = 255)
-    @NotNull
     private String unit;
-
-    @Size(max = 255)
     private String norm;
 
     @Enumerated(EnumType.STRING)
     private Abnormality abnormality;
 
-    @NotNull
+    @OneToOne
     private TestRequest testRequest;
 
-    @NotNull
+    @ManyToOne
     private Stay stay;
 
     private LocalDateTime resultDate;
 
+    @Embedded
     private TestResultExecutor executor;
 
     public String getHl7Id() {
@@ -103,5 +104,4 @@ public class TestResult {
 
     public void setStay(Stay stay) {
         this.stay = stay;
-    }
-}
+    }}

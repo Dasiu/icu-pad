@@ -2,35 +2,25 @@ package com.icupad.hl7_gateway.domain;
 
 import com.icupad.hl7_gateway.repository.validation.constraints.Past;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Entity
-public class  TestRequest extends BaseEntity {
-    @Column(nullable = false, unique = true)
+public class  TestRequest {
     @Size(min = 1, max = 255)
     @NotNull
     private String hl7Id;
 
-    @Column(nullable = false)
     @Past
     @NotNull
     private LocalDateTime requestDate;
 
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    @NotNull
-    private Test test;
-
-    @Column(nullable = false)
-    @Size(min = 1)
+    @Size(min = 1, max = 2000)
     @NotNull
     private String rawTestName;
+
+    @NotNull
+    private TestMapping testMapping;
 
     public String getHl7Id() {
         return hl7Id;
@@ -48,19 +38,19 @@ public class  TestRequest extends BaseEntity {
         this.requestDate = requestDate;
     }
 
-    public Test getTest() {
-        return test;
-    }
-
-    public void setTest(Test test) {
-        this.test = test;
-    }
-
     public void setRawTestName(String rawTestName) {
         this.rawTestName = rawTestName;
     }
 
     public String getRawTestName() {
         return rawTestName;
+    }
+
+    public TestMapping getTestMapping() {
+        return testMapping;
+    }
+
+    public void setTestMapping(TestMapping testMapping) {
+        this.testMapping = testMapping;
     }
 }

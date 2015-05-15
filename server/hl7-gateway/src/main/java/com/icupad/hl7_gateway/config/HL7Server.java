@@ -6,13 +6,18 @@ import ca.uhn.hl7v2.app.ConnectionListener;
 import ca.uhn.hl7v2.app.HL7Service;
 import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationExceptionHandler;
+import com.icupad.hl7_gateway.domain.TestType;
 import com.icupad.hl7_gateway.service.hl7_server.MessageDispatcher;
+import com.icupad.hl7_gateway.service.hl7_server.UnsupportedTestTypeException;
+import com.icupad.hl7_gateway.service.hl7_server.handler.test_group_handler.TestTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.nio.charset.Charset;
+import java.util.List;
+import java.util.function.Function;
 
 @Configuration
 public class HL7Server {
@@ -54,5 +59,16 @@ public class HL7Server {
         MinLowerLayerProtocol minLowerLayerProtocol = new MinLowerLayerProtocol(false);
         minLowerLayerProtocol.setCharset(Charset.forName("UTF-8"));
         return minLowerLayerProtocol;
+    }
+
+    @Autowired
+    @Bean
+    public Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler(
+            List<TestTypeHandler> testTypeHandlers) {
+        return testType ->
+                testTypeHandlers.stream()
+                        .filter(handler -> handler.getTestType().equals(testType))
+                        .findFirst()
+                        .orElseThrow(() -> new UnsupportedTestTypeException(testType));
     }
 }

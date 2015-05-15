@@ -1,4 +1,4 @@
-package com.icupad.hl7_gateway.service.hl7_server;
+package com.icupad.complete_blood_count;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.HL7Exception;
@@ -9,9 +9,16 @@ import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.config.ProductionSeed;
 import com.icupad.hl7_gateway.domain.Stay;
-import com.icupad.hl7_gateway.service.*;
+import com.icupad.hl7_gateway.service.PatientService;
+import com.icupad.hl7_gateway.service.StayService;
+import com.icupad.hl7_gateway.service.TestMappingService;
+import com.icupad.hl7_gateway.service.TestTypeService;
+import com.icupad.default_test_type.config.DefaultProductionSeed;
+import com.icupad.default_test_type.service.TestPanelResultService;
+import com.icupad.default_test_type.service.TestRequestService;
+import com.icupad.default_test_type.service.TestResultService;
+import com.icupad.default_test_type.service.TestService;
 import com.icupad.test_data.HL7Messages;
 import com.icupad.test_data.Stays;
 import org.junit.After;
@@ -64,13 +71,16 @@ public class TestResultsTest {
     private TestService testService;
 
     @Autowired
-    private RawTestNameService rawTestNameService;
+    private TestMappingService testMappingService;
 
     @Autowired
-    private TestGroupService testGroupService;
+    private TestTypeService testTypeService;
 
     @Autowired
-    private ProductionSeed productionSeed;
+    private DefaultProductionSeed defaultProductionSeed;
+
+    @Autowired
+    private TestPanelResultService testPanelResultService;
 
     @Before
     public void before() throws HL7Exception {
@@ -84,13 +94,14 @@ public class TestResultsTest {
 
         testResultsService.deleteAll();
         testRequestService.deleteAll();
-        rawTestNameService.deleteAll();
+        testPanelResultService.deleteAll();
+        testMappingService.deleteAll();
         testService.deleteAll();
-        testGroupService.deleteAll();
+        testTypeService.deleteAll();
         stayService.deleteAll();
         patientService.deleteAll();
 
-        productionSeed.init();
+        defaultProductionSeed.init();
     }
 
     @Test
@@ -151,6 +162,20 @@ public class TestResultsTest {
 
         assertEquals(2, testRequestService.count());
         assertEquals(2, testResultsService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
+    public void shouldNotDuplicateTestPanelResults() throws HL7Exception, IOException, LLPException {
+        createAndSaveAdamKowalskisStay();
+        ORU_R01 missingResult =
+                (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessageWithOneMissingResult);
+        ORU_R01 completeResults = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        initiator.sendAndReceive(missingResult);
+        ACK ack = (ACK) initiator.sendAndReceive(completeResults);
+
+        assertEquals(1, testPanelResultService.count());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
     }
 

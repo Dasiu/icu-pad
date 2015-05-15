@@ -5,12 +5,12 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
 import com.icupad.hl7_gateway.domain.Stay;
-import com.icupad.hl7_gateway.domain.TestResult;
-import com.icupad.hl7_gateway.service.*;
-import com.icupad.hl7_gateway.service.hl7_server.MissingTestNameMappingException;
+import com.icupad.hl7_gateway.service.PatientService;
+import com.icupad.hl7_gateway.service.StayService;
+import com.icupad.hl7_gateway.service.hl7_server.MissingTestMappingException;
+import com.icupad.default_test_type.service.TestResultService;
 import com.icupad.test_data.HL7Messages;
 import com.icupad.test_data.Stays;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,42 +37,17 @@ public class TestResultsTest {
     private HapiContext hapiContext;
 
     @Autowired
-    private TestResultService testResultsService;
-
-    @Autowired
-    private TestService testService;
-
-    @Autowired
     private MessageHandler<ORU_R01> testResultsHandler;
-
-    private com.icupad.hl7_gateway.domain.Test beEcfResult;
 
     @Autowired
     private TestResultService testResultService;
 
-    @Before
-    public void before() throws HL7Exception {
-        beEcfResult = testService.findByName("Be-Ecf");
-    }
-
-    @Test
-    public void shouldAssignTestResultToBeEcfTest() throws HL7Exception {
-        createAndSaveAdamKowalskisStay();
-        ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.bloodGasBeEcfResult);
-
-        testResultsHandler.handle(oru_r01);
-
-        assertThatTestResultIsAssociatedWithTestGroup(getTestResult());
-    }
-
-    @Test(expected = MissingTestNameMappingException.class)
-    public void shouldDetectSituationWhenTestNameMappingIsMissing() throws HL7Exception {
+    @Test(expected = MissingTestMappingException.class)
+    public void shouldDetectSituationWhenTestMappingIsMissing() throws HL7Exception {
         createAndSaveAdamKowalskisStay();
         ORU_R01 oru_r01 = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.messageWithUnknownTest);
 
         testResultsHandler.handle(oru_r01);
-
-        assertThatTestResultIsAssociatedWithTestGroup(getTestResult());
     }
 
     @Test
@@ -92,24 +66,6 @@ public class TestResultsTest {
                 .findFirst()
                 .get()
                 .getUnit();
-    }
-
-    @Test
-    public void shouldExtractBloodSource() {
-        fail("df");
-    }
-
-    private TestResult getTestResult() {
-        List<TestResult> testResults = testResultsService.findAll();
-        assertEquals(1, testResults.size());
-        return testResults.get(0);
-    }
-
-    private void assertThatTestResultIsAssociatedWithTestGroup(TestResult testResult) {
-        assertNotNull(testResult);
-        assertNotNull(testResult.getTestRequest());
-        assertNotNull(testResult.getTestRequest().getTest());
-        assertEquals(beEcfResult.getId(), testResult.getTestRequest().getTest().getId());
     }
 
     private void createAndSaveAdamKowalskisStay() {

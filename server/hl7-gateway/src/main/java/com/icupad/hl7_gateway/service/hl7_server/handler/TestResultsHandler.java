@@ -7,12 +7,11 @@ import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import ca.uhn.hl7v2.model.v23.segment.PID;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.hl7_gateway.domain.*;
-import com.icupad.hl7_gateway.service.RawTestNameService;
 import com.icupad.hl7_gateway.service.StayService;
-import com.icupad.hl7_gateway.service.TestRequestService;
-import com.icupad.hl7_gateway.service.TestResultService;
-import com.icupad.hl7_gateway.service.hl7_server.MissingTestNameMappingException;
+import com.icupad.hl7_gateway.service.TestMappingService;
+import com.icupad.hl7_gateway.service.hl7_server.MissingTestMappingException;
 import com.icupad.hl7_gateway.service.hl7_server.RegisterPatient;
+import com.icupad.hl7_gateway.service.hl7_server.handler.test_group_handler.TestTypeHandler;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBRParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.OBXParser;
 import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PV1Parser;
@@ -22,6 +21,8 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,27 +32,24 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     private final PV1Parser pv1Parser;
     private final OBRParser obrParser;
     private final OBXParser obxParser;
-    private final TestRequestService testRequestService;
-    private final TestResultService testResultService;
-    private final RawTestNameService rawTestNameService;
+    private final TestMappingService testMappingService;
+    private final Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler;
 
     @Autowired
     public TestResultsHandler(RegisterPatient registerPatient,
                               StayService stayService,
-                              TestRequestService testRequestService,
-                              TestResultService testResultService,
                               PV1Parser pv1Parser,
                               OBRParser obrParser,
                               OBXParser obxParser,
-                              RawTestNameService rawTestNameService) {
+                              TestMappingService testMappingService,
+                              Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler) {
         this.registerPatient = registerPatient;
         this.stayService = stayService;
-        this.testRequestService = testRequestService;
-        this.testResultService = testResultService;
         this.pv1Parser = pv1Parser;
         this.obrParser = obrParser;
         this.obxParser = obxParser;
-        this.rawTestNameService = rawTestNameService;
+        this.testMappingService = testMappingService;
+        this.getTestTypeSpecificHandler = getTestTypeSpecificHandler;
     }
 
     /**
@@ -59,16 +57,21 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
      * <p>
      * First step is to check if patient is registered. If not, registration is executed.
      * <p>
-     * Then test results are mapped to desired domain models.
+     * Then test results are mapped to intermediate models.
+     * <p>
+     * After that intermediate models are further mapped to desired domain models of specific test type. That work is
+     * delegated to specific test type handlers.
      * <p>
      * A situation when only partially results are send may occur. Later, in another message, the same results are send
      * including previously missing results. In that case method prevents test results duplication.
      *
      * @param oru_r01 message with test results
      * @throws HL7Exception
-     * @throws MissingTestNameMappingException To normalize hl7 data structures to desired domain models,
-     *                                         the mappings between raw test names and proper tests name are required.
-     *                                         The method detects missing mappings and throws exception.
+     * @throws MissingTestMappingException To normalize hl7 data structures to desired domain models,
+     *                                     the mappings between raw test names and proper tests name are required.
+     *                                     The method detects missing mappings and throws exception.
+     * @see TestTypeHandler
+     * @see TestMapping
      */
     @Override
     @Transactional
@@ -88,51 +91,63 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     private void handleResults(ORU_R01 oru_r01) throws HL7Exception {
         List<Pair<TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
         List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults =
-                filterOutIrrelevantData(testsRequestsAndResults);
+                filterOutEmptyResults(testsRequestsAndResults);
 
-        handleNewRawTestNames(filteredTestsRequestsAndResults);
+        handleMissingTestMappings(filteredTestsRequestsAndResults);
         handleTestRequests(filteredTestsRequestsAndResults);
         handleTestResults(getStay(oru_r01), filteredTestsRequestsAndResults);
+
+        delegateToTestTypeSpecificHandlers(filteredTestsRequestsAndResults);
     }
 
-    private void handleTestResults(Stay stay, List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults)
+    private void delegateToTestTypeSpecificHandlers(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+        testsRequestsAndResults.stream()
+                .collect(Collectors.groupingBy(pair -> pair.getLeft().getTestMapping().getTestType()))
+                .entrySet().stream()
+                .forEach(this::handleGroupedResults);
+    }
+
+    private void handleGroupedResults(Map.Entry<TestType, List<Pair<TestRequest, TestResult>>> testGroupAndResults) {
+        TestTypeHandler specificHandler = getTestTypeSpecificHandler.apply(testGroupAndResults.getKey().getClass());
+        specificHandler.handle(testGroupAndResults.getValue());
+    }
+
+    private void handleTestResults(Stay stay, List<Pair<TestRequest, TestResult>> testsRequestsAndResults)
             throws HL7Exception {
-        filteredTestsRequestsAndResults.stream()
-                .map(this::mergeTestRequestWithDB)
+        testsRequestsAndResults.stream()
                 .map(this::associateTestResultWithTestRequest)
-                .map(testResult -> associateTestResultWithStay(testResult, stay))
-                .forEach(testResultService::save);
+                .forEach(testResult -> associateTestResultWithStay(testResult, stay));
     }
 
-    private void handleTestRequests(List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults) {
-        filteredTestsRequestsAndResults.stream()
+    private void handleTestRequests(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+        testsRequestsAndResults.stream()
                 .map(Pair::getLeft)
-                .map(this::associateTestRequestWithTest)
-                .forEach(testRequestService::save);
+                .forEach(this::associateTestRequestWithTestMapping);
     }
 
-    private void handleNewRawTestNames(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
-        List<RawTestName> rawTestNames = testsRequestsAndResults.stream()
-                .map(Pair::getLeft)
-                .map(TestRequest::getRawTestName)
-                .filter(this::ifRawTestNameAssociatedWithTestNotExists)
-                .map(this::createRawTestName)
+    private void handleMissingTestMappings(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+        List<TestMapping> unknownTestMappings = testsRequestsAndResults.stream()
+                .map(this::createTestMapping)
+                .filter(this::ifTestMappingIsUnknown)
                 .collect(Collectors.toList());
 
-        if (!rawTestNames.isEmpty()) {
-            throw new MissingTestNameMappingException(rawTestNames);
+        if (!unknownTestMappings.isEmpty()) {
+            throw new MissingTestMappingException(unknownTestMappings);
         }
     }
 
-    private RawTestName createRawTestName(String rawTestNameStr) {
-        RawTestName rawTestName = new RawTestName();
-        rawTestName.setRawName(rawTestNameStr);
-        return rawTestName;
+    private TestMapping createTestMapping(Pair<TestRequest, TestResult> requestAndResult) {
+        TestMapping testMapping = new TestMapping();
+        testMapping.setRawTestName(requestAndResult.getLeft().getRawTestName());
+        testMapping.setUnit(requestAndResult.getRight().getUnit());
+
+        return testMapping;
     }
 
-    private boolean ifRawTestNameAssociatedWithTestNotExists(String rawTestNameStr) {
-        RawTestName rawTestName = rawTestNameService.findByRawName(rawTestNameStr);
-        return rawTestName == null || rawTestName.getTest() == null;
+    private boolean ifTestMappingIsUnknown(TestMapping testMapping) {
+        TestMapping fetchedTestMapping = testMappingService.findByRawTestName(testMapping.getRawTestName());
+        return fetchedTestMapping == null || fetchedTestMapping.getTestName() == null ||
+                fetchedTestMapping.getUnit() == null;
     }
 
     private PID getPID(ORU_R01 oru_r01) {
@@ -144,10 +159,9 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     }
 
     private List<Pair<TestRequest, TestResult>>
-    filterOutIrrelevantData(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+    filterOutEmptyResults(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
         return testsRequestsAndResults.stream()
                 .filter(this::isTestResultWithValue)
-                .filter(this::doesNotExistInDB)
                 .collect(Collectors.toList());
     }
 
@@ -172,19 +186,8 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
                 .collect(Collectors.toList());
     }
 
-    private boolean doesNotExistInDB(Pair<TestRequest, TestResult> testRequestAndResult) {
-        TestRequest testRequest = testRequestAndResult.getLeft();
-        return testRequestService.findByHl7Id(testRequest.getHl7Id()) == null;
-    }
-
     private boolean isTestResultWithValue(Pair<TestRequest, TestResult> testRequestAndResult) {
         return testRequestAndResult.getRight().getValue() != null;
-    }
-
-    private Pair<TestRequest, TestResult>
-    mergeTestRequestWithDB(Pair<TestRequest, TestResult> testRequestAndResult) {
-        return Pair.of(testRequestService.findByHl7Id(testRequestAndResult.getLeft().getHl7Id()),
-                testRequestAndResult.getRight());
     }
 
     private TestResult associateTestResultWithStay(TestResult testResult, Stay stay) {
@@ -200,9 +203,9 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return testResult;
     }
 
-    private TestRequest associateTestRequestWithTest(TestRequest testRequest) {
-        Test test = rawTestNameService.findByRawName(testRequest.getRawTestName()).getTest();
-        testRequest.setTest(test);
+    private TestRequest associateTestRequestWithTestMapping(TestRequest testRequest) {
+        TestMapping testMapping = testMappingService.findByRawTestName(testRequest.getRawTestName());
+        testRequest.setTestMapping(testMapping);
         return testRequest;
     }
 

@@ -1,11 +1,12 @@
-package com.icupad.hl7_gateway.service;
+package com.icupad.default_test_type.service;
 
-import com.icupad.hl7_gateway.domain.Test;
-import com.icupad.hl7_gateway.repository.TestRepository;
+import com.icupad.hl7_gateway.service.AbstractBaseService;
+import com.icupad.default_test_type.domain.Test;
+import com.icupad.default_test_type.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("defaultTestService")
 public class TestServiceImpl extends AbstractBaseService<Test> implements TestService {
     private final TestRepository testRepository;
 
@@ -16,7 +17,7 @@ public class TestServiceImpl extends AbstractBaseService<Test> implements TestSe
     }
 
     @Override
-    public Test findByName(String name) {
-        return testRepository.findByName(name);
+    public Test findByNameAndUnit(String testName, String unit) {
+        return testRepository.findByNameAndUnit(testName, unit);
     }
 }
