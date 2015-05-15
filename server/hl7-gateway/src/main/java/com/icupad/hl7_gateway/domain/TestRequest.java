@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class  TestRequest {
+public class TestRequest {
     @Size(min = 1, max = 255)
     @NotNull
     private String hl7Id;
@@ -38,12 +38,12 @@ public class  TestRequest {
         this.requestDate = requestDate;
     }
 
-    public void setRawTestName(String rawTestName) {
-        this.rawTestName = rawTestName;
-    }
-
     public String getRawTestName() {
         return rawTestName;
+    }
+
+    public void setRawTestName(String rawTestName) {
+        this.rawTestName = rawTestName;
     }
 
     public TestMapping getTestMapping() {

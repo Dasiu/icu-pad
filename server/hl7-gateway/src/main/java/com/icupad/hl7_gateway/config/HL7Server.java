@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.function.Function;
@@ -71,4 +74,12 @@ public class HL7Server {
                         .findFirst()
                         .orElseThrow(() -> new UnsupportedTestTypeException(testType));
     }
+
+    @Bean
+    public Validator validator() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        return validatorFactory.getValidator();
+    }
+
+
 }

@@ -9,6 +9,7 @@ import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.hl7_gateway.domain.*;
 import com.icupad.hl7_gateway.service.StayService;
 import com.icupad.hl7_gateway.service.TestMappingService;
+import com.icupad.hl7_gateway.service.hl7_server.CustomConstraintViolationException;
 import com.icupad.hl7_gateway.service.hl7_server.MissingTestMappingException;
 import com.icupad.hl7_gateway.service.hl7_server.RegisterPatient;
 import com.icupad.hl7_gateway.service.hl7_server.handler.test_group_handler.TestTypeHandler;
@@ -20,8 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,7 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     private final OBXParser obxParser;
     private final TestMappingService testMappingService;
     private final Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler;
+    private final Validator validator;
 
     @Autowired
     public TestResultsHandler(RegisterPatient registerPatient,
@@ -42,7 +45,8 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
                               OBRParser obrParser,
                               OBXParser obxParser,
                               TestMappingService testMappingService,
-                              Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler) {
+                              Function<Class<? extends TestType>, TestTypeHandler> getTestTypeSpecificHandler,
+                              Validator validator) {
         this.registerPatient = registerPatient;
         this.stayService = stayService;
         this.pv1Parser = pv1Parser;
@@ -50,6 +54,7 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         this.obxParser = obxParser;
         this.testMappingService = testMappingService;
         this.getTestTypeSpecificHandler = getTestTypeSpecificHandler;
+        this.validator = validator;
     }
 
     /**
@@ -93,12 +98,44 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults =
                 filterOutEmptyResults(testsRequestsAndResults);
 
+
         handleMissingTestMappings(filteredTestsRequestsAndResults);
         handleTestRequests(filteredTestsRequestsAndResults);
         handleTestResults(getStay(oru_r01), filteredTestsRequestsAndResults);
 
+        validate(filteredTestsRequestsAndResults);
         delegateToTestTypeSpecificHandlers(filteredTestsRequestsAndResults);
     }
+
+    private void validate(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
+        Set<ConstraintViolation<TestRequest>> reqViolations =
+                validateRequests(testsRequestsAndResults.stream().map(Pair::getLeft).collect(Collectors.toList()));
+        Set<ConstraintViolation<TestResult>> resViolations =
+                validateResults(testsRequestsAndResults.stream().map(Pair::getRight).collect(Collectors.toList()));
+
+        Set<ConstraintViolation<?>> violations = new HashSet<>();
+        violations.addAll(reqViolations);
+        violations.addAll(resViolations);
+
+        if (!violations.isEmpty()) {
+            throw new CustomConstraintViolationException(violations);
+        }
+    }
+
+    private Set<ConstraintViolation<TestResult>> validateResults(List<TestResult> results) {
+        return results.stream()
+                .map(result -> validator.validate(result))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<ConstraintViolation<TestRequest>> validateRequests(List<TestRequest> requests) {
+        return requests.stream()
+                .map(request -> validator.validate(request))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+    }
+
 
     private void delegateToTestTypeSpecificHandlers(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
         testsRequestsAndResults.stream()
