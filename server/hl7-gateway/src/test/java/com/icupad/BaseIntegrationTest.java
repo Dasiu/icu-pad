@@ -1,6 +1,6 @@
 package com.icupad;
 
-import com.icupad.hl7_gateway.Application;
+import com.icupad.hl7_gateway.core.Application;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
