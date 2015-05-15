@@ -20,6 +20,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,7 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
      *                                         The method detects missing mappings and throws exception.
      */
     @Override
+    @Transactional
     public void handle(ORU_R01 oru_r01) throws HL7Exception {
         if (!isPatientRegistered(oru_r01)) {
             registerPatient.accept(getPID(oru_r01), getPV1(oru_r01));

@@ -44,7 +44,7 @@ public class TestResultsTest {
     private TestService testService;
 
     @Autowired
-    private TestResultsHandler testResultsHandler;
+    private MessageHandler<ORU_R01> testResultsHandler;
 
     private com.icupad.hl7_gateway.domain.Test beEcfResult;
 

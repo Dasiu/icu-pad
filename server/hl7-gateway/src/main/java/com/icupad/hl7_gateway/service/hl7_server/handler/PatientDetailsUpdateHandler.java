@@ -9,6 +9,8 @@ import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PIDParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class PatientDetailsUpdateHandler implements MessageHandler<ADT_A08> {
     private final PatientService patientService;
@@ -26,6 +28,7 @@ public class PatientDetailsUpdateHandler implements MessageHandler<ADT_A08> {
     }
 
     @Override
+    @Transactional
     public void handle(ADT_A08 adt_a08) throws HL7Exception {
         Patient patient = pidParser.parse(adt_a08.getPID());
 

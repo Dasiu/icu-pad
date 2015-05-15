@@ -9,6 +9,8 @@ import com.icupad.hl7_gateway.service.hl7_server.segment_parser.PV1Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class PatientDischargeHandler implements MessageHandler<ADT_A03> {
     private final StayService stayService;
@@ -26,6 +28,7 @@ public class PatientDischargeHandler implements MessageHandler<ADT_A03> {
     }
 
     @Override
+    @Transactional
     public void handle(ADT_A03 adt_a03) throws HL7Exception {
         Stay stay = pv1Parser.parse(adt_a03.getPV1());
         Stay existingStay = stayService.findByHl7Id(stay.getHl7Id());
