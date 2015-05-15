@@ -1,4 +1,4 @@
-package com.icupad.test_data;
+package com.icupad.hl7_gateway.test_data;
 
 import com.icupad.hl7_gateway.core.domain.*;
 

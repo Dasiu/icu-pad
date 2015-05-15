@@ -1,4 +1,4 @@
-package com.icupad.com.icupad.hl7_gateway.test_type_module;
+package com.icupad.hl7_gateway.test_type_module.complete_blood_count;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -14,8 +14,8 @@ import com.icupad.hl7_gateway.test_type_module.complete_blood_count.domain.TestR
 import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestPanelResultService;
 import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestResultService;
 import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestService;
-import com.icupad.test_data.HL7Messages;
-import com.icupad.test_data.Stays;
+import com.icupad.hl7_gateway.test_data.HL7Messages;
+import com.icupad.hl7_gateway.test_data.Stays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,8 +25,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 
 import static com.icupad.hl7_gateway.core.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessage;
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithInvalidPesel;
+import static com.icupad.hl7_gateway.test_data.HL7Messages.patientRegistrationMessage;
+import static com.icupad.hl7_gateway.test_data.HL7Messages.patientRegistrationMessageWithInvalidPesel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

@@ -1,4 +1,4 @@
-package com.icupad.test_data;
+package com.icupad.hl7_gateway.test_data;
 
 public class HL7Messages {
     public static final String patientRegistrationMessage = "MSH|^~\\&|ESKULAP|LAB|ICUPAD|ICUPAD|20120703090814||ADT^A01|12345|P|2.3|||PL||PL\r" +

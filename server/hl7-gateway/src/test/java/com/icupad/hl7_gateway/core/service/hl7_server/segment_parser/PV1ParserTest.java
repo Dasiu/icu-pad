@@ -13,7 +13,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static com.icupad.test_data.HL7Messages.patientRegistrationMessageWithoutAddressAndAdmittingDoctor;
+import static com.icupad.hl7_gateway.test_data.HL7Messages.patientRegistrationMessageWithoutAddressAndAdmittingDoctor;
 import static org.junit.Assert.assertEquals;
 
 @ActiveProfiles("test")

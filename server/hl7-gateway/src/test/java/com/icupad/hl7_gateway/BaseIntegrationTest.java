@@ -1,4 +1,4 @@
-package com.icupad;
+package com.icupad.hl7_gateway;
 
 import com.icupad.hl7_gateway.core.Application;
 import org.junit.runner.RunWith;

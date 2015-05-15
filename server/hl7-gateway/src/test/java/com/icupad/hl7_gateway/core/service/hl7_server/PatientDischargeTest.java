@@ -12,7 +12,7 @@ import com.icupad.hl7_gateway.core.Application;
 import com.icupad.hl7_gateway.core.domain.Stay;
 import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.StayService;
-import com.icupad.test_data.Stays;
+import com.icupad.hl7_gateway.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static com.icupad.hl7_gateway.core.service.hl7_server.HL7TestUtils.getAcknowledgmentCode;
-import static com.icupad.test_data.HL7Messages.patientDischargeMessage;
+import static com.icupad.hl7_gateway.test_data.HL7Messages.patientDischargeMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

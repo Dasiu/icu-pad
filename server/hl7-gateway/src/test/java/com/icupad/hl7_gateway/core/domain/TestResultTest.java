@@ -3,7 +3,7 @@ package com.icupad.hl7_gateway.core.domain;
 import com.icupad.hl7_gateway.core.utils.StringUtils;
 import org.junit.Test;
 
-import static com.icupad.test_utils.ValidationUtils.*;
+import static com.icupad.hl7_gateway.test_utils.ValidationUtils.*;
 import static org.junit.Assert.assertThat;
 
 public class TestResultTest {

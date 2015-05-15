@@ -19,8 +19,8 @@ import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestPan
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestRequestService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestResultService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestService;
-import com.icupad.test_data.HL7Messages;
-import com.icupad.test_data.Stays;
+import com.icupad.hl7_gateway.test_data.HL7Messages;
+import com.icupad.hl7_gateway.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

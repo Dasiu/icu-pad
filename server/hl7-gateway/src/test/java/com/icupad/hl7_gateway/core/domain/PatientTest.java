@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-import static com.icupad.test_utils.ValidationUtils.*;
+import static com.icupad.hl7_gateway.test_utils.ValidationUtils.*;
 import static org.junit.Assert.assertThat;
 
 public class PatientTest {
