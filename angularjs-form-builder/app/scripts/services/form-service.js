@@ -27,6 +27,10 @@ angularApp.service('FormService', function FormService($http) {
                 value : 'Dropdown List'
             },
             {
+                name : 'multichoice',
+                value : 'Multi-choice List'
+            },
+            {
                 name : 'date',
                 value : 'Date'
             },

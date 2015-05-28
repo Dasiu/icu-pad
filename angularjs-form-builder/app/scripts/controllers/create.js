@@ -35,7 +35,7 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             "field_id" : $scope.addField.lastAddedID,
             "field_title" : "New field - " + ($scope.addField.lastAddedID),
             "field_type" : $scope.addField.new,
-            "field_value" : "",
+            "field_value" : $scope.addField.new == 'multichoice' ? [] : "",
             "field_required" : true,
 			"field_disabled" : false
         };
@@ -112,7 +112,7 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
 
     // decides whether field options block will be shown (true for dropdown and radio fields)
     $scope.showAddOptions = function (field){
-        if(field.field_type == "radio" || field.field_type == "dropdown")
+        if(field.field_type == "radio" || field.field_type == "dropdown" || field.field_type == "multichoice")
             return true;
         else
             return false;

@@ -22,7 +22,8 @@ angularApp.directive('fieldDirective', function($http, $compile) {
             'date',
             'dropdown',
             'hidden',
-            'radio'
+            'radio',
+            'multichoice'
         ]
 
         if (__indexOf.call(supported_fields, type) >= 0) {
