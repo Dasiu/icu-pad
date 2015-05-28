@@ -15,6 +15,7 @@ angularApp.directive('fieldDirective', function($http, $compile) {
         var templateUrl = './views/directive-templates/field/';
         var supported_fields = [
             'textfield',
+            'numfield',
             'email',
             'textarea',
             'checkbox',

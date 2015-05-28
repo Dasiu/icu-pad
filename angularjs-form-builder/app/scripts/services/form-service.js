@@ -11,6 +11,10 @@ angularApp.service('FormService', function FormService($http) {
                 value : 'Textfield'
             },
             {
+                name : 'numfield',
+                value : 'Numeric field'
+            },
+            {
                 name : 'email',
                 value : 'E-mail'
             },
