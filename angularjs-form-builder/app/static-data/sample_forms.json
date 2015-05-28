@@ -49,8 +49,8 @@
             },
             "5" : {
                 "field_id" : 5,
-                "field_title" : "Password",
-                "field_type" : "password",
+                "field_title" : "Text field",
+                "field_type" : "textfield",
                 "field_value" : "",
                 "field_required" : true,
 		"field_disabled" : false

@@ -15,10 +15,6 @@ angularApp.service('FormService', function FormService($http) {
                 value : 'E-mail'
             },
             {
-                name : 'password',
-                value : 'Password'
-            },
-            {
                 name : 'radio',
                 value : 'Radio Buttons'
             },

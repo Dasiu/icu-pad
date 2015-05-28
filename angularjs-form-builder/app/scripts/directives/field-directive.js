@@ -21,7 +21,6 @@ angularApp.directive('fieldDirective', function($http, $compile) {
             'date',
             'dropdown',
             'hidden',
-            'password',
             'radio'
         ]
 
