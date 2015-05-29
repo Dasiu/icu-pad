@@ -40,6 +40,7 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             "field_upper_bound" : null,
             "field_precision" : 0.01,
             "field_unit" : "",
+            "field_domain" : "",
             "field_required" : true,
 			"field_disabled" : false
         };
