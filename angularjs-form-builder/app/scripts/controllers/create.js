@@ -33,9 +33,12 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
 
         var newField = {
             "field_id" : $scope.addField.lastAddedID,
-            "field_title" : "New field - " + ($scope.addField.lastAddedID),
+            "field_title" : $scope.addField.new + " - " + ($scope.addField.lastAddedID),
             "field_type" : $scope.addField.new,
             "field_value" : $scope.addField.new == 'multichoice' ? [] : "",
+            "field_lower_bound" : null,
+            "field_upper_bound" : null,
+            "field_precision" : 0.01,
             "field_required" : true,
 			"field_disabled" : false
         };
@@ -116,6 +119,32 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             return true;
         else
             return false;
+    }
+
+    $scope.showMinMaxOption = function (field){
+        return field.field_type == "textfield" || field.field_type == "numfield";
+    }
+
+    $scope.showPrecisionOption = function (field){
+        return field.field_type == "numfield";
+    }
+
+    $scope.lowerBoundCheck = true;
+    $scope.lowerBoundChange = function(field, unlimited) {
+        if (unlimited) {
+            field.field_lower_bound = null;
+        } else {
+            field.field_lower_bound = 0;
+        }
+    }
+
+    $scope.upperBoundCheck = true;
+    $scope.upperBoundChange = function(field, unlimited) {
+        if (unlimited) {
+            field.field_upper_bound = null;
+        } else {
+            field.field_upper_bound = 1;
+        }
     }
 
     // deletes all the fields

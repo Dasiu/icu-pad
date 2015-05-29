@@ -73,3 +73,8 @@ body {
   color:red;
   font-size: smaller;
 }
+
+input[type="number"] {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
