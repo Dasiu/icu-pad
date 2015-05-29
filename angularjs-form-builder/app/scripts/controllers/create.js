@@ -39,6 +39,7 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             "field_lower_bound" : null,
             "field_upper_bound" : null,
             "field_precision" : 0.01,
+            "field_unit" : "",
             "field_required" : true,
 			"field_disabled" : false
         };
@@ -126,6 +127,10 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
     }
 
     $scope.showPrecisionOption = function (field){
+        return field.field_type == "numfield";
+    }
+
+    $scope.showUnitOption = function (field){
         return field.field_type == "numfield";
     }
 

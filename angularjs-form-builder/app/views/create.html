@@ -52,9 +52,9 @@
                         <div class="span4"><input type="text" ng-model="field.field_value" value="{{field.field_value}}"></div>
                     </div>
 
-                    <div class="clear"></div> <hr>
 
                     <div class="row" ng-show="showAddOptions(field)">
+                        <div class="clear"></div> <hr>
                         <div class="span2">Field Options:</div>
                         <div class="span6">
                             <div ng-repeat="option in field.field_options">
@@ -65,15 +65,15 @@
                             <button class="btn btn-primary btn-small" type="button" ng-click="addOption(field)"><i class="icon-plus icon-white"></i> Add Option</button>
                         </div>
                     </div>
+
                     <div class="row" ng-show="showMinMaxOption(field)">
+                        <div class="clear"></div> <hr>
                         <div class="span2">Lower bound:</div>
                         <div class="span6">
                             <input type="number" ng-model="field.field_lower_bound" value="{{field.field_lower_bound}}" step="{{field.field_precision}}" ng-disabled="lowerBoundCheck">
                             <input type="checkbox" ng-model="lowerBoundCheck" ng-change="lowerBoundChange(field, lowerBoundCheck)" />
                             <label class="form-field-label" ng-cloak>unlimited</label>
                         </div>
-                    </div>
-                    <div class="row" ng-show="showMinMaxOption(field)">
                         <div class="span2">Upper bound:</div>
                         <div class="span6">
                             <input type="number" ng-model="field.field_upper_bound" value="{{field.field_lower_bound}}" step="{{field.field_precision}}" ng-disabled="upperBoundCheck">
@@ -86,6 +86,13 @@
                         <div class="span2">Precision:</div>
                         <div class="span6">
                             <input type="number" ng-model="field.field_precision" value="{{field.field_precision}}" step="any">
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="showUnitOption(field)">
+                        <div class="span2">Unit:</div>
+                        <div class="span6">
+                            <input type="text" ng-model="field.field_unit" value="{{field.field_unit}}">
                         </div>
                     </div>
 
