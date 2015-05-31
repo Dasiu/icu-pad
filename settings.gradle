@@ -13,9 +13,28 @@ include 'server:nurse:nurse-rest'
 include 'server:nurse:nurse-service'
 include 'server:nurse:nurse-model'
 
-include 'server:test-results:test-results-rest'
-include 'server:test-results:test-results-service'
-include 'server:test-results:test-results-model'
+include 'server:test-results'
+
+include 'server:test-results:default-test-type:default-test-type-rest'
+include 'server:test-results:default-test-type:default-test-type-service'
+include 'server:test-results:default-test-type:default-test-type-model'
+
+include 'server:test-results:complete-blood-count:complete-blood-count-rest'
+include 'server:test-results:complete-blood-count:complete-blood-count-service'
+include 'server:test-results:complete-blood-count:complete-blood-count-model'
+
+include 'server:test-results:blood-gas:blood-gas-rest'
+include 'server:test-results:blood-gas:blood-gas-service'
+include 'server:test-results:blood-gas:blood-gas-model'
+
+include 'server:test-results:commons:commons-rest'
+include 'server:test-results:commons:commons-service'
+include 'server:test-results:commons:commons-model'
+
+include 'server:patients'
+include 'server:patients:patients-rest'
+include 'server:patients:patients-service'
+include 'server:patients:patients-model'
 
 include 'server:users'
 
