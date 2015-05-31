@@ -4,7 +4,7 @@ import com.icupad.hl7_gateway.core.domain.TestMapping;
 import com.icupad.hl7_gateway.core.domain.TestType;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.domain.CompleteBloodTestCount;
+import com.icupad.hl7_gateway.test_type_module.complete_blood_count.domain.CompleteBloodCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -78,7 +78,7 @@ public class CompleteBloodCountProductionSeed {
     }
 
     private TestType testGroup() {
-        CompleteBloodTestCount testGroup = new CompleteBloodTestCount();
+        CompleteBloodCount testGroup = new CompleteBloodCount();
         testGroup.setName("Morfologia");
         return saveIfNotExists(testGroup);
     }

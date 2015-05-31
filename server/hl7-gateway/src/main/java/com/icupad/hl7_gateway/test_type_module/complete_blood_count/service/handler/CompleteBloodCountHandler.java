@@ -41,7 +41,7 @@ public class CompleteBloodCountHandler
 
     @Override
     public Class<? extends TestType> getTestType() {
-        return CompleteBloodTestCount.class;
+        return CompleteBloodCount.class;
     }
 
     @Override

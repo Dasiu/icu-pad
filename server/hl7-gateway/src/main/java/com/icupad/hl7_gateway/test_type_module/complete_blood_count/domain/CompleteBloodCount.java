@@ -5,5 +5,5 @@ import com.icupad.hl7_gateway.core.domain.TestType;
 import javax.persistence.Entity;
 
 @Entity
-public class CompleteBloodTestCount extends TestType {
+public class CompleteBloodCount extends TestType {
 }
