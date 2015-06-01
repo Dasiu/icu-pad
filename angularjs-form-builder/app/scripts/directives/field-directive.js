@@ -16,7 +16,6 @@ angularApp.directive('fieldDirective', function($http, $compile) {
         var supported_fields = [
             'textfield',
             'numfield',
-            'email',
             'textarea',
             'checkbox',
             'date',

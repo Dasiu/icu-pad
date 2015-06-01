@@ -42,7 +42,7 @@
             "4" : {
                 "field_id" : 4,
                 "field_title" : "Email Address",
-                "field_type" : "email",
+                "field_type" : "textfield",
                 "field_value" : "test@example.com",
                 "field_required" : true,
 		"field_disabled" : false
