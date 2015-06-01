@@ -1,14 +1,14 @@
-package com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.handler;
+package com.icupad.hl7_gateway.test_type_module.blood_gas.service.handler;
 
 import com.icupad.hl7_gateway.core.domain.TestMapping;
 import com.icupad.hl7_gateway.core.domain.TestType;
 import com.icupad.hl7_gateway.core.service.hl7_server.handler.test_type_handler.AbstractTestTypeHandler;
 import com.icupad.hl7_gateway.core.service.hl7_server.handler.test_type_handler.TestTypeHandler;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.domain.*;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestPanelResultService;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestRequestService;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestResultService;
-import com.icupad.hl7_gateway.test_type_module.complete_blood_count.service.TestService;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.*;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.service.TestPanelResultService;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.service.TestRequestService;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.service.TestResultService;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.service.TestService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
-public class CompleteBloodCountHandler
+public class BloodGasHandler
         extends AbstractTestTypeHandler<TestRequest, TestResult, TestPanelResult> implements TestTypeHandler {
     private final Pattern bloodSourceInRawTestName = Pattern.compile("[(](.+)[)]");
     private final TestService testService;
@@ -29,10 +29,10 @@ public class CompleteBloodCountHandler
     private final TestResultService testResultService;
 
     @Autowired
-    public CompleteBloodCountHandler(TestService testService,
-                                     TestPanelResultService testPanelResultService,
-                                     TestRequestService testRequestService,
-                                     TestResultService testResultService) {
+    public BloodGasHandler(TestService testService,
+                           TestPanelResultService testPanelResultService,
+                           TestRequestService testRequestService,
+                           TestResultService testResultService) {
         this.testService = testService;
         this.testPanelResultService = testPanelResultService;
         this.testRequestService = testRequestService;
@@ -41,7 +41,7 @@ public class CompleteBloodCountHandler
 
     @Override
     public Class<? extends TestType> getTestType() {
-        return CompleteBloodCount.class;
+        return BloodGas.class;
     }
 
     @Override
@@ -159,18 +159,18 @@ public class CompleteBloodCountHandler
     toSpecificTestRequestType(Pair<com.icupad.hl7_gateway.core.domain.TestRequest,
             com.icupad.hl7_gateway.core.domain.TestResult> requestAndResult) {
         com.icupad.hl7_gateway.core.domain.TestRequest testRequest = requestAndResult.getLeft();
-        TestRequest completeBloodCountTestRequest = createTestRequest(testRequest);
-        completeBloodCountTestRequest.setTest(findTest(testRequest));
+        TestRequest bloodGasTestRequest = createTestRequest(testRequest);
+        bloodGasTestRequest.setTest(findTest(testRequest));
 
-        return Pair.of(completeBloodCountTestRequest, requestAndResult.getRight());
+        return Pair.of(bloodGasTestRequest, requestAndResult.getRight());
     }
 
     private TestRequest createTestRequest(com.icupad.hl7_gateway.core.domain.TestRequest testRequest) {
-        TestRequest completeBloodCountTestRequest = new TestRequest();
-        completeBloodCountTestRequest.setHl7Id(testRequest.getHl7Id());
-        completeBloodCountTestRequest.setRawTestName(testRequest.getRawTestName());
-        completeBloodCountTestRequest.setRequestDate(testRequest.getRequestDate());
-        return completeBloodCountTestRequest;
+        TestRequest bloodGasTestRequest = new TestRequest();
+        bloodGasTestRequest.setHl7Id(testRequest.getHl7Id());
+        bloodGasTestRequest.setRawTestName(testRequest.getRawTestName());
+        bloodGasTestRequest.setRequestDate(testRequest.getRequestDate());
+        return bloodGasTestRequest;
     }
 
     private Test findTest(com.icupad.hl7_gateway.core.domain.TestRequest testRequest) {

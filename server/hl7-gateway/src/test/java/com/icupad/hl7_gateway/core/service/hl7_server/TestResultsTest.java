@@ -14,6 +14,7 @@ import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.StayService;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
+import com.icupad.hl7_gateway.test_type_module.complete_blood_count.config.CompleteBloodCountProductionSeed;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.config.DefaultProductionSeed;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestPanelResultService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestRequestService;
@@ -28,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,6 +41,7 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TestResultsTest {
     private static final String host = "localhost";
 
@@ -80,6 +83,9 @@ public class TestResultsTest {
     private DefaultProductionSeed defaultProductionSeed;
 
     @Autowired
+    private CompleteBloodCountProductionSeed completeBloodCountProductionSeed;
+
+    @Autowired
     private TestPanelResultService testPanelResultService;
 
     @Before
@@ -100,8 +106,6 @@ public class TestResultsTest {
         testTypeService.deleteAll();
         stayService.deleteAll();
         patientService.deleteAll();
-
-        defaultProductionSeed.init();
     }
 
     @Test
