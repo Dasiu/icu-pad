@@ -4,12 +4,12 @@ angularApp.directive('formDirective', function () {
     return {
         controller: function($scope){
             $scope.submit = function(){
-                alert('Form submitted..');
+                console.log('Form submitted..');
                 $scope.form.submitted = true;
             }
 
             $scope.cancel = function(){
-                alert('Form canceled..');
+                console.log('Form canceled..');
             }
         },
         templateUrl: './views/directive-templates/form/form.html',
