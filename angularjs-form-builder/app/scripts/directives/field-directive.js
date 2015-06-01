@@ -41,6 +41,15 @@ angularApp.directive('fieldDirective', function($http, $compile) {
     }
 
     return {
+        controller: function($scope){
+            $scope.minValue = function(field) {
+                return field.field_lower_bound != null ? field.field_lower_bound : -2147483648;
+            }
+            $scope.maxValue = function(field) {
+                return field.field_upper_bound != null ? field.field_lower_bound : 2147483648;
+            }
+
+        },
         template: '<div>{{field}}</div>',
         restrict: 'E',
         scope: {
