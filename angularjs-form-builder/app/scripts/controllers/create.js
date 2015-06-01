@@ -42,7 +42,8 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             "field_unit" : "",
             "field_domain" : "",
             "field_required" : true,
-			"field_disabled" : false
+			"field_disabled" : false,
+            "field_is_separator" : $scope.addField.new == 'separator'
         };
 
         // put newField into fields array
@@ -133,6 +134,10 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
 
     $scope.showUnitOption = function (field){
         return field.field_type == "numfield";
+    }
+
+    $scope.isSeparator = function (field){
+        return field.field_is_separator;
     }
 
     $scope.lowerBoundCheck = true;

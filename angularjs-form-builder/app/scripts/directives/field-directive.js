@@ -22,7 +22,8 @@ angularApp.directive('fieldDirective', function($http, $compile) {
             'dropdown',
             'hidden',
             'radio',
-            'multichoice'
+            'multichoice',
+            'separator'
         ]
 
         if (__indexOf.call(supported_fields, type) >= 0) {
@@ -45,7 +46,7 @@ angularApp.directive('fieldDirective', function($http, $compile) {
                 return field.field_lower_bound != null ? field.field_lower_bound : -2147483648;
             }
             $scope.maxValue = function(field) {
-                return field.field_upper_bound != null ? field.field_lower_bound : 2147483648;
+                return field.field_upper_bound != null ? field.field_upper_bound : 2147483648;
             }
             $scope.textPattern = function(field) {
                 return ".{".concat(field.field_lower_bound != null ? field.field_lower_bound : 0, ",", field.field_upper_bound != null ? field.field_upper_bound : "", "}");

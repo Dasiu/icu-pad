@@ -41,6 +41,10 @@ angularApp.service('FormService', function FormService($http) {
             {
                 name : 'hidden',
                 value : 'Hidden'
+            },
+            {
+                name : 'separator',
+                value : 'Separator'
             }
         ],
         form:function (id) {
