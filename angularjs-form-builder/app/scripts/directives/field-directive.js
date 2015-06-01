@@ -48,7 +48,9 @@ angularApp.directive('fieldDirective', function($http, $compile) {
             $scope.maxValue = function(field) {
                 return field.field_upper_bound != null ? field.field_lower_bound : 2147483648;
             }
-
+            $scope.textPattern = function(field) {
+                return ".{".concat(field.field_lower_bound != null ? field.field_lower_bound : 0, ",", field.field_upper_bound != null ? field.field_upper_bound : "", "}");
+            }
         },
         template: '<div>{{field}}</div>',
         restrict: 'E',
