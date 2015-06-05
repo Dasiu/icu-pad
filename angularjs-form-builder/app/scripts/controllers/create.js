@@ -9,6 +9,7 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
     $scope.form = {};
     $scope.form.form_id = 1;
     $scope.form.form_name = 'My Form';
+    $scope.form.form_domain = '';
     $scope.form.form_fields = [];
 
     // previewForm - for preview purposes, form will be copied into this
