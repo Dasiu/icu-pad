@@ -1,6 +1,6 @@
 'use strict';
 
-var angularApp = angular.module('angularjsFormBuilderApp', ['ui.bootstrap', '$strap.directives', 'checklist-model']);
+var angularApp = angular.module('angularjsFormBuilderApp', ['ngRoute', 'ui.bootstrap', '$strap.directives', 'checklist-model']);
 
 angularApp.config(function ($routeProvider, $compileProvider) {
 
@@ -16,7 +16,7 @@ angularApp.config(function ($routeProvider, $compileProvider) {
         .otherwise({
             redirectTo: '/'
         });
-    $compileProvider.urlSanitizationWhitelist(/^\s*(https?|data):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|data):/);
 
 }).run(['$rootScope',  function() {}]);
 
