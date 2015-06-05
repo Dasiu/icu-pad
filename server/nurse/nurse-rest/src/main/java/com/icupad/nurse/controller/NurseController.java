@@ -48,12 +48,4 @@ public class NurseController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/form/{name}", method = RequestMethod.GET)
-    public ResponseEntity<?> getFormTemplate(@PathVariable("name") String formName) {
-        if (!"NurseDiagnosisForm".equals(formName)) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(NurseDiagnosisForm.class.getDeclaredFields(), HttpStatus.OK);
-    }
-
 }
