@@ -1,15 +1,19 @@
 'use strict';
 
-angularApp.directive('formDirective', function () {
+angularApp.directive('formDirective', ['conversionService', 'configuration', '$http', function (conversionService, configuration, $http) {
     return {
         controller: function($scope){
             $scope.submit = function(){
-                console.log('Form submitted..');
                 $scope.form.submitted = true;
+
+                conversionService.convert($scope.form).
+                    then(function(converted) {
+                        return $http.post(configuration + "/nurse/form", converted);
+                    });
             }
 
             $scope.cancel = function(){
-                console.log('Form canceled..');
+                console.log('form canceled');
             }
         },
         templateUrl: './views/directive-templates/form/form.html',
@@ -18,4 +22,4 @@ angularApp.directive('formDirective', function () {
             form:'='
         }
     };
-  });
+  }]);
