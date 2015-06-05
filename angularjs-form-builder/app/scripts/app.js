@@ -2,7 +2,7 @@
 
 var angularApp = angular.module('angularjsFormBuilderApp', ['ui.bootstrap', '$strap.directives', 'checklist-model']);
 
-angularApp.config(function ($routeProvider) {
+angularApp.config(function ($routeProvider, $compileProvider) {
 
     $routeProvider
         .when('/', {
@@ -16,6 +16,7 @@ angularApp.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
+    $compileProvider.urlSanitizationWhitelist(/^\s*(https?|data):/);
 
 }).run(['$rootScope',  function() {}]);
 

@@ -50,7 +50,7 @@ angularApp.service('conversionService', [ 'configuration', '$http', function Con
             }
 
             var formDomainName = form.form_domain;
-            return $http.get(configuration.server + "/nurse/form/"+formDomainName).
+            return $http.get(configuration.server + "/form/nurse/"+formDomainName).
                 then(function(result) {
                     var domainObject = {};
                     result.data.forEach(function(domainField) {
