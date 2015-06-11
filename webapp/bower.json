@@ -7,6 +7,22 @@
     "angular-route": "1.x",
     "mobile-angular-ui": "1.2.x",
     "font-awesome": "4.2",
+    "bootstrap": "3.x",
+    "json3": "~3.2.4",
+    "jquery": "~1.9.1",
+    "bootstrap-sass": "~3.3.4",
+    "es5-shim": "~2.0.8",
+    "angular-resource": "~1.x",
+    "angular-cookies": "~1.x",
+    "angular-strap": "~0.7.5",
+    "angular-ui": "~0.4.0",
+    "checklist-model": "~0.2.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.x",
+    "angular-scenario": "~1.x"
+  },
+  "resolutions": {
     "bootstrap": "3.x"
   }
 }
