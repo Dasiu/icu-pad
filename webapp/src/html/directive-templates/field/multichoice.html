@@ -3,7 +3,7 @@
     <div class="span4">
         <div ng-repeat="option in field.field_options" class="row-fluid">
             <label>
-                <input type="checkbox" checklist-value="option.option_id" checklist-model="field.field_value"  ng-required="field.field_required" ng-disabled="field.field_disabled"/>
+                <input type="checkbox" class="form-control" checklist-value="option.option_id" checklist-model="field.field_value"  ng-required="field.field_required" ng-disabled="field.field_disabled"/>
                 &nbsp;<span ng-bind="option.option_title"></span>
             </label>
         </div>
