@@ -1,0 +1,42 @@
+<section ng-app="ICUPad" ng-controller="NurseDiagnosisController" class="section container-fluid">
+  	<h1 class="page-header">Diagnoza pielęgniarska
+		<div class="btn-group pull-right">
+			<a ui-turn-on='formDropdown' class='btn'>
+				<i class="fa fa-plus-circle fa-stack-2x"></i>
+			</a>
+			<ul
+					class="dropdown-menu"
+					ui-outer-click="Ui.turnOff('formDropdown')"
+					ui-outer-click-if="Ui.active('formDropdown')"
+					role="menu"
+					ui-show="formDropdown"
+					ui-state="formDropdown"
+					ui-turn-off="formDropdown">
+
+
+				<li ng-repeat="form in availableForms"><a href="" ng-click="loadFormAndShow(form.form_id)">{{form.form_name}}</a></li>
+			</ul>
+		</div>
+	</h1>
+	<div ui-content-for="modals">
+		<div class="modal modal-overlay" ui-if='formModal' ui-state='formModal'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">{{currentForm.form_name}}</h4>
+						<button class="close" ui-turn-off="formModal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form-directive form="currentForm"></form-directive>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, amet harum reiciendis enim adipisci magni fugit suscipit eaque corporis? Saepe eius ipsum optio dolorum a qui adipisci, reprehenderit totam temporibus!</p>
+					</div>
+					<div class="modal-footer">
+						<button ui-turn-off="formModal" class="btn btn-default">Close</button>
+						<button ui-turn-off="formModal" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>

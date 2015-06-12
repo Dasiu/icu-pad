@@ -57,6 +57,23 @@ angular.module('ICUPad.services.Form', [])
             return $http.get(formsJsonPath).then(function (response) {
                 return response.data;
             });
+        },
+        getFormsForView: function (viewName) {
+            return $http.get(formsJsonPath).then(function (response) {
+                return [{
+                    "form_id": 1,
+                    "form_name": "Diagnoza pielęgniarska - fromularz 1"
+                },{
+                    "form_id": 2,
+                    "form_name": "Diagnoza pielęgniarska - fromularz 2"
+                }
+                ];
+            });
+        },
+        loadForm: function (moduleName, formId) {
+            return $http.get(formsJsonPath).then(function (response) {
+                return response.data;
+            });
         }
     };
 });
