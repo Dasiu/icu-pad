@@ -27,6 +27,21 @@ public class BloodGasProductionSeed {
         this.testMappingService = testMappingService;
 
         testMappings = Arrays.asList(
+                new TestMapping("pH", "Gazometria kardiochirurgia - pH", ""),
+                new TestMapping("pCO2", "Gazometria kardiochirurgia - PCO2", "mmHg"),
+                new TestMapping("pO2", "Gazometria kardiochirurgia - pO2", "mmHg"),
+                new TestMapping("K+", "Gazometria kardiochirurgia - K+", "mmol/L"),
+                new TestMapping("Na+", "Gazometria kardiochirurgia - Na+", "mmol/L"),
+                new TestMapping("Ca++", "Gazometria kardiochirurgia - Ca   ++", "mmol/L"),
+                new TestMapping("Cl-", "Gazometria kardiochirurgia - Cl-", "mmol/L"),
+                new TestMapping("Lac", "Gazometria kardiochirurgia - Lac", "mmol/L"),
+                new TestMapping("tHb", "Gazometria kardiochirurgia - tHb", "g/dL"),
+                new TestMapping("sO2", "Gazometria kardiochirurgia - sO2", "%"),
+                new TestMapping("tBil", "Gazometria kardiochirurgia - tBil", "mg/dL"),
+                new TestMapping("cBase(ECF)", "Gazometria kardiochirurgia - cBase(Ecf)", "mmol/L"),
+                new TestMapping("cHCO3-(P,st)", "Gazometria kardiochirurgia - cHCO3-(P,st)", "mmol/L"),
+                new TestMapping("HCT", "Gazometria kardiochirurgia - Hct", "%"),
+
                 new TestMapping("pH", "Gazometria (krew tętnicza) - pH", ""),
                 new TestMapping("pCO2", "Gazometria (krew tętnicza) - pCO2", "mmHg"),
                 new TestMapping("pO2", "Gazometria (krew tętnicza) - pO2", "mmHg"),
@@ -35,6 +50,11 @@ public class BloodGasProductionSeed {
                 new TestMapping("tCO2", "Gazometria (krew tętnicza) - tCO2", "mmol/L"),
                 new TestMapping("%SAT", "Gazometria (krew tętnicza) - %Sat", "%"),
                 new TestMapping("BE-B", "Gazometria (krew tętnicza) - BE-B", "mmol/L"),
+                new TestMapping("FO2Hb", "Gazometria (krew tętnicza) - FO2Hb", "%"),
+                new TestMapping("FCOHb", "Gazometria (krew tętnicza) - FCOHb", "%"),
+                new TestMapping("FMetHb", "Gazometria (krew tętnicza) - FMetHb", "%"),
+                new TestMapping("Hb", "Gazometria (krew tętnicza) - Hb", "g/dL"),
+                new TestMapping("HCT", "Gazometria (krew tętnicza) - HCT", "%"),
                 new TestMapping("BE-ECF", "Gazometria (krew tętnicza) - BE-ECF", "mmol/L"),
                 new TestMapping("pH", "Gazometria (krew żylna) - pH", ""),
                 new TestMapping("pCO2", "Gazometria (krew żylna) - pCO2", "mmHg"),
@@ -59,12 +79,7 @@ public class BloodGasProductionSeed {
                 new TestMapping("FMetHb", "Gazometria (krew włośniczkowa) - FMetHb", "%"),
                 new TestMapping("FHHb", "Gazometria (krew włośniczkowa) - FHHb", "%"),
                 new TestMapping("Hb", "Gazometria (krew włośniczkowa) - Hb", "g/dL"),
-                new TestMapping("HCT", "Gazometria (krew włośniczkowa) - Hct", "%"),
-                new TestMapping("FO2Hb", "Gazometria (krew tętnicza) - FO2Hb", "%"),
-                new TestMapping("FCOHb", "Gazometria (krew tętnicza) - FCOHb", "%"),
-                new TestMapping("FMetHb", "Gazometria (krew tętnicza) - FMetHb", "%"),
-                new TestMapping("Hb", "Gazometria (krew tętnicza) - Hb", "g/dL"),
-                new TestMapping("HCT", "Gazometria (krew tętnicza) - HCT", "%")
+                new TestMapping("HCT", "Gazometria (krew włośniczkowa) - Hct", "%")
         );
     }
 
