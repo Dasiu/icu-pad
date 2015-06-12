@@ -94,17 +94,19 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     }
 
     private void handleResults(ORU_R01 oru_r01) throws HL7Exception {
-        List<Pair<TestRequest, TestResult>> testsRequestsAndResults = parseOBRAndOBX(oru_r01);
-        List<Pair<TestRequest, TestResult>> filteredTestsRequestsAndResults =
-                filterOutEmptyResults(testsRequestsAndResults);
+        TestPanelResult testPanelResult = parseOBRAndOBX(oru_r01);
+        TestPanelResult filteredTestPanelResult = filterOutEmptyResults(testPanelResult);
 
+        handleMissingTestMappings(filteredTestPanelResult.getTestRequestsAndResults());
+        handleTestRequests(filteredTestPanelResult.getTestRequestsAndResults());
+        handleTestResults(getStay(oru_r01), filteredTestPanelResult.getTestRequestsAndResults());
 
-        handleMissingTestMappings(filteredTestsRequestsAndResults);
-        handleTestRequests(filteredTestsRequestsAndResults);
-        handleTestResults(getStay(oru_r01), filteredTestsRequestsAndResults);
+        validate(filteredTestPanelResult.getTestRequestsAndResults());
+        delegateToTestTypeSpecificHandlers(filteredTestPanelResult);
+    }
 
-        validate(filteredTestsRequestsAndResults);
-        delegateToTestTypeSpecificHandlers(filteredTestsRequestsAndResults);
+    private String getTestPanelRequest(ORU_R01 oru_r01) {
+        return oru_r01.getRESPONSE().getORDER_OBSERVATION().getORC().getOrderControl().getValue();
     }
 
     private void validate(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
@@ -137,8 +139,8 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
     }
 
 
-    private void delegateToTestTypeSpecificHandlers(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
-        testsRequestsAndResults.stream()
+    private void delegateToTestTypeSpecificHandlers(TestPanelResult testPanelResult) {
+        testPanelResult.getTestRequestsAndResults().stream()
                 .collect(Collectors.groupingBy(pair -> pair.getLeft().getTestMapping().getTestType()))
                 .entrySet().stream()
                 .forEach(this::handleGroupedResults);
@@ -195,11 +197,14 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return getStay(oru_r01) != null;
     }
 
-    private List<Pair<TestRequest, TestResult>>
-    filterOutEmptyResults(List<Pair<TestRequest, TestResult>> testsRequestsAndResults) {
-        return testsRequestsAndResults.stream()
+    private TestPanelResult filterOutEmptyResults(TestPanelResult testPanelResult) {
+        List<Pair<TestRequest, TestResult>> filteredPairs = testPanelResult.getTestRequestsAndResults().stream()
                 .filter(this::isTestResultWithValue)
                 .collect(Collectors.toList());
+
+        testPanelResult.setTestRequestsAndResults(filteredPairs);
+
+        return testPanelResult;
     }
 
     private Stay getStay(ORU_R01 oru_r01) throws HL7Exception {
@@ -216,7 +221,15 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
         return oru_r01.getRESPONSE().getPATIENT();
     }
 
-    private List<Pair<TestRequest, TestResult>> parseOBRAndOBX(ORU_R01 oru_r01) throws HL7Exception {
+    private TestPanelResult parseOBRAndOBX(ORU_R01 oru_r01) throws HL7Exception {
+        TestPanelResult testPanelResult = new TestPanelResult();
+        testPanelResult.setTestRequestsAndResults(getTestRequestsAndResults(oru_r01));
+        testPanelResult.setTestPanelResultId(getTestPanelRequest(oru_r01));
+
+        return testPanelResult;
+    }
+
+    private List<Pair<TestRequest, TestResult>> getTestRequestsAndResults(ORU_R01 oru_r01) throws HL7Exception {
         List<ORU_R01_ORDER_OBSERVATION> observations = oru_r01.getRESPONSE().getORDER_OBSERVATIONAll();
         return observations.stream()
                 .map(this::parseOBRAndOBX)
