@@ -14,14 +14,16 @@ import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.StayService;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
+import com.icupad.hl7_gateway.test_data.HL7Messages;
+import com.icupad.hl7_gateway.test_data.Stays;
 import com.icupad.hl7_gateway.test_type_module.complete_blood_count.config.CompleteBloodCountProductionSeed;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.config.DefaultProductionSeed;
+import com.icupad.hl7_gateway.test_type_module.default_test_type.domain.TestPanelResult;
+import com.icupad.hl7_gateway.test_type_module.default_test_type.domain.TestRequest;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestPanelResultService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestRequestService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestResultService;
 import com.icupad.hl7_gateway.test_type_module.default_test_type.service.TestService;
-import com.icupad.hl7_gateway.test_data.HL7Messages;
-import com.icupad.hl7_gateway.test_data.Stays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -170,6 +172,19 @@ public class TestResultsTest {
     }
 
     @Test
+    public void shouldSaveTestResultEvenIfItsTestRequestHasTheSameTypeAsAnotherAlreadySavedRequest()
+            throws HL7Exception, LLPException, IOException {
+        createAndSaveAdamKowalskisStay();
+        createAndSaveTestRequestOfTheSameTypeAsRequestInTestMessage();
+        ORU_R01 results = (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.testResultsMessage);
+
+        ACK ack = (ACK) initiator.sendAndReceive(results);
+
+        assertEquals(2, testResultsService.count());
+        assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    @Test
     public void shouldNotDuplicateTestPanelResults() throws HL7Exception, IOException, LLPException {
         createAndSaveAdamKowalskisStay();
         ORU_R01 missingResult =
@@ -181,6 +196,21 @@ public class TestResultsTest {
 
         assertEquals(1, testPanelResultService.count());
         assertEquals(AcknowledgmentCode.CA, getAcknowledgmentCode(ack));
+    }
+
+    private void createAndSaveTestRequestOfTheSameTypeAsRequestInTestMessage() {
+        TestPanelResult testPanelResult = new TestPanelResult();
+        TestPanelResult savedTestPanelResult = testPanelResultService.save(testPanelResult);
+
+        com.icupad.hl7_gateway.test_type_module.default_test_type.domain.Test test =
+                new com.icupad.hl7_gateway.test_type_module.default_test_type.domain.Test();
+        com.icupad.hl7_gateway.test_type_module.default_test_type.domain.Test savedTest = testService.save(test);
+
+        TestRequest testRequest = new TestRequest();
+        testRequest.setHl7Id("LAB_5_12");
+        testRequest.setTest(savedTest);
+        testRequest.setTestPanelResult(savedTestPanelResult);
+        testRequestService.save(testRequest);
     }
 
     private void createAndSaveAdamKowalskisStay() {

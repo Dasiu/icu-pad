@@ -58,16 +58,6 @@ public class DefaultTestTypeHandler
         }
     }
 
-    private TestPanelResult update(TestPanelResult existingTestPanelResult, TestPanelResult testPanelResult) {
-        existingTestPanelResult.getTestRequests().clear();
-        existingTestPanelResult.addTestRequests(testPanelResult.getTestRequests());
-
-        existingTestPanelResult.getTestResults().clear();
-        existingTestPanelResult.addTestResults(testPanelResult.getTestResults());
-
-        return existingTestPanelResult;
-    }
-
     @Override
     protected TestPanelResult
     toTestPanelResult(Map.Entry<TestPanelResult, List<Pair<TestRequest, TestResult>>> groupedRequestsAndResults) {
@@ -93,11 +83,8 @@ public class DefaultTestTypeHandler
 
     @Override
     protected TestResult saveTestRequestIfNotExist(TestResult testResult) {
-        TestRequest testRequest = testResult.getTestRequest();
-        TestRequest existingTestRequest = testRequestService.findByHl7Id(testRequest.getHl7Id());
-
-        if (existingTestRequest == null) {
-            testRequestService.save(testRequest);
+        if (!testRequestExistsFor(testResult)) {
+            testRequestService.save(testResult.getTestRequest());
         }
 
         return testResult;
@@ -135,6 +122,23 @@ public class DefaultTestTypeHandler
         completeBloodCountTestRequest.setTest(findTest(testRequest));
 
         return Pair.of(completeBloodCountTestRequest, requestAndResult.getRight());
+    }
+
+    private TestPanelResult update(TestPanelResult existingTestPanelResult, TestPanelResult testPanelResult) {
+        existingTestPanelResult.getTestRequests().clear();
+        existingTestPanelResult.addTestRequests(testPanelResult.getTestRequests());
+
+        existingTestPanelResult.getTestResults().clear();
+        existingTestPanelResult.addTestResults(testPanelResult.getTestResults());
+
+        return existingTestPanelResult;
+    }
+
+    private boolean testRequestExistsFor(TestResult testResult) {
+        // test requests and test results are always in pairs, if test result exists then test request as well,
+        // checking for test requests existence can not be performed directly, because it can not be distinguished
+        // based only on hl7 id
+        return testResultService.findByHl7Id(testResult.getHl7Id()) != null;
     }
 
     private void associateTestRequestWithTestPanelResult(TestRequest testRequest, TestPanelResult testPanelResult) {

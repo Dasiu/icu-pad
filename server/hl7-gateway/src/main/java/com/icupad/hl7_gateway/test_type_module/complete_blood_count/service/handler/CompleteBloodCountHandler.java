@@ -83,11 +83,8 @@ public class CompleteBloodCountHandler
 
     @Override
     protected TestResult saveTestRequestIfNotExist(TestResult testResult) {
-        TestRequest testRequest = testResult.getTestRequest();
-        TestRequest existingTestRequest = testRequestService.findByHl7Id(testRequest.getHl7Id());
-
-        if (existingTestRequest == null) {
-            testRequestService.save(testRequest);
+        if (!testRequestExistsFor(testResult)) {
+            testRequestService.save(testResult.getTestRequest());
         }
 
         return testResult;
@@ -100,13 +97,42 @@ public class CompleteBloodCountHandler
         return testPanelResult;
     }
 
-    private void associateTestRequestWithTestPanelResult(TestRequest testRequest, TestPanelResult testPanelResult) {
-        testRequest.setTestPanelResult(testPanelResult);
-    }
-
     @Override
     protected TestPanelResult testPanelResult(Pair<TestRequest, TestResult> requestsAndResults) {
         return createTestPanelResult(requestsAndResults);
+    }
+
+    @Override
+    protected Pair<TestRequest, TestResult>
+    toSpecificTestResultsType(Pair<TestRequest, com.icupad.hl7_gateway.core.domain.TestResult> pair) {
+        TestResult testResult = createTestResult(pair.getRight());
+
+        TestRequest testRequest = pair.getLeft();
+        testResult.setTestRequest(testRequest);
+
+        return Pair.of(testRequest, testResult);
+    }
+
+    @Override
+    protected Pair<TestRequest, com.icupad.hl7_gateway.core.domain.TestResult>
+    toSpecificTestRequestType(Pair<com.icupad.hl7_gateway.core.domain.TestRequest,
+            com.icupad.hl7_gateway.core.domain.TestResult> requestAndResult) {
+        com.icupad.hl7_gateway.core.domain.TestRequest testRequest = requestAndResult.getLeft();
+        TestRequest completeBloodCountTestRequest = createTestRequest(testRequest);
+        completeBloodCountTestRequest.setTest(findTest(testRequest));
+
+        return Pair.of(completeBloodCountTestRequest, requestAndResult.getRight());
+    }
+
+    private boolean testRequestExistsFor(TestResult testResult) {
+        // test requests and test results are always in pairs, if test result exists then test request as well,
+        // checking for test requests existence can not be performed directly, because it can not be distinguished
+        // based only on hl7 id
+        return testResultService.findByHl7Id(testResult.getHl7Id()) != null;
+    }
+
+    private void associateTestRequestWithTestPanelResult(TestRequest testRequest, TestPanelResult testPanelResult) {
+        testRequest.setTestPanelResult(testPanelResult);
     }
 
     private TestPanelResult createTestPanelResult(Pair<TestRequest, TestResult> requestsAndResults) {
@@ -130,17 +156,6 @@ public class CompleteBloodCountHandler
         return matcher.find() ? matcher.group(1) : null;
     }
 
-    @Override
-    protected Pair<TestRequest, TestResult>
-    toSpecificTestResultsType(Pair<TestRequest, com.icupad.hl7_gateway.core.domain.TestResult> pair) {
-        TestResult testResult = createTestResult(pair.getRight());
-
-        TestRequest testRequest = pair.getLeft();
-        testResult.setTestRequest(testRequest);
-
-        return Pair.of(testRequest, testResult);
-    }
-
     private TestResult createTestResult(com.icupad.hl7_gateway.core.domain.TestResult generalTestResult) {
         TestResult testResult = new TestResult();
         testResult.setAbnormality(generalTestResult.getAbnormality());
@@ -152,17 +167,6 @@ public class CompleteBloodCountHandler
         testResult.setUnit(generalTestResult.getUnit());
         testResult.setValue(generalTestResult.getValue());
         return testResult;
-    }
-
-    @Override
-    protected Pair<TestRequest, com.icupad.hl7_gateway.core.domain.TestResult>
-    toSpecificTestRequestType(Pair<com.icupad.hl7_gateway.core.domain.TestRequest,
-            com.icupad.hl7_gateway.core.domain.TestResult> requestAndResult) {
-        com.icupad.hl7_gateway.core.domain.TestRequest testRequest = requestAndResult.getLeft();
-        TestRequest completeBloodCountTestRequest = createTestRequest(testRequest);
-        completeBloodCountTestRequest.setTest(findTest(testRequest));
-
-        return Pair.of(completeBloodCountTestRequest, requestAndResult.getRight());
     }
 
     private TestRequest createTestRequest(com.icupad.hl7_gateway.core.domain.TestRequest testRequest) {
