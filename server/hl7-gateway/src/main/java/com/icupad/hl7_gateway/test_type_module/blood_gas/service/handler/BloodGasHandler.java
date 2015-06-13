@@ -27,16 +27,19 @@ public class BloodGasHandler
     private final TestPanelResultService testPanelResultService;
     private final TestRequestService testRequestService;
     private final TestResultService testResultService;
+    private final BloodSource defaultBloodSource;
 
     @Autowired
     public BloodGasHandler(TestService testService,
                            TestPanelResultService testPanelResultService,
                            TestRequestService testRequestService,
-                           TestResultService testResultService) {
+                           TestResultService testResultService,
+                           BloodSource defaultBloodSource) {
         this.testService = testService;
         this.testPanelResultService = testPanelResultService;
         this.testRequestService = testRequestService;
         this.testResultService = testResultService;
+        this.defaultBloodSource = defaultBloodSource;
     }
 
     @Override
@@ -148,7 +151,7 @@ public class BloodGasHandler
 
     private BloodSource getBloodSource(String rawTestName) {
         String bloodSourceStr = findBloodSourceStr(rawTestName);
-        return BloodSource.parse(bloodSourceStr);
+        return bloodSourceStr != null ? BloodSource.parse(bloodSourceStr) : defaultBloodSource;
     }
 
     private String findBloodSourceStr(String rawTestName) {
