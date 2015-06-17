@@ -19,7 +19,7 @@ angular.module('ICUPad.services.Conversion', [])
                     options.filter(function (option) {
                         return option.option_id == id;
                     }).map(function (option) {
-                        return option.option_title;
+                        return option.option_value;
                     });
                 if (result && result[0]) {
                     return result[0];
@@ -50,7 +50,7 @@ angular.module('ICUPad.services.Conversion', [])
             }
 
             var formDomainName = form.form_domain;
-            return $http.get(configuration.server + "/form/nurse/"+formDomainName).
+            return $http.get(configuration.server + "/form/model/nurse.diagnosis/"+formDomainName).
                 then(function(result) {
                     var domainObject = {};
                     result.data.forEach(function(domainField) {

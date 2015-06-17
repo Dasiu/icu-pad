@@ -1,6 +1,6 @@
 angular.module('ICUPad.services.Form', [])
 
-.service('FormService', function FormService($http) {
+.service('FormService', function FormService($http, configuration) {
 
     var formsJsonPath = 'static-data/sample_forms.html';
 
@@ -59,19 +59,12 @@ angular.module('ICUPad.services.Form', [])
             });
         },
         getFormsForView: function (viewName) {
-            return $http.get(formsJsonPath).then(function (response) {
-                return [{
-                    "form_id": 1,
-                    "form_name": "Diagnoza pielęgniarska - fromularz 1"
-                },{
-                    "form_id": 2,
-                    "form_name": "Diagnoza pielęgniarska - fromularz 2"
-                }
-                ];
+            return $http.get(configuration.server + "/form/" + viewName).then(function (response) {
+                return response.data;
             });
         },
         loadForm: function (moduleName, formId) {
-            return $http.get(formsJsonPath).then(function (response) {
+            return $http.get(configuration.server + "/form/" + moduleName + "/" + formId).then(function (response) {
                 return response.data;
             });
         }
