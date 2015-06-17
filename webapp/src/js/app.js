@@ -1,6 +1,8 @@
 angular.module('ICUPad', [
   'ngRoute',
+  'ngTable',
   'mobile-angular-ui',
+  'checklist-model',
   'ui.bootstrap',
   'ICUPad.services.Conversion',
   'ICUPad.services.Configuration',

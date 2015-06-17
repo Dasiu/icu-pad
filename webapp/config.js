@@ -26,7 +26,8 @@ module.exports = function(config) {
   // config.weinre = false;
     
   // 3rd party components
-  // config.vendor.js.push('.bower_components/lib/dist/lib.js');
+  config.vendor.js.push('bower_components/checklist-model/checklist-model.js');
+  config.vendor.js.push('bower_components/ng-table/dist/ng-table.js');
   // config.vendor.fonts.push('.bower_components/font/dist/*');
 
 };
