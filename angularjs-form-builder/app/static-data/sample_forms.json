@@ -1,7 +1,7 @@
 {
     "form_id": 1,
     "form_name": "Diagnoza pielęgniarska",
-    "form_domain": "NurseDiagnosisForm",
+    "form_domain": "NurseDiagnosis",
     "form_fields": [
         {
             "field_id": 1,
@@ -34,17 +34,17 @@
                 {
                     "option_id": 1,
                     "option_title": "przytomny",
-                    "option_value": 1
+                    "option_value": "PRZYTOMNY"
                 },
                 {
                     "option_id": 2,
                     "option_title": "splątany",
-                    "option_value": 2
+                    "option_value": "SPLATANY"
                 },
                 {
                     "option_id": 3,
                     "option_title": "nieprzytomny",
-                    "option_value": 3
+                    "option_value": "NIEPRZYTOMNY"
                 }
             ]
         },
@@ -135,12 +135,12 @@
                 {
                     "option_id": 1,
                     "option_title": "obecna",
-                    "option_value": 1
+                    "option_value": "true"
                 },
                 {
                     "option_id": 2,
                     "option_title": "nieobecna",
-                    "option_value": 2
+                    "option_value": "false"
                 }
             ]
         },
@@ -161,12 +161,12 @@
                 {
                     "option_id": 1,
                     "option_title": "obecna",
-                    "option_value": 1
+                    "option_value": "true"
                 },
                 {
                     "option_id": 2,
                     "option_title": "nieobecna",
-                    "option_value": 2
+                    "option_value": "false"
                 }
             ]
         },
@@ -187,12 +187,12 @@
                 {
                     "option_id": 1,
                     "option_title": "lewa kończyna dolna",
-                    "option_value": 1
+                    "option_value": "LEWA_KONCZYNA_DOLNA"
                 },
                 {
                     "option_id": 2,
                     "option_title": "prawa kończyna dolna",
-                    "option_value": 2
+                    "option_value": "PRAWA_KONCZYNA_DOLNA"
                 }
             ]
         }

@@ -39,10 +39,10 @@ angularApp.controller('CreateCtrl', function ($scope, $dialog, FormService) {
             "field_value" : $scope.addField.new == 'multichoice' ? [] : "",
             "field_lower_bound" : null,
             "field_upper_bound" : null,
-            "field_precision" : 0.01,
+            "field_precision" : 1,
             "field_unit" : "",
             "field_domain" : "",
-            "field_required" : true,
+            "field_required" : false,
 			"field_disabled" : false,
             "field_is_separator" : $scope.addField.new == 'separator'
         };
