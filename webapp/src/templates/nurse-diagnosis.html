@@ -14,10 +14,21 @@
 					ui-turn-off="formDropdown">
 
 
-				<li ng-repeat="form in availableForms"><a href="" ng-click="loadFormAndShow(form.form_id)">{{form.form_name}}</a></li>
+				<li ng-repeat="(formId, formName) in availableForms"><a href="" ng-click="loadFormAndShow(formId)">{{formName}}</a></li>
 			</ul>
 		</div>
 	</h1>
+	<table ng-table class="table">
+		<tr ng-repeat="d in diagnosis">
+			<td data-title="'Stan świadomości'">{{d.stanSwiadomosci}}</td>
+			<td data-title="'Zwiotczenie'">{{d.zwiotczenie}}</td>
+			<td data-title="'Otwieranie oczu'">{{d.otwieranieOczu}}</td>
+			<td data-title="'Reakcja ruchowa'">{{d.reakcjaRuchowa}}</td>
+			<td data-title="'Reaktywność kończyn dolnych'">{{d.reaktywnoscKonczynyDolne}}</td>
+			<td data-title="'Reaktywność kończyn górnych'">{{d.reaktywnoscKonczynyGorne}}</td>
+			<td data-title="'Odruch Babińskiego'">{{d.odruchBabinskiego}}</td>
+		</tr>
+	</table>
 	<div ui-content-for="modals">
 		<div class="modal modal-overlay" ui-if='formModal' ui-state='formModal'>
 			<div class="modal-dialog">
@@ -27,11 +38,7 @@
 						<button class="close" ui-turn-off="formModal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form-directive form="currentForm"></form-directive>
-					</div>
-					<div class="modal-footer">
-						<button ui-turn-off="formModal" class="btn btn-default">Close</button>
-						<button ui-turn-off="formModal" class="btn btn-primary">Save changes</button>
+						<form-directive form="currentForm" payload="reload"></form-directive>
 					</div>
 				</div>
 			</div>

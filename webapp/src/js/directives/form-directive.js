@@ -4,22 +4,31 @@ angular.module('ICUPad.directives.Form', [])
     return {
         controller: function($scope){
             $scope.submit = function(){
+
                 $scope.form.submitted = true;
 
                 conversionService.convert($scope.form).
                     then(function(converted) {
-                        return $http.post(configuration + "/nurse/form", converted);
+                        return $http.post(configuration.server + "/nurse/form", converted);
+                    }).
+                    then(function() {
+                        if ($scope.payload) {
+                            $scope.payload();
+                        }
                     });
             }
 
             $scope.cancel = function(){
-                console.log('form canceled');
+                if ($scope.payload) {
+                    $scope.payload();
+                }
             }
         },
         templateUrl: 'directive-templates/form/form.html',
         restrict: 'E',
         scope: {
-            form:'='
+            form:'=',
+            payload:'='
         }
     };
   }]);
