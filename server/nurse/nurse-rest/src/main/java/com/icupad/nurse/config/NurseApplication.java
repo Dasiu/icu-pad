@@ -1,5 +1,6 @@
 package com.icupad.nurse.config;
 
+import com.icupad.common.repository.FormTemplateRepository;
 import com.icupad.nurse.repository.NurseFunctionRepository;
 
 import org.springframework.boot.SpringApplication;
@@ -12,9 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class })
-@EnableJpaRepositories(basePackageClasses = { NurseFunctionRepository.class })
-@ComponentScan(basePackages = { "com.icupad.nurse.*" })
-@EntityScan(basePackages = "com.icupad.nurse.model")
+@EnableJpaRepositories(basePackageClasses = { NurseFunctionRepository.class, FormTemplateRepository.class })
+@ComponentScan(basePackages = { "com.icupad.nurse.*", "com.icupad.common.*" })
+@EntityScan(basePackages = { "com.icupad.nurse.model", "com.icupad.nurse.diagnosis.model", "com.icupad.form.model" })
 public class NurseApplication {
 
 	public static void main(String[] args) {

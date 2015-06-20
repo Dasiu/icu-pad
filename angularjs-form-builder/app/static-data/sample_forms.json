@@ -1,0 +1,200 @@
+{
+    "form_id": 1,
+    "form_name": "Diagnoza pielęgniarska",
+    "form_domain": "NurseDiagnosis",
+    "form_fields": [
+        {
+            "field_id": 1,
+            "field_title": "Ogólne",
+            "field_type": "separator",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "",
+            "field_required": true,
+            "field_disabled": false,
+            "field_is_separator": true
+        },
+        {
+            "field_id": 3,
+            "field_title": "Stan świadomości",
+            "field_type": "dropdown",
+            "field_value": "stanSwiadomosci",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "stanSwiadomosci",
+            "field_required": false,
+            "field_disabled": false,
+            "field_is_separator": false,
+            "field_options": [
+                {
+                    "option_id": 1,
+                    "option_title": "przytomny",
+                    "option_value": "PRZYTOMNY"
+                },
+                {
+                    "option_id": 2,
+                    "option_title": "splątany",
+                    "option_value": "SPLATANY"
+                },
+                {
+                    "option_id": 3,
+                    "option_title": "nieprzytomny",
+                    "option_value": "NIEPRZYTOMNY"
+                }
+            ]
+        },
+        {
+            "field_id": 4,
+            "field_title": "Zwiotczenie",
+            "field_type": "checkbox",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "zwiotczenie",
+            "field_required": false,
+            "field_disabled": false,
+            "field_is_separator": false
+        },
+        {
+            "field_id": 5,
+            "field_title": "Skala Glasgow",
+            "field_type": "separator",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "",
+            "field_required": true,
+            "field_disabled": false,
+            "field_is_separator": true
+        },
+        {
+            "field_id": 6,
+            "field_title": "Otwieranie oczu",
+            "field_type": "numfield",
+            "field_value": "",
+            "field_lower_bound": 1,
+            "field_upper_bound": 4,
+            "field_precision": 1,
+            "field_unit": "",
+            "field_domain": "otwieranieOczu",
+            "field_required": false,
+            "field_disabled": false,
+            "field_is_separator": false
+        },
+        {
+            "field_id": 7,
+            "field_title": "Reakcja ruchowa",
+            "field_type": "numfield",
+            "field_value": "",
+            "field_lower_bound": 1,
+            "field_upper_bound": 6,
+            "field_precision": 1,
+            "field_unit": "",
+            "field_domain": "reakcjaRuchowa",
+            "field_required": false,
+            "field_disabled": false,
+            "field_is_separator": false
+        },
+        {
+            "field_id": 8,
+            "field_title": "Reaktywność kończyn",
+            "field_type": "separator",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "",
+            "field_required": true,
+            "field_disabled": false,
+            "field_is_separator": true
+        },
+        {
+            "field_id": 9,
+            "field_title": "Kończyny górne",
+            "field_type": "dropdown",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "reaktywnoscKonczynyGorne",
+            "field_required": true,
+            "field_disabled": false,
+            "field_is_separator": false,
+            "field_options": [
+                {
+                    "option_id": 1,
+                    "option_title": "obecna",
+                    "option_value": "true"
+                },
+                {
+                    "option_id": 2,
+                    "option_title": "nieobecna",
+                    "option_value": "false"
+                }
+            ]
+        },
+        {
+            "field_id": 10,
+            "field_title": "Kończyny dolne",
+            "field_type": "dropdown",
+            "field_value": "",
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "reaktywnoscKonczynyDolne",
+            "field_required": true,
+            "field_disabled": false,
+            "field_is_separator": false,
+            "field_options": [
+                {
+                    "option_id": 1,
+                    "option_title": "obecna",
+                    "option_value": "true"
+                },
+                {
+                    "option_id": 2,
+                    "option_title": "nieobecna",
+                    "option_value": "false"
+                }
+            ]
+        },
+        {
+            "field_id": 11,
+            "field_title": "Odruch Babińskiego",
+            "field_type": "multichoice",
+            "field_value": [],
+            "field_lower_bound": null,
+            "field_upper_bound": null,
+            "field_precision": 0.01,
+            "field_unit": "",
+            "field_domain": "odruchBabinskiego",
+            "field_required": false,
+            "field_disabled": false,
+            "field_is_separator": false,
+            "field_options": [
+                {
+                    "option_id": 1,
+                    "option_title": "lewa kończyna dolna",
+                    "option_value": "LEWA_KONCZYNA_DOLNA"
+                },
+                {
+                    "option_id": 2,
+                    "option_title": "prawa kończyna dolna",
+                    "option_value": "PRAWA_KONCZYNA_DOLNA"
+                }
+            ]
+        }
+    ]
+}

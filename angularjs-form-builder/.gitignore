@@ -1,0 +1,14 @@
+app/bower_components
+node_modules
+
+dist/*
+!dist/.git
+
+/**/*.orig
+
+npm-debug.log
+.tmp
+.sass-cache
+.idea/
+
+.DS_Store

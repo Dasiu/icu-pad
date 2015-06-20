@@ -1,0 +1,16 @@
+<div class="field row">
+    <div class="span2" tooltip="{{field.field_domain}}">{{field.field_title}}:</div>
+    <div class="span6">
+		<input type="number"
+			   class="form-control"
+			ng-model="field.field_value"
+			value="{{field.field_value}}"
+		    step="{{field.field_precision}}"
+		    min="{{minValue(field)}}"
+		    max="{{maxValue(field)}}"
+			ng-required="field.field_required"
+			ng-disabled="field.field_disabled">
+        <span ng-show="field.field_required && !field.field_value">{{field.field_unit}}</span>
+        <span class="required-error" ng-show="field.field_required && !field.field_value">* required</span>
+    </div>
+</div>

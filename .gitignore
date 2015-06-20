@@ -2,12 +2,13 @@ target
 build
 .gradle
 application-dev.properties
-/bin/
+**/bin/
 **/id_file
 
 **/.classpath
 **/.project
 **/.settings/
+**/.idea
 
 *.iml
 
