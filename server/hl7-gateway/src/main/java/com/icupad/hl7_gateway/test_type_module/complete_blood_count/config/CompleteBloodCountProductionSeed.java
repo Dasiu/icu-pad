@@ -95,6 +95,7 @@ public class CompleteBloodCountProductionSeed {
     }
 
     private TestType saveIfNotExists(TestType testType) {
-        return testTypeService.findByName(testType.getName()) == null ? testTypeService.save(testType) : testType;
+        TestType testTypeWithId = testTypeService.findByName(testType.getName());
+        return testTypeWithId == null ? testTypeService.save(testType) : testTypeWithId;
     }
 }
