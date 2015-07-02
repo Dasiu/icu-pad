@@ -185,8 +185,7 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
 
     private boolean ifTestMappingIsUnknown(TestMapping testMapping) {
         TestMapping fetchedTestMapping = testMappingService.findByRawTestName(testMapping.getRawTestName());
-        return fetchedTestMapping == null || fetchedTestMapping.getTestName() == null ||
-                fetchedTestMapping.getUnit() == null;
+        return fetchedTestMapping == null || fetchedTestMapping.getTestName() == null;
     }
 
     private PID getPID(ORU_R01 oru_r01) {
