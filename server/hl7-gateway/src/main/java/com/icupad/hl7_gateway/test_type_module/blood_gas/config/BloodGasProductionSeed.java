@@ -1,10 +1,10 @@
 package com.icupad.hl7_gateway.test_type_module.blood_gas.config;
 
-import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.BloodGas;
 import com.icupad.hl7_gateway.core.domain.TestMapping;
 import com.icupad.hl7_gateway.core.domain.TestType;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
+import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.BloodGas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,14 @@ public class BloodGasProductionSeed {
         this.testMappingService = testMappingService;
 
         testMappings = Arrays.asList(
-                new TestMapping("pH", "Gazometria kardiochirurgia - pH", ""),
+                new TestMapping("Komentarz", "Gazometria (krew włośniczkowa) - Komentarz", null),
+                new TestMapping("Wapń  zjonizowany", "Wapń zjonizowany - Wapń  zjonizowany", "mmol/L"),
+                new TestMapping("Mleczany", "Mleczany", "mmol/L"),
+                new TestMapping("Sód", "Sód", "mmol/L"),
+                new TestMapping("Potas", "Potas", "mmol/L"),
+                new TestMapping("Glukoza", "Glukoza", "mg/dl"),
+
+                new TestMapping("pH", "Gazometria kardiochirurgia - pH", null),
                 new TestMapping("pCO2", "Gazometria kardiochirurgia - PCO2", "mmHg"),
                 new TestMapping("pO2", "Gazometria kardiochirurgia - pO2", "mmHg"),
                 new TestMapping("K+", "Gazometria kardiochirurgia - K+", "mmol/L"),
@@ -41,8 +48,10 @@ public class BloodGasProductionSeed {
                 new TestMapping("cBase(ECF)", "Gazometria kardiochirurgia - cBase(Ecf)", "mmol/L"),
                 new TestMapping("cHCO3-(P,st)", "Gazometria kardiochirurgia - cHCO3-(P,st)", "mmol/L"),
                 new TestMapping("HCT", "Gazometria kardiochirurgia - Hct", "%"),
+                new TestMapping("Glukoza", "Gazometria kardiochirurgia - Glu(kardio)", "mg/dL"),
+                new TestMapping("Komentarz", "Gazometria kardiochirurgia - Komentarz", null),
 
-                new TestMapping("pH", "Gazometria (krew tętnicza) - pH", ""),
+                new TestMapping("pH", "Gazometria (krew tętnicza) - pH", null),
                 new TestMapping("pCO2", "Gazometria (krew tętnicza) - pCO2", "mmHg"),
                 new TestMapping("pO2", "Gazometria (krew tętnicza) - pO2", "mmHg"),
                 new TestMapping("SBC", "Gazometria (krew tętnicza) - SBC", "mmol/L"),
@@ -56,7 +65,14 @@ public class BloodGasProductionSeed {
                 new TestMapping("Hb", "Gazometria (krew tętnicza) - Hb", "g/dL"),
                 new TestMapping("HCT", "Gazometria (krew tętnicza) - HCT", "%"),
                 new TestMapping("BE-ECF", "Gazometria (krew tętnicza) - BE-ECF", "mmol/L"),
-                new TestMapping("pH", "Gazometria (krew żylna) - pH", ""),
+                new TestMapping("Wapń zjonizowany", "Wapń zjonizowany(krew tętnicza) - Wapń zjonizowany", "mmol/L"),
+                new TestMapping("Mleczany", "Mleczany(krew tętnicza)", "mmol/L"),
+                new TestMapping("Sód", "Sód (krew tętnicza)", "mmol/L"),
+                new TestMapping("Potas", "Potas (krew tętnicza)", "mmol/L"),
+                new TestMapping("Glukoza", "Glukoza (krew tętnicza)", "mg/dL"),
+                new TestMapping("Komentarz", "Gazometria (krew tętnicza) - Komentarz", null),
+
+                new TestMapping("pH", "Gazometria (krew żylna) - pH", null),
                 new TestMapping("pCO2", "Gazometria (krew żylna) - pCO2", "mmHg"),
                 new TestMapping("pO2", "Gazometria (krew żylna) - pO2", "mmHg"),
                 new TestMapping("SBC", "Gazometria (krew żylna) - SBC", "mmol/L"),
@@ -65,7 +81,14 @@ public class BloodGasProductionSeed {
                 new TestMapping("%SAT", "Gazometria (krew żylna) - SAT", "%"),
                 new TestMapping("BE-B", "Gazometria (krew żylna) - BE-B", "mmol/L"),
                 new TestMapping("BE-ECF", "Gazometria (krew żylna) - Be-Ecf", "mmol/L"),
-                new TestMapping("pH", "Gazometria (krew włośniczkowa) - pH", ""),
+                new TestMapping("Wapń zjonizowany", "Wapń zjonizowany (krew żylna)", "mmol/L"),
+                new TestMapping("Mleczany", "Mleczany(krew żylna)", "mmol/L"),
+                new TestMapping("Sód", "Sód (krew żylna)", "mmol/L"),
+                new TestMapping("Potas", "Potas (krew żylna)", "mmol/L"),
+                new TestMapping("Glukoza", "Glukoza (krew żylna)", "mg/dL"),
+                new TestMapping("Komentarz", "Gazometria (krew żylna) - Komentarz", null),
+
+                new TestMapping("pH", "Gazometria (krew włośniczkowa) - pH", null),
                 new TestMapping("pCO2", "Gazometria (krew włośniczkowa) - pCO2", "mmHg"),
                 new TestMapping("pO2", "Gazometria (krew włośniczkowa) - pO2", "mmHg"),
                 new TestMapping("SBC", "Gazometria (krew włośniczkowa) - SBC", "mmol/L"),
@@ -79,7 +102,13 @@ public class BloodGasProductionSeed {
                 new TestMapping("FMetHb", "Gazometria (krew włośniczkowa) - FMetHb", "%"),
                 new TestMapping("FHHb", "Gazometria (krew włośniczkowa) - FHHb", "%"),
                 new TestMapping("Hb", "Gazometria (krew włośniczkowa) - Hb", "g/dL"),
-                new TestMapping("HCT", "Gazometria (krew włośniczkowa) - Hct", "%")
+                new TestMapping("HCT", "Gazometria (krew włośniczkowa) - Hct", "%"),
+                new TestMapping("Wapń zjonizowany", "Wapń zjonizowany (krew włośń.) - Wapń zjonizowany", "mmol/L"),
+                new TestMapping("Mleczany", "Mleczany(krew włośniczkowa)", "mmol/L"),
+                new TestMapping("Sód", "Sód (krew włośniczkowa)", "mmol/L"),
+                new TestMapping("Potas", "Potas (krew włośniczkowa)", "mmol/L"),
+                new TestMapping("Glukoza", "Glukoza (krew włośniczkowa)", "mg/dL"),
+                new TestMapping("Komentarz", "Gazometria (krew włośniczkowa) - Komentarz", null)
         );
     }
 
