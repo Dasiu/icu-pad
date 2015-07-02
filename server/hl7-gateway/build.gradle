@@ -12,6 +12,7 @@ buildscript {
 }
 
 apply plugin: 'spring-boot'
+version = '1.2'
 
 dependencies {
 	compile group: 'org.springframework', name: 'springloaded', version: '1.2.1.RELEASE'
