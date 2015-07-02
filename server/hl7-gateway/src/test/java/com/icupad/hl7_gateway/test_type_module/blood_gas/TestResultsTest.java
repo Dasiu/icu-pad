@@ -45,8 +45,21 @@ public class TestResultsTest {
     private TestMappingService testMappingService;
 
     @Test
+    public void shouldSetCapillaryBloodSource() throws HL7Exception {
+        createAndSaveTestMapping("Any Test Name (krew włośń.)");
+        ORU_R01 oru_r01 =
+                (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.bloodGasKnownBloodSource);
+
+        testResultsHandler.handle(oru_r01);
+
+        TestPanelResult testPanelResult = testPanelResultService.findAll().stream().findFirst().get();
+        assertNotNull(testPanelResult);
+        assertEquals(BloodSource.CAPILLARY, testPanelResult.getBloodSource());
+    }
+
+    @Test
     public void shouldSetUnknownBloodSourceIfSuchSituationHappen() throws HL7Exception {
-        createAndSaveTestMappingForUnknownBloodSource("Gazometria (krew żylna z uda) - pH");
+        createAndSaveTestMapping("Gazometria (krew żylna z uda) - pH");
         ORU_R01 oru_r01 =
                 (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.bloodGasUnknownBloodSource);
 
@@ -69,7 +82,7 @@ public class TestResultsTest {
         assertEquals(BloodSource.ARTERY, testPanelResult.getBloodSource());
     }
 
-    private void createAndSaveTestMappingForUnknownBloodSource(String rawTestName) {
+    private void createAndSaveTestMapping(String rawTestName) {
         TestMapping testMapping = new TestMapping();
         testMapping.setRawTestName(rawTestName);
         testMapping.setTestName("ph");
