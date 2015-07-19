@@ -7,6 +7,7 @@ import com.jayway.restassured.authentication.FormAuthConfig;
 import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,5 +43,10 @@ public class TestResultsTest {
                 new ObjectMapperConfig().jackson2ObjectMapperFactory(
                         (cls, charset) -> objectMapper
                 ));
+    }
+
+    @Test
+    public void oneEmptyTestIsNeededByJUnit() {
+
     }
 }
