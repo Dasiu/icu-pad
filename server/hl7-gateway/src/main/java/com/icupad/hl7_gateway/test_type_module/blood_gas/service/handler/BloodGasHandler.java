@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class BloodGasHandler
         extends AbstractTestTypeHandler<TestRequest, TestResult, TestPanelResult> implements TestTypeHandler {
-    private final Pattern bloodSourceInRawTestName = Pattern.compile("[(](.+)[)]");
+    private final Pattern bloodSourceInRawTestName = Pattern.compile("[(](.+)[)] -");
     private final TestService testService;
     private final TestPanelResultService testPanelResultService;
     private final TestRequestService testRequestService;
