@@ -1,21 +1,17 @@
 package com.icupad.hl7_gateway.core.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Embeddable
 public class TestResultExecutor {
-    @Column(length = 6)
     @Size(min = 1, max = 6)
     private String executorHl7Id;
 
-    @Column(length = 15)
     @Size(min = 1, max = 15)
     private String name;
 
-    @Column(length = 30)
     @Size(min = 1, max = 30)
     private String surname;
 
