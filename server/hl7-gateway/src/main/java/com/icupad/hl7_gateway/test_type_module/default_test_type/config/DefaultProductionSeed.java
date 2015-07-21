@@ -26,11 +26,6 @@ public class DefaultProductionSeed {
         this.testMappingService = testMappingService;
 
         testMappings = Arrays.asList(
-                new TestMapping("Wapń zjonizowany(krew tętnicza)", "Wapń zjonizowany(krew tętnicza) - Wapń zjonizowany", "mmol/L"),
-                new TestMapping("Mleczany(krew tętnicza)", "Mleczany(krew tętnicza)", "mmol/L"),
-                new TestMapping("Sód (krew tętnicza)", "Sód (krew tętnicza)", "mmol/L"),
-                new TestMapping("Potas (krew tętnicza)", "Potas (krew tętnicza)", "mmol/L"),
-                new TestMapping("Glukoza (krew tętnicza)", "Glukoza (krew tętnicza)", "mg/dL"),
                 new TestMapping("Antytrombina", "Antytrombina", "%"),
                 new TestMapping("Fibrynogen", "Fibrynogen", "mg/dL"),
                 new TestMapping("Wskaźnik protrombinowy", "Wskaźnik protrombinowy,INR - Wskaźnik protrombinowy", "%"),
@@ -48,18 +43,17 @@ public class DefaultProductionSeed {
                 new TestMapping("Albumina", "Albumina", "mg/dl"),
                 new TestMapping("Fosforany", "Fosforany", "mg/dl"),
                 new TestMapping("Bilirubina całkowita", "Bilirubina całkowita", "mg/dl"),
-                new TestMapping("Glukoza", "Glukoza", "mg/dl"),
                 new TestMapping("P-ciała anty-HBs", "P-ciała anty-HBs", "mIU/mL"),
                 new TestMapping("P-ciała anty-HCV", "P-ciała anty-HCV", "S/CO"),
                 new TestMapping("Badanie ogólne moczu - Ciężar właściwy", "Badanie ogólne moczu - Ciężar właściwy", "brak"),
                 new TestMapping("Badanie ogólne moczu - Urobilinogen", "Badanie ogólne moczu - Urobilinogen", "E.U./dL"),
-                new TestMapping("Badanie ogólne moczu - Odczyn(pH)", "Badanie ogólne moczu - Odczyn(pH)", ""),
+                new TestMapping("Badanie ogólne moczu - Odczyn(pH)", "Badanie ogólne moczu - Odczyn(pH)", null),
                 new TestMapping("Białko C-reaktywne", "Białko C-reaktywne", "mg/dl"),
                 new TestMapping("Kreatynina", "Kreatynina", "mg/dl"),
                 new TestMapping("Mocznik", "Mocznik", "mg/dl"),
-                new TestMapping("Sód", "Sód", "mmol/L"),
-                new TestMapping("Potas", "Potas", "mmol/L"),
-                new TestMapping("Wapń  zjonizowany", "Wapń zjonizowany - Wapń  zjonizowany", "mmol/L")
+                new TestMapping("Kwas walproinowy", "Kwas walproinowy", "ug/mL"),
+                new TestMapping("Troponina I", "Troponina I", "ng/l"),
+                new TestMapping("Wankomycyna", "Wankomycyna", "ug/mL")
         );
     }
 
@@ -87,6 +81,7 @@ public class DefaultProductionSeed {
     }
 
     private TestType saveIfNotExists(TestType testType) {
-        return testTypeService.findByName(testType.getName()) == null ? testTypeService.save(testType) : testType;
+        TestType testTypeWithId = testTypeService.findByName(testType.getName());
+        return testTypeWithId == null ? testTypeService.save(testType) : testTypeWithId;
     }
 }

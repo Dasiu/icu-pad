@@ -2,39 +2,36 @@ package com.icupad.hl7_gateway.core.domain;
 
 import com.icupad.hl7_gateway.core.repository.validation.constraints.Past;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
 
 @Entity
 public class Patient extends BaseEntity {
-    @Column(nullable = false, unique = true)
-    @Size(min = 1, max = 255)
+//    @Size(min = 1, max = 255)
     @NotNull
     private String hl7Id;
 
-    @Column(length = 11)
-    @Size(min = 11, max = 11)
+//    @Size(min = 11, max = 11)
     @Pattern(regexp = "[0-9]+")
     private String pesel;
 
-    @Column(length = 15, nullable = false)
-    @Size(min = 1, max = 15)
+//    @Size(min = 1, max = 15)
     @NotNull
     private String name;
 
-    @Column(length = 30, nullable = false)
-    @Size(min = 1, max = 30)
+//    @Size(min = 1, max = 30)
     @NotNull
     private String surname;
 
-    @Column(nullable = false)
     @Past
     @NotNull
     private LocalDateTime birthDate;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull
     private Sex sex;

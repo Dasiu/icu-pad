@@ -9,12 +9,10 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Stay extends BaseEntity {
-    @Column(nullable = false, unique = true)
     @Size(min = 1, max = 50)
     @NotNull
     private String hl7Id;
 
-    @Column(nullable = false)
     @NotNull
     private StayType type;
 
@@ -24,17 +22,14 @@ public class Stay extends BaseEntity {
     @Embedded
     private AdmittingDoctor admittingDoctor;
 
-    @Column(nullable = false)
     @Past
     @NotNull
     private LocalDateTime admitDate;
 
     private LocalDateTime dischargeDate;
 
-    @Column(nullable = false)
     private boolean active;
 
-    @JoinColumn(nullable = false)
     @ManyToOne
     @NotNull
     private Patient patient;
