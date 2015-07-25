@@ -53,7 +53,21 @@ public class DefaultProductionSeed {
                 new TestMapping("Mocznik", "Mocznik", "mg/dl"),
                 new TestMapping("Kwas walproinowy", "Kwas walproinowy", "ug/mL"),
                 new TestMapping("Troponina I", "Troponina I", "ng/l"),
-                new TestMapping("Wankomycyna", "Wankomycyna", "ug/mL")
+                new TestMapping("Wankomycyna", "Wankomycyna", "ug/mL"),
+
+                new TestMapping("Badanie płynu z jam ciała-ogólne - Erytrocyty", "Badanie płynu z jam ciała-ogólne - Erytrocyty", "/ µl"),
+                new TestMapping("Badanie płynu z jam ciała-ogólne - Leukocyty", "Badanie płynu z jam ciała-ogólne - Leukocyty", "/ µl"),
+                new TestMapping("Badanie płynu z jam ciała-ogólne - Białko Całkowite", "Badanie płynu z jam ciała-ogólne - Białko Całkowite", "mg/dl"),
+                new TestMapping("Badanie płynu z jam ciała-ogólne - Ciężar Właściwy", "Badanie płynu z jam ciała-ogólne - Ciężar Właściwy", "g/ml"), // FIXME check if it's true
+                new TestMapping("Badanie płynu z jam ciała-ogólne - pH", "Badanie płynu z jam ciała-ogólne - pH", null),
+                new TestMapping("Badanie płynu z jam ciała-ogólne - Glukoza", "Badanie płynu z jam ciała-ogólne - Glukoza", "mg/dl"),
+                new TestMapping("Triglicerydy w płynie z jam ciała", "Triglicerydy w płynie z jam ciała", "mg/dl"),
+
+                new TestMapping("Prokalcytonina", "Prokalcytonina", "ng/ml"),
+                new TestMapping("Kinaza kreatynowa", "Kinaza kreatynowa", "U/l"),
+                new TestMapping("Triglicerydy", "Triglicerydy", "mg/dl"),
+                new TestMapping("Wapń całkowity", "Wapń całkowity", "mmol/l"),
+                new TestMapping("Alfa -1 antytrypsyna", "Alfa -1 antytrypsyna", "  g/l")
         );
     }
 

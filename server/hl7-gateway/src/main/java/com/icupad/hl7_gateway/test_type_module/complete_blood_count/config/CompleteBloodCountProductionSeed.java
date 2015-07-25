@@ -41,6 +41,9 @@ public class CompleteBloodCountProductionSeed {
                 new TestMapping("MPV", "Morfologia (krew żylna) - MPV", "fl"),
                 new TestMapping("P-LCR", "Morfologia (krew żylna) - P-LCR", "%"),
                 new TestMapping("PCT", "Morfologia (krew żylna) - PCT", "%"),
+                new TestMapping("Erytroblasty %", "Morfologia (krew żylna) - Erytroblasty %", "%"),
+                new TestMapping("Erytroblasty #", "Morfologia (krew żylna) - Erytroblasty #", "10^3/µl"),
+
                 new TestMapping("Erytrocyty", "Morfologia (krew włośniczkowa) -  Erytrocyty", "10^6/µl"),
                 new TestMapping("Hemoglobina", "Morfologia (krew włośniczkowa) -  Hemoglobina", "g/dl"),
                 new TestMapping("Hematokryt", "Morfologia (krew włośniczkowa) -  Hematokryt", "%"),
@@ -55,6 +58,9 @@ public class CompleteBloodCountProductionSeed {
                 new TestMapping("MPV", "Morfologia (krew włośniczkowa) -  MPV", "fl"),
                 new TestMapping("P-LCR", "Morfologia (krew włośniczkowa) -  P-LCR", "%"),
                 new TestMapping("PCT", "Morfologia (krew włośniczkowa) -  P C T", "%"),
+                new TestMapping("Erytroblasty %", "Morfologia (krew włośniczkowa) - Erytroblasty %", "%"),
+                new TestMapping("Erytroblasty #", "Morfologia (krew włośniczkowa) - Erytroblasty #", "10^3/µl"),
+
                 new TestMapping("Erytrocyty", "Morfologia (krew tętnicza) - Erytrocyty", "10^6/µl"),
                 new TestMapping("Hemoglobina", "Morfologia (krew tętnicza) - Hemoglobina", "g/dl"),
                 new TestMapping("Hematokryt", "Morfologia (krew tętnicza) - Hematokryt", "%"),
@@ -62,8 +68,10 @@ public class CompleteBloodCountProductionSeed {
                 new TestMapping("MCH", "Morfologia (krew tętnicza) - MCH", "pg"),
                 new TestMapping("MCHC", "Morfologia (krew tętnicza) - MCHC", "g/dl"),
                 new TestMapping("Płytki", "Morfologia (krew tętnicza) - Płytki", "10^3/ul"),
-                new TestMapping("Leukocyty", "Morfologia (krew tętnicza) - Leukocyty", "10^3/ul")
-        );
+                new TestMapping("Leukocyty", "Morfologia (krew tętnicza) - Leukocyty", "10^3/ul"),
+                new TestMapping("Erytroblasty %", "Morfologia (krew tętnicza) - Erytroblasty %", "%"),
+                new TestMapping("Erytroblasty #", "Morfologia (krew tętnicza) - Erytroblasty #", "10^3/µl")
+                );
     }
 
     @PostConstruct

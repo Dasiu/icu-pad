@@ -33,6 +33,7 @@ public class BloodGasProductionSeed {
                 new TestMapping("Sód", "Sód", "mmol/L"),
                 new TestMapping("Potas", "Potas", "mmol/L"),
                 new TestMapping("Glukoza", "Glukoza", "mg/dl"),
+                new TestMapping("Chlorki", "Chlorki", "mmol/L"),
 
                 new TestMapping("pH", "Gazometria kardiochirurgia - pH", null),
                 new TestMapping("pCO2", "Gazometria kardiochirurgia - PCO2", "mmHg"),
@@ -71,6 +72,7 @@ public class BloodGasProductionSeed {
                 new TestMapping("Potas", "Potas (krew tętnicza)", "mmol/L"),
                 new TestMapping("Glukoza", "Glukoza (krew tętnicza)", "mg/dL"),
                 new TestMapping("Komentarz", "Gazometria (krew tętnicza) - Komentarz", null),
+                new TestMapping("Chlorki", "Chlorki (krew tętnicza)", "mmol/L"),
 
                 new TestMapping("pH", "Gazometria (krew żylna) - pH", null),
                 new TestMapping("pCO2", "Gazometria (krew żylna) - pCO2", "mmHg"),
@@ -87,6 +89,7 @@ public class BloodGasProductionSeed {
                 new TestMapping("Potas", "Potas (krew żylna)", "mmol/L"),
                 new TestMapping("Glukoza", "Glukoza (krew żylna)", "mg/dL"),
                 new TestMapping("Komentarz", "Gazometria (krew żylna) - Komentarz", null),
+                new TestMapping("Chlorki", "Chlorki (krew żylna)", "mmol/L"),
 
                 new TestMapping("pH", "Gazometria (krew włośniczkowa) - pH", null),
                 new TestMapping("pCO2", "Gazometria (krew włośniczkowa) - pCO2", "mmHg"),
@@ -108,7 +111,8 @@ public class BloodGasProductionSeed {
                 new TestMapping("Sód", "Sód (krew włośniczkowa)", "mmol/L"),
                 new TestMapping("Potas", "Potas (krew włośniczkowa)", "mmol/L"),
                 new TestMapping("Glukoza", "Glukoza (krew włośniczkowa)", "mg/dL"),
-                new TestMapping("Komentarz", "Gazometria (krew włośniczkowa) - Komentarz", null)
+                new TestMapping("Komentarz", "Gazometria (krew włośniczkowa) - Komentarz", null),
+                new TestMapping("Chlorki", "Chlorki (krew włośniczkowa)", "mmol/L")
         );
     }
 

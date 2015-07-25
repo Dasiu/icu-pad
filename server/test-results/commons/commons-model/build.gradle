@@ -1,4 +1,6 @@
 dependencies {
+    compile project(":server:commons:commons-model")
+
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     compile group: 'com.h2database', name: 'h2', version: '1.4.177'
