@@ -7,17 +7,16 @@ import javax.validation.constraints.Size;
 
 @Embeddable
 public class AdmittingDoctor {
-    @Column(name = "admitting_doctor_hl7Id", nullable = false)
+    @Column(name = "admitting_doctor_hl7Id")
     @Size(min = 1, max = 6)
     @NotNull
     private String hl7Id;
 
-    @Column(name = "admitting_doctor_name", length = 15, nullable = false)
+    @Column(name = "admitting_doctor_name")
     @Size(min = 1, max = 15)
     @NotNull
     private String name;
 
-    @Column(length = 30, nullable = false)
     @Size(min = 1, max = 30)
     @NotNull
     private String surname;
@@ -25,7 +24,6 @@ public class AdmittingDoctor {
     /**
      * numer prawa wykonywania zawodu
      */
-    @Column(length = 30, nullable = false)
     @Size(min = 1, max = 30)
     @NotNull
     private String npwz;
