@@ -29,6 +29,6 @@ public class Seed {
         user.setLogin("admin");
         user.setPassword("admin");
         user.setEnabled(true);
-        userService.save(user);
+        if (userService.findByLogin(user.getLogin()) == null) userService.save(user);
     }
 }
