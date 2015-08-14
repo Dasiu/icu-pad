@@ -1,5 +1,3 @@
-include 'server'
-
 include 'server:commons'
 
 include 'server:hl7-gateway'
@@ -18,9 +16,7 @@ include 'server:test-results:complete-blood-count:complete-blood-count-rest'
 include 'server:test-results:complete-blood-count:complete-blood-count-service'
 include 'server:test-results:complete-blood-count:complete-blood-count-model'
 
-include 'server:test-results:blood-gas:blood-gas-rest'
-include 'server:test-results:blood-gas:blood-gas-service'
-include 'server:test-results:blood-gas:blood-gas-model'
+include 'server:test-results:blood-gas'
 
 include 'server:test-results:commons'
 

@@ -1,0 +1,7 @@
+subprojects {
+
+    dependencies {
+        compile "com.mysema.querydsl:querydsl-jpa:3.6.6"
+        compile "com.mysema.querydsl:querydsl-apt:3.6.6:jpa"
+    }
+}
