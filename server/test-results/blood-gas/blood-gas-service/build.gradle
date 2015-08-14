@@ -1,6 +1,7 @@
 dependencies {
     compile project(":server:commons:commons-service")
     compile project(":server:test-results:blood-gas:blood-gas-model")
+    compile project(":server:patients:patients-service")
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion

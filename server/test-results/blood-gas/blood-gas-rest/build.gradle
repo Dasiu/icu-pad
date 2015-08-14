@@ -20,6 +20,7 @@ version = '1.0'
 dependencies {
     compile project(":server:commons:commons-rest")
     compile project(":server:test-results:blood-gas:blood-gas-service")
+    compile project(":server:patients:patients-service")
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
@@ -32,6 +33,11 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'
     testCompile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.3.6'
+    testCompile project(":server:patients:patients-rest")
+    testCompile project(path: ":server:test-results:blood-gas:blood-gas-model", configuration: 'testOutput')
+    testCompile project(path: ":server:patients:patients-model", configuration: 'testOutput')
+    testCompile project(path: ":server:commons:commons-test", configuration: 'testOutput')
+
 
     runtime group: 'mysql', name: 'mysql-connector-java', version: '5.1.34'
     runtime group: 'org.glassfish.web', name: 'el-impl', version: '2.2'

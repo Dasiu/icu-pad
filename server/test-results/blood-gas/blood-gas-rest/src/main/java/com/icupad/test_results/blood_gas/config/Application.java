@@ -12,10 +12,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableAutoConfiguration
 @EnableJpaAuditing
-@EnableJpaRepositories(value = {"com.icupad.test_results.blood_gas.repository", "com.icupad.repository"},
+@EnableJpaRepositories(value = {"com.icupad.test_results.blood_gas.repository",
+        "com.icupad.repository",
+        "com.icupad.patient.repository"},
         repositoryFactoryBeanClass = RepositoryFactoryBean.class)
 @ComponentScan(basePackages = {"com.icupad.security", "com.icupad.service", "com.icupad.repository",
-        "com.icupad.test_results"})
+        "com.icupad.test_results", "com.icupad.patient"})
 @EntityScan(basePackages = {"com.icupad"})
 public class Application {
     public static void main(String[] args) {
