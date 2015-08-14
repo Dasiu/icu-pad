@@ -1,5 +1,5 @@
 dependencies {
-    compile project(":server:commons:commons-service")
+    compile project(":server:commons")
     compile project(":server:test-results:complete-blood-count:complete-blood-count-model")
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion

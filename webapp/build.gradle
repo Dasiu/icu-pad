@@ -1,0 +1,19 @@
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//    dependencies {
+//        classpath 'be.filipblondeel.gradle:gradle-gulp-plugin:0.1'
+//    }
+//}
+//
+//apply plugin: 'gulp'
+//
+//version = '1.0'
+//
+//task runServerAndClientApps {
+//    println("test")
+//}
+//
+//runServerAndClientApps.dependsOn gulp_ // gulp default task
+//runServerAndClientApps.dependsOn ':server:test-results:complete-blood-count:complete-blood-count-rest:bootRun'

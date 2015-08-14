@@ -1,7 +1,7 @@
 dependencies {
-    compile project(":server:commons:commons-model")
+    compile project(":server:commons")
     compile project(":server:patients:patients-model")
-    compile project(":server:test-results:commons:commons-model")
+    compile project(":server:test-results:commons")
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion

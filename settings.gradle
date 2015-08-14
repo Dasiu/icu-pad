@@ -1,11 +1,6 @@
 include 'server'
 
-include 'server:commons:commons-security'
-include 'server:commons:commons-rest'
-include 'server:commons:commons-service'
-include 'server:commons:commons-model'
-include 'server:commons:commons-utils'
-include 'server:commons:commons-test'
+include 'server:commons'
 
 include 'server:hl7-gateway'
 
@@ -27,9 +22,7 @@ include 'server:test-results:blood-gas:blood-gas-rest'
 include 'server:test-results:blood-gas:blood-gas-service'
 include 'server:test-results:blood-gas:blood-gas-model'
 
-include 'server:test-results:commons:commons-rest'
-include 'server:test-results:commons:commons-service'
-include 'server:test-results:commons:commons-model'
+include 'server:test-results:commons'
 
 include 'server:patients'
 include 'server:patients:patients-rest'

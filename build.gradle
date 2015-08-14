@@ -48,11 +48,6 @@ subprojects {
         testOutput.extendsFrom (testCompile)
     }
 
-    dependencies {
-        compile "com.mysema.querydsl:querydsl-jpa:3.6.6"
-        compile "com.mysema.querydsl:querydsl-apt:3.6.6:jpa"
-    }
-
     task jarTest (type: Jar, dependsOn: testClasses) {
         from sourceSets.test.output
         classifier = 'test'
@@ -61,4 +56,8 @@ subprojects {
     artifacts {
         testOutput jarTest
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.6'
 }
