@@ -27,14 +27,38 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'application'
     apply plugin: 'war'
+    apply plugin: 'idea'
 
     repositories {
         mavenLocal()
         mavenCentral()
     }
 
+    idea {
+        module {
+            sourceDirs += file('generated/')
+            generatedSourceDirs += file('generated/')
+        }
+    }
+
     configurations {
         // excluded, because dependency clash between spring boot modules
         all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+
+        testOutput.extendsFrom (testCompile)
+    }
+
+    dependencies {
+        compile "com.mysema.querydsl:querydsl-jpa:3.6.6"
+        compile "com.mysema.querydsl:querydsl-apt:3.6.6:jpa"
+    }
+
+    task jarTest (type: Jar, dependsOn: testClasses) {
+        from sourceSets.test.output
+        classifier = 'test'
+    }
+
+    artifacts {
+        testOutput jarTest
     }
 }
