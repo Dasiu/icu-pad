@@ -1,5 +1,6 @@
 target
 build
+classes
 **/generated
 .gradle
 application-dev.properties
