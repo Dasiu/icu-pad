@@ -89,7 +89,21 @@ public class TestPanelResultTest {
         userService.deleteAll();
     }
 
-    // todo think off extreme cases
+    @Test
+    public void getTestPanelResultShouldReturnResultsForGivenPatientStay() {
+        TestResult testResult = buildEntityGraph();
+        Long otherStayId = testResult.getStay().getId() + 1;
+
+        given()
+                .pathParam("stayId", otherStayId)
+
+                .when()
+                .get("/stay/{stayId}/test-panel-result")
+                .then()
+
+                .statusCode(200)
+                .body("$", hasSize(0));
+    }
 
     @Test
     public void getTestPanelResultShouldReturnTestPanelResultsBetweenGivenDates() {
@@ -97,13 +111,14 @@ public class TestPanelResultTest {
         setTestPanelResultRequestDate(testResult, "9000-10-10T10:10:10");
 
         given()
-                .param("startDate", "1000-06-20T10:20:30")
-                .param("endDate", "9999-06-21T10:20:31")
+                .pathParam("stayId", testResult.getStay().getId())
+                .param("fromRequestDate", "1000-06-20T10:20:30")
+                .param("toRequestDate", "9999-06-21T10:20:31")
 
                 .when()
-                .get("/test-panel-result")
-
+                .get("/stay/{stayId}/test-panel-result")
                 .then()
+
                 .statusCode(200)
                 .body("$", hasSize(1))
                 .body("id", hasItem(testResult.getTestRequest().getTestPanelResult().getId().intValue()));
@@ -115,49 +130,16 @@ public class TestPanelResultTest {
         setTestPanelResultRequestDate(testResult, "9000-10-10T10:10:10");
 
         given()
-                .param("startDate", "1000-06-20T10:20:30")
-                .param("endDate", "2000-06-21T10:20:31")
+                .pathParam("stayId", testResult.getStay().getId())
+                .param("fromRequestDate", "1000-06-20T10:20:30")
+                .param("toRequestDate", "2000-06-21T10:20:31")
 
                 .when()
-                .get("/test-panel-result")
+                .get("/stay/{stayId}/test-panel-result")
 
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(0));
-    }
-
-    @Test
-    public void getTestPanelResultShouldReturnTestPanelResultsForGivenPatient() {
-        TestResult testResult = buildEntityGraph();
-        Patient patient = testResult.getStay().getPatient();
-
-        given()
-                .param("patientId", patient.getId())
-
-                .when()
-                .get("/test-panel-result")
-
-                .then()
-                .statusCode(200)
-                .body("$", hasSize(0))
-                .body("id", hasItem(testResult.getTestRequest().getTestPanelResult().getId().intValue()));
-    }
-
-    @Test
-    public void getTestPanelResultShouldFilterOutOtherPatientsTestPanelResults() {
-        TestResult testResult = buildEntityGraph();
-        Patient patient = testResult.getStay().getPatient();
-
-        given()
-                .param("patientId", patient.getId() + 1)
-
-                .when()
-                .get("/test-panel-result")
-
-                .then()
-                .statusCode(200)
-                .body("$", hasSize(0))
-                .body("id", hasItem(testResult.getTestRequest().getTestPanelResult().getId().intValue()));
     }
 
     private void deleteEntityGraph() {

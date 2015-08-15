@@ -9,10 +9,7 @@ import com.icupad.test_results.blood_gas.service.TestResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -21,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/test-panel-result")
+@RequestMapping("/stay/{stayId}")
 public class TestPanelResultController {
     private final TestResultService testResultService;
 
@@ -30,14 +27,21 @@ public class TestPanelResultController {
         this.testResultService = testResultService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    /**
+     * @return test panel results for given stay filter through request dates.
+     * <p>
+     * If dates are not given, all results for stay are returned
+     */
+    @RequestMapping(value = "/test-panel-result", method = RequestMethod.GET)
     public Collection<TestPanelResultDTO> list(
-            @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime endDate) {
+            @PathVariable long stayId,
+            @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime fromRequestDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime toRequestDate) {
         Collection<TestResult> testResults =
-                testResultService.findByStartDateAndEndDate(startDate, endDate);
-//        Collection<TestDTO> tests = mapToTestDtos(testResults);
-        List<TestPanelResultDTO> testPanelResultDtos = testResults.stream().collect(Collectors.groupingBy(testResult -> testResult.getTestRequest().getTestPanelResult()))
+                testResultService.findBetweenRequestDatesForStay(stayId, fromRequestDate, toRequestDate);
+        List<TestPanelResultDTO> testPanelResultDtos =
+                testResults.stream()
+                        .collect(Collectors.groupingBy(testResult -> testResult.getTestRequest().getTestPanelResult()))
                 .entrySet().stream()
                 .map(this::toTestPanelResultDTO)
                 .collect(Collectors.toList());

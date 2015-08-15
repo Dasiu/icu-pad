@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 @Service("bloodGasTestResultService")
@@ -30,12 +29,9 @@ class TestResultServiceImpl
     }
 
     @Override
-    public Collection<TestResult> findByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedStartDate = startDate.format(formatter);
-        String formattedEndDate = endDate.format(formatter);
-        Collection<TestResult> testResults = testResultRepository.findByStartDateAndEndDate(startDate,
-                endDate);
-        return testResults;
+    public Collection<TestResult> findBetweenRequestDatesForStay(long stayId,
+                                                                 LocalDateTime startDate,
+                                                                 LocalDateTime endDate) {
+        return testResultRepository.findBetweenRequestDatesForStay(stayId, startDate, endDate);
     }
 }

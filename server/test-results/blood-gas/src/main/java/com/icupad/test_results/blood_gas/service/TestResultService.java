@@ -9,5 +9,5 @@ import java.util.Collection;
 public interface TestResultService extends BaseService<TestResult> {
     TestResult findByHl7Id(String hl7Id);
 
-    Collection<TestResult> findByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate);
+    Collection<TestResult> findBetweenRequestDatesForStay(long stayId, LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface TestResultRepositoryCustom {
-    Collection<TestResult> findByStartDateAndEndDate(LocalDateTime startDate,
-                                                     LocalDateTime endDate);
+    Collection<TestResult> findBetweenRequestDatesForStay(long stayId,
+                                                          LocalDateTime startDate,
+                                                          LocalDateTime endDate);
 }
