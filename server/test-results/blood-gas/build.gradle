@@ -20,10 +20,9 @@ version = '1.0'
 dependencies {
     compile project(":server:commons")
     compile project(":server:test-results:commons")
-    compile project(":server:patients:patients-model")
-    compile project(":server:patients:patients-service")
+    compile project(":server:patients")
 
-    testCompile project(path: ":server:patients:patients-model", configuration: 'testOutput')
+    testCompile project(path: ":server:patients", configuration: 'testOutput')
     testCompile project(path: ":server:commons", configuration: 'testOutput')
 
     testCompile group: 'com.jayway.restassured', name: 'spring-mock-mvc', version: '2.4.0'

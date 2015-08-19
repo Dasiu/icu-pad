@@ -21,10 +21,6 @@ include 'server:test-results:blood-gas'
 include 'server:test-results:commons'
 
 include 'server:patients'
-include 'server:patients:patients-rest'
-include 'server:patients:patients-service'
-include 'server:patients:patients-model'
-
 include 'server:users'
 
 rootProject.name = 'icupad'
