@@ -8,23 +8,24 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
 public class Patient extends BaseEntity {
-//    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 255)
     @NotNull
     private String hl7Id;
 
-//    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11)
     @Pattern(regexp = "[0-9]+")
     private String pesel;
 
-//    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 15)
     @NotNull
     private String name;
 
-//    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 30)
     @NotNull
     private String surname;
 
