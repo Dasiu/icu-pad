@@ -46,7 +46,7 @@ public class TestResultsTest {
 
     @Test
     public void shouldSetCapillaryBloodSource() throws HL7Exception {
-        createAndSaveTestMapping("Any Test Name (krew włośń.)");
+        createAndSaveTestMapping("Any Test Name (krew włośń.) - Test parameter Name");
         ORU_R01 oru_r01 =
                 (ORU_R01) hapiContext.getGenericParser().parse(HL7Messages.bloodGasKnownBloodSource);
 
