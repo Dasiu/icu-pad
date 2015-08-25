@@ -3,7 +3,6 @@ package com.icupad.patient.dto;
 import com.icupad.patient.domain.Address;
 import com.icupad.patient.domain.Sex;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +12,10 @@ public class PatientDTO {
     private String pesel;
     private String name;
     private String surname;
-    private LocalDateTime birthDate;
     private Sex sex;
     private Address address;
     private List<StayDTO> stays = new ArrayList<>();
+    private String birthDate;
 
     public StayDTO getActiveStay() {
         return stays.stream()
@@ -57,14 +56,6 @@ public class PatientDTO {
         this.surname = surname;
     }
 
-    public LocalDateTime getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDateTime birthDate) {
-        this.birthDate = birthDate;
-    }
-
     public Sex getSex() {
         return sex;
     }
@@ -96,4 +87,12 @@ public class PatientDTO {
         public void setId(long id) {
             this.id = id;
         }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
 }

@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,6 +21,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/patient")
 public class PatientControllerImpl implements PatientController {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final Comparator<? super PatientDTO> byAdmitDateAsc = (patient1, patient2) -> {
+        LocalDateTime admitDate1 = patient1.getActiveStay().getAdmitDate();
+        LocalDateTime admitDate2 = patient2.getActiveStay().getAdmitDate();
+        return admitDate2.compareTo(admitDate1);
+    };
     private final StayService stayService;
 
     @Autowired
@@ -32,6 +41,7 @@ public class PatientControllerImpl implements PatientController {
                 .collect(Collectors.groupingBy(Stay::getPatient))
                 .entrySet().stream()
                 .map(this::toPatientDTO)
+                .sorted(byAdmitDateAsc)
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +72,7 @@ public class PatientControllerImpl implements PatientController {
         patientDTO.setId(patient.getId());
         patientDTO.setName(patient.getName());
         patientDTO.setAddress(patient.getAddress());
-        patientDTO.setBirthDate(patient.getBirthDate());
+        patientDTO.setBirthDate(patient.getBirthDate().format(formatter));
         patientDTO.setHl7Id(patient.getHl7Id());
         patientDTO.setPesel(patient.getPesel());
         patientDTO.setSex(patient.getSex());
