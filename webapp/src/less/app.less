@@ -1,8 +1,27 @@
 @import "mobile-angular-ui/src/less/mobile-angular-ui.less";
 @import "ng-table/dist/ng-table.less";
+@import "ui-grid.less";
 @import "mixins.less";
 @import "variables.less";
 @import "icu-sidebar.less";
 @import "icu-topbar.less";
 @import "icu-general.less";
 @import "icu-forms.less";
+
+.ui-grid-row {
+  cursor: pointer;
+  //
+  //&:hover .ui-grid-cell {
+  //  background-color: #CCC;
+  //}
+}
+
+.ui-grid-row:hover {
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
+
+.ui-grid-cell:hover {
+  cursor: pointer;
+  background-color: #FFFFFF;
+}

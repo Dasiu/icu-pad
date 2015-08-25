@@ -1,4 +1,4 @@
-<div class="navbar navbar-app navbar-absolute-top">
+<div ng-if="authenticated && patientChoosed" class="navbar navbar-app navbar-absolute-top">
         <div class="navbar-content">
           <div class="navbar-brand navbar-brand-center">
             <h3 ng-click="header.collapsed = !header.collapsed"><small>Pacjent: </small>{{patient.name}}</h3>

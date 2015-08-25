@@ -1,4 +1,4 @@
-<div class="sidebar sidebar-left" ng-controller="MainController">
+<div ng-if="authenticated && patientChoosed" class="sidebar sidebar-left" ng-controller="MainController">
     <div class="scrollable">
         <h1 class="scrollable-header sidebar-app-name">ICU Pad</h1>
         <h5 class="sidebar-user-name">Użytkownik: {{user.name}}</h5>

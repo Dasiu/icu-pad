@@ -136,3 +136,7 @@ bower_components
 
 ### mczar ###
 /www/
+
+### Cordova ###
+platforms
+plugins

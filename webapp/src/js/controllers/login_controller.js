@@ -1,0 +1,65 @@
+angular.module('ICUPad.controllers.Login', [])
+
+    .controller('LoginController', function ($rootScope, $scope, $http, $location) {
+        $scope.showView = false;
+        var authenticate = function (credentials, callback) {
+
+            var headerVal;
+            if (credentials) {
+                headerVal = buildAuthorizationHeaderValue(credentials.username, credentials.password);
+            } else if (window.localStorage.getItem('headerVal')) {
+                headerVal = window.localStorage.getItem('headerVal')
+                console.log(headerVal);
+            } else {
+                headerVal = undefined;
+            }
+            var headers = headerVal ? {
+                authorization: headerVal
+            } : {};
+
+            function buildAuthorizationHeaderValue(username, password) {
+                return (username || password)
+                    ? "Basic " + btoa(username + ":" + password)
+                    : undefined;
+            }
+            $http.get($rootScope.globalSettings.serverUrl + 'user/current', {headers: headers}).success(function (data) {
+                if (data.login) {
+                    $rootScope.authenticated = true;
+                    $http.defaults.headers.common['Authorization'] = headerVal;
+                    window.localStorage.setItem('headerVal', headerVal)
+                } else {
+                    $rootScope.authenticated = false;
+                    $scope.showView = true;
+                }
+                callback && callback();
+            }).error(function () {
+                $rootScope.authenticated = false;
+                $scope.showView = true;
+                callback && callback();
+            });
+
+        }
+
+        authenticate(undefined, function () {
+            if ($rootScope.authenticated) {
+                $location.path("/");
+                $scope.error = false;
+            } else {
+                $location.path("/login");
+                $scope.error = true;
+            }
+        });
+        
+        $scope.credentials = {};
+        $scope.login = function () {
+            authenticate($scope.credentials, function () {
+                if ($rootScope.authenticated) {
+                    $location.path("/");
+                    $scope.error = false;
+                } else {
+                    $location.path("/login");
+                    $scope.error = true;
+                }
+            });
+        };
+    });

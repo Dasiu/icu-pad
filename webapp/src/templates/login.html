@@ -1,13 +1,4 @@
-<section ng-if="authenticated" class="section container-fluid">
-    <h1 class="page-header">Strona główna</h1>
-
-    <!--<button class="" ng-click="choosePatient"></button>-->
-    <a ng-href="#/choose-patient">Wybierz pacjenta</a>
-</section>
-
-<section ng-if="!authenticated" class="section container-fluid">
-    <h1 class="page-header">Logowanie</h1>
-
+<section ng-if="showView" class="section container-fluid">
     <div class="alert alert-danger" ng-show="error">
         There was a problem logging in. Please try again.
     </div>
