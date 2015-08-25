@@ -8,20 +8,5 @@ include 'server:nurse:nurse-model'
 
 include 'server:test-results'
 
-include 'server:test-results:default-test-type:default-test-type-rest'
-include 'server:test-results:default-test-type:default-test-type-service'
-include 'server:test-results:default-test-type:default-test-type-model'
-
-include 'server:test-results:complete-blood-count:complete-blood-count-rest'
-include 'server:test-results:complete-blood-count:complete-blood-count-service'
-include 'server:test-results:complete-blood-count:complete-blood-count-model'
-
-include 'server:test-results:blood-gas'
-
-include 'server:test-results:commons'
-
-include 'server:patients'
-include 'server:users'
-
 rootProject.name = 'icupad'
 
