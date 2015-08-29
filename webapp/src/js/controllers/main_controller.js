@@ -1,6 +1,15 @@
 angular.module('ICUPad.controllers.Main', [])
 
     .controller('MainController', function ($rootScope, $scope, $http, $location) {
+
+        this.currentDay = function() {
+            var temp = new Date();
+            temp.setHours(0);
+            temp.setMinutes(0);
+            temp.setMilliseconds(0);
+            return temp;
+        };
+
         $scope.header = {
             collapsed: true
         };
@@ -12,6 +21,8 @@ angular.module('ICUPad.controllers.Main', [])
         $scope.patientChoosed = false;
 
         $rootScope.test = 'testJestTest';
+        $rootScope.selectedDay = this.currentDay();
+
         //$scope.patient = {
         //    name: "Adam Nowicki",
         //    blood: "Rhd+",
@@ -29,8 +40,45 @@ angular.module('ICUPad.controllers.Main', [])
 
         function initGlobalSettings() {
             $rootScope.globalSettings = {
-                serverUrl: 'https://localhost:8443/'
+                serverUrl: 'https://192.168.0.11:8443/'
             }
         }
+
+        $rootScope.calculateDay = function() {
+            if (!$rootScope.patient || !$rootScope.patient.activeStay.admitDate || !$rootScope.selectedDay) {
+                return null;
+            }
+
+            var admitDate = new Date($rootScope.patient.activeStay.admitDate.substring(0,10));
+            var currentDay = $rootScope.selectedDay;
+
+            var timeDiff = Math.abs(currentDay.getTime() - admitDate.getTime());
+            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            if (diffDays < 2 && currentDay.getDate() == admitDate.getDate()) {
+                diffDays = 0;
+            }
+
+            return diffDays + 1;
+        };
+
+        $rootScope.nextDay = function() {
+            console.log("next");
+            var yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            if ($rootScope.selectedDay < yesterday) {
+                console.log("true");
+                $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() + 1);
+            }
+        };
+
+        $rootScope.prevDay = function() {
+            console.log("prev");
+            var calculateDay = $rootScope.calculateDay();
+            if (calculateDay && calculateDay > 1) {
+                console.log("true");
+                $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() - 1);
+            }
+        };
 
     });

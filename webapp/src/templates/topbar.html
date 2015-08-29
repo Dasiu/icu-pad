@@ -11,7 +11,7 @@
             <div ui-toggle="uiSidebarRight" class="btn">
                 <i class="fa fa-calendar fa-lg"></i>
             </div>
-            <div ui-toggle="uiSidebarRight" class="btn">
+            <div ui-toggle="uiSidebarRight" class="btn" ng-click="prevDay()">
               <span class="fa-stack">
                 <i class="fa fa-circle-o fa-stack-2x"></i>
                 <i class="fa fa-chevron-left fa-stack-1x"></i>
@@ -20,7 +20,7 @@
             <div ui-toggle="uiSidebarRight" class="btn">
                 {{calculateDay()}}
             </div>
-            <div ui-toggle="uiSidebarRight" class="btn">
+            <div ui-toggle="uiSidebarRight" class="btn" ng-click="nextDay()">
               <span class="fa-stack">
                 <i class="fa fa-circle-o fa-stack-2x"></i>
                 <i class="fa fa-chevron-right fa-stack-1x"></i>
