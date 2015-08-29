@@ -22,21 +22,21 @@ angular.module('ICUPad.controllers.Login', [])
                     ? "Basic " + btoa(username + ":" + password)
                     : undefined;
             }
-            $http.get($rootScope.globalSettings.serverUrl + 'user/current', {headers: headers}).success(function (data) {
-                if (data.login) {
+
+            $http.get($rootScope.globalSettings.serverUrl + 'user/current', {headers: headers})
+                .success(function (data) {
                     $rootScope.authenticated = true;
+                    console.log(data);
+                    $rootScope.user = data;
                     $http.defaults.headers.common['Authorization'] = headerVal;
-                    window.localStorage.setItem('headerVal', headerVal)
-                } else {
+                    window.localStorage.setItem('headerVal', headerVal);
+                    $scope.showView = true;
+                    callback && callback();
+                }).error(function () {
                     $rootScope.authenticated = false;
                     $scope.showView = true;
-                }
-                callback && callback();
-            }).error(function () {
-                $rootScope.authenticated = false;
-                $scope.showView = true;
-                callback && callback();
-            });
+                    callback && callback();
+                });
 
         }
 
@@ -49,7 +49,7 @@ angular.module('ICUPad.controllers.Login', [])
                 $scope.error = true;
             }
         });
-        
+
         $scope.credentials = {};
         $scope.login = function () {
             authenticate($scope.credentials, function () {

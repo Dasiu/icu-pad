@@ -18,7 +18,8 @@ var app = angular.module('ICUPad', [
   'ICUPad.controllers.Login',
   'ICUPad.controllers.ChoosePatient',
   'ICUPad.controllers.Nurse',
-  'ICUPad.controllers.NurseDiagnosis'
+  'ICUPad.controllers.NurseDiagnosis',
+  'ICUPad.controllers.BloodGas'
 ])
 
 .config(function($routeProvider, $compileProvider, $httpProvider) {
@@ -27,6 +28,7 @@ var app = angular.module('ICUPad', [
   $routeProvider.when('/nurse', {templateUrl:'nurse.html',  reloadOnSearch: false});
   $routeProvider.when('/nurse-diagnosis', {templateUrl:'nurse-diagnosis.html',  reloadOnSearch: false});
   $routeProvider.when('/choose-patient', {templateUrl:'choose-patient.html', controller: 'ChoosePatientController', reloadOnSearch: false});
+  $routeProvider.when('/blood-gas', {templateUrl:'blood-gas.html', controller: 'BloodGasController', reloadOnSearch: false});
   $routeProvider.when('/form', {templateUrl:'view.html', controller: 'ViewCtrl', reloadOnSearch: false});
   $routeProvider.when('/checkbox.html', {templateUrl:'checkbox.html', reloadOnSearch: false});
 

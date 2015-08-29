@@ -1,13 +1,16 @@
 angular.module('ICUPad.controllers.ChoosePatient', [])
 
-    .controller('ChoosePatientController', function ($scope, $http, $rootScope) {
+    .controller('ChoosePatientController', function ($http, $rootScope, $scope, $location) {
         $scope.title = "asdf!";
 
         loadPatients();
         $scope.gridRowClick = function (row) {
-            console.log(row);
+            $rootScope.patient = row.entity;
 
-            $scope.patient = row.entity;
+            $location.path("blood-gas");
+            //console.log($rootScope.patient);
+            //console.log($rootScope.authenticated);
+            //console.log($rootScope.authenticated && $rootScope.patient);
         };
 
         $scope.gridData = [];
