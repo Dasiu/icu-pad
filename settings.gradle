@@ -6,7 +6,7 @@ include 'server:nurse:nurse-rest'
 include 'server:nurse:nurse-service'
 include 'server:nurse:nurse-model'
 
-include 'server:test-results'
 
+include 'server:icupad-backend'
 rootProject.name = 'icupad'
 
