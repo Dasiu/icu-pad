@@ -4,9 +4,9 @@ angular.module('ICUPad.controllers.Main', [])
         $scope.header = {
             collapsed: true
         };
-        $scope.user = {
-            name: "Jan Kowalski"
-        };
+        //$scope.user = {
+        //    name: "Jan Kowalski"
+        //};
         //$scope.authenticated = true;
 
         $scope.patientChoosed = false;
