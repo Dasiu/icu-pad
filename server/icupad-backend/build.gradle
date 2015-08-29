@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'spring-boot'
 
-mainClassName = "com.icupad.test_results.blood_gas.config.Application"
+mainClassName = "com.icupad.TestResultsApplication"
 sourceCompatibility = JavaVersion.VERSION_1_8
 version = '1.0'
 
