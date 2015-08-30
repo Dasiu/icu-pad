@@ -40,7 +40,7 @@ angular.module('ICUPad.controllers.Main', [])
 
         function initGlobalSettings() {
             $rootScope.globalSettings = {
-                serverUrl: 'https://192.168.0.11:8443/'
+                serverUrl: 'https://localhost:8443/'
             }
         }
 

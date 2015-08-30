@@ -38,13 +38,16 @@ class TestPanelResultControllerImpl implements TestPanelResultController {
     public Collection<TestPanelResultDTO> index(@PathVariable long stayId,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime fromRequestDate,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime toRequestDate) {
-        Collection<TestResult> testResults =
-                testResultService.findBetweenRequestDatesForStay(stayId, fromRequestDate, toRequestDate);
-        return testResults.stream()
+        return testResultService.findBetweenRequestDatesForStay(stayId, fromRequestDate, toRequestDate).stream()
                 .collect(Collectors.groupingBy(this::testPanelResult))
                 .entrySet().stream()
                 .map(this::toTestPanelResultDTO)
+                .sorted(this::ascendingByRequestDate)
                 .collect(Collectors.toList());
+    }
+
+    private int ascendingByRequestDate(TestPanelResultDTO testPanelResult1, TestPanelResultDTO testPanelResult2) {
+        return testPanelResult2.getRequestDate().compareTo(testPanelResult1.getRequestDate());
     }
 
     private TestPanelResult testPanelResult(TestResult testResult) {

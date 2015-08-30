@@ -8,12 +8,9 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
             $rootScope.patient = row.entity;
 
             $location.path("blood-gas");
-            //console.log($rootScope.patient);
-            //console.log($rootScope.authenticated);
-            //console.log($rootScope.authenticated && $rootScope.patient);
         };
 
-        $scope.gridData = [];
+        //$scope.patients = [];
 
         $scope.gridOptions = {
             rowTemplate: 'grid-row.html',
@@ -23,7 +20,7 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
                 { name:'Data urodzenia', field: 'birthDate'},
                 { name:'Data przyjęcia', field: 'activeStay.admitDate'}
             ],
-            data : $scope.gridData
+            data : 'patients'
         };
             
         function loadPatients() {
@@ -35,11 +32,13 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
                 .success(function (data) {
                     console.log(data);
                     $scope.patients = data;
-                    $scope.patients.forEach(function (patient) {
-                        console.log(patient);
-                        $scope.gridData.push(patient);
-                    });
-
+                    $scope.gridOptions = data;
+                    //$scope.patients.forEach(function (patient) {
+                    //    console.log(patient);
+                    //    $scope.gridData.push(patient);
+                    //});
+                    //
+                    //$scope.$apply()
                     $scope.isGridDataReady = true;
                 })
                 .error(function () {
