@@ -3,4 +3,7 @@ dependencies {
 	compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
 	
 	providedCompile "org.projectlombok:lombok:1.16.4"
+
+	compile "com.mysema.querydsl:querydsl-jpa:3.6.6"
+	compile "com.mysema.querydsl:querydsl-apt:3.6.6:jpa"
 }
