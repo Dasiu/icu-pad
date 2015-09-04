@@ -22,7 +22,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @Profile("!test")
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true, securedEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class Security extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -38,7 +38,7 @@ public class Security extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-                .csrf().csrfTokenRepository(csrfTokenRepository());
+                .csrf().disable();
     }
 
     @Bean

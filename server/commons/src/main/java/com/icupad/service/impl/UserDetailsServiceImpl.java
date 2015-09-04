@@ -1,4 +1,4 @@
-package com.icupad.service;
+package com.icupad.service.impl;
 
 import com.icupad.domain.User;
 import com.icupad.security.domain.UserDetailsUserAware;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserDetailsServiceImpl implements UserDetailsService {
+class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 

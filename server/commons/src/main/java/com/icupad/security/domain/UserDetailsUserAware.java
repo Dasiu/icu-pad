@@ -16,7 +16,9 @@ public class UserDetailsUserAware implements UserDetails {
     public UserDetailsUserAware(User user) {
         this.user = user;
         authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .flatMap(role -> role.getRights().stream())
+                .map(Object::toString)
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 

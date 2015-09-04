@@ -2,10 +2,13 @@ package com.icupad.test_results.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icupad.TestResultsApplication;
+import com.icupad.domain.Role;
+import com.icupad.domain.User;
 import com.icupad.patient.domain.Patient;
 import com.icupad.patient.domain.Stay;
 import com.icupad.patient.service.PatientService;
 import com.icupad.patient.service.StayService;
+import com.icupad.service.RoleService;
 import com.icupad.service.UserService;
 import com.icupad.test_data.Patients;
 import com.icupad.test_data.Stays;
@@ -77,10 +80,29 @@ public class TestPanelResultTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+    private User admin;
+
     @Before
     public void setup() {
-        userService.save(Users.admin());
+        saveAdminWithAdminRole();
         restAssuredConfig();
+    }
+
+    private void saveAdminWithAdminRole() {
+        Role adminRole = setAdminRole();
+        admin = Users.admin();
+        admin.getRoles().add(adminRole);
+        admin = userService.save(admin);
+    }
+
+    private Role setAdminRole() {
+        Role adminRole = roleService.findByName(RoleService.ADMIN_ROLE_NAME);
+        if (adminRole == null) {
+            throw new RuntimeException("Missing admin role");
+        }
+        return adminRole;
     }
 
     @After

@@ -10,6 +10,7 @@ import com.icupad.test_results.blood_gas.service.TestResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/stay/{stayId}")
+@RequestMapping("/stay/")
 class TestPanelResultControllerImpl implements TestPanelResultController {
     private final TestResultService testResultService;
 
@@ -34,7 +35,8 @@ class TestPanelResultControllerImpl implements TestPanelResultController {
      * If dates are not given, all results for stay are returned
      */
     @Override
-    @RequestMapping(value = "/test-panel-result", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('TEST_RESULTS_READ')")
+    @RequestMapping(value = "/{stayId}/test-panel-result", method = RequestMethod.GET)
     public Collection<TestPanelResultDTO> index(@PathVariable long stayId,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime fromRequestDate,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime toRequestDate) {
