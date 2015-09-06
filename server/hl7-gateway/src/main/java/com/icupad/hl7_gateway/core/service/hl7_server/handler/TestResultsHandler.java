@@ -19,8 +19,9 @@ import com.icupad.hl7_gateway.core.service.hl7_server.segment_parser.PV1Parser;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.*;
@@ -69,6 +70,8 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
      * <p>
      * A situation when only partially results are send may occur. Later, in another message, the same results are send
      * including previously missing results. In that case method prevents test results duplication.
+     * <p>
+     * Serializable isolation level needed to avoid duplicated test creation
      *
      * @param oru_r01 message with test results
      * @throws HL7Exception
@@ -79,7 +82,7 @@ public class TestResultsHandler implements MessageHandler<ORU_R01> {
      * @see TestMapping
      */
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void handle(ORU_R01 oru_r01) throws HL7Exception {
         if (!isPatientRegistered(oru_r01)) {
             registerPatient.accept(getPID(oru_r01), getPV1(oru_r01));
