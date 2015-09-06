@@ -1,8 +1,8 @@
 package com.icupad.hl7_gateway.core.domain;
 
-import com.icupad.hl7_gateway.core.repository.validation.constraints.Past;
-
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -22,7 +22,6 @@ public class Stay extends BaseEntity {
     @Embedded
     private AdmittingDoctor admittingDoctor;
 
-    @Past
     @NotNull
     private LocalDateTime admitDate;
 
