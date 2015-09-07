@@ -1,8 +1,8 @@
 package com.icupad.form.model;
 
-import javax.persistence.*;
-
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Data

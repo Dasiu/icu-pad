@@ -9,10 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class SimpleCORSFilter implements Filter {
-    
-    public SimpleCORSFilter() {
-        System.err.println("asdf!");
-    }
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;

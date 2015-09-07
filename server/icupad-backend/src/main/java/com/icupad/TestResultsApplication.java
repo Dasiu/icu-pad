@@ -31,14 +31,8 @@ public class TestResultsApplication {
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-        factory.setTomcatContextCustomizers(Collections.singletonList(new CustomCustomizer()));
+        factory.setTomcatContextCustomizers(Collections.singletonList(context -> context.setUseHttpOnly(false)));
         return factory;
     }
 
-    static class CustomCustomizer implements TomcatContextCustomizer {
-        @Override
-        public void customize(Context context) {
-            context.setUseHttpOnly(false);
-        }
-    }
 }

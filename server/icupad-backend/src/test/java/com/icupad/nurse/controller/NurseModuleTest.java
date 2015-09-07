@@ -5,6 +5,7 @@ import static com.jayway.restassured.RestAssured.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.icupad.TestResultsApplication;
 import com.icupad.common.controller.RestDateFormat;
 import com.icupad.nurse.config.NurseApplication;
 import com.icupad.nurse.model.*;
@@ -27,7 +28,7 @@ import java.util.*;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = NurseApplication.class)
+@SpringApplicationConfiguration(classes = TestResultsApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:12345")
 public class NurseModuleTest {
@@ -97,7 +98,7 @@ public class NurseModuleTest {
 	
 	private Patient existingPatinetWithExecutedActivities() {
 		Patient patient = new Patient();
-		patient.setId(PatientProvider.idOfExistingUser());
+		patient.setId(idOfExistingUser());
 		generateExecutedActivities(patient, LocalDateTime.now(), 5);
 		return patient;
 	}
