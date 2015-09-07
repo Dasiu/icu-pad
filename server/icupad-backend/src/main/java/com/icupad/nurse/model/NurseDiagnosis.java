@@ -1,4 +1,4 @@
-package com.icupad.nurse.diagnosis.model;
+package com.icupad.nurse.model;
 
 import java.util.Set;
 

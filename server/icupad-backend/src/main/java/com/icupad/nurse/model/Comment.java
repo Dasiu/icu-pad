@@ -1,6 +1,7 @@
 package com.icupad.nurse.model;
 
-import com.icupad.common.model.BaseEntity;
+
+import com.icupad.domain.BaseEntity;
 
 import javax.persistence.Entity;
 

@@ -2,7 +2,7 @@ package com.icupad.nurse.controller;
 
 import com.google.common.collect.Lists;
 import com.icupad.common.controller.RestDateFormat;
-import com.icupad.nurse.diagnosis.model.NurseDiagnosis;
+import com.icupad.nurse.model.NurseDiagnosis;
 import com.icupad.nurse.model.*;
 import com.icupad.nurse.service.*;
 

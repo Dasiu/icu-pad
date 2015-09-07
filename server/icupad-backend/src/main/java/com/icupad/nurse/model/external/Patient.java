@@ -1,11 +1,12 @@
 package com.icupad.nurse.model.external;
 
-import com.icupad.common.model.BaseEntity;
+import com.icupad.domain.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
+@Deprecated // TODO remove
 public class Patient extends BaseEntity {
 	
     @Column(nullable = false, unique = true)
@@ -28,10 +29,6 @@ public class Patient extends BaseEntity {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 '}';
-    }
-    
-    public void setId(Long id) {
-    	this.id = id;
     }
 
     public String getPesel() {

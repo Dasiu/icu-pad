@@ -1,12 +1,11 @@
-include 'server:commons'
+rootProject.name = 'icupad'
 
+include 'server:commons'
+include 'server:form-builder'
 include 'server:hl7-gateway'
+include 'server:icupad-backend'
 
 include 'server:nurse:nurse-rest'
-include 'server:nurse:nurse-service'
-include 'server:nurse:nurse-model'
 
 
-include 'server:icupad-backend'
-rootProject.name = 'icupad'
 

@@ -1,6 +1,6 @@
 package com.icupad.nurse.service;
 
-import com.icupad.nurse.diagnosis.model.NurseDiagnosis;
+import com.icupad.nurse.model.NurseDiagnosis;
 
 import java.util.Collection;
 

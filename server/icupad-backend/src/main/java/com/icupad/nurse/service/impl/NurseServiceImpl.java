@@ -1,6 +1,6 @@
 package com.icupad.nurse.service.impl;
 
-import com.icupad.nurse.diagnosis.model.NurseDiagnosis;
+import com.icupad.nurse.model.NurseDiagnosis;
 import com.icupad.nurse.repository.NurseDiagnosisRepository;
 import com.icupad.nurse.service.NurseService;
 

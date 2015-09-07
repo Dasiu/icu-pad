@@ -1,11 +1,10 @@
 package com.icupad.nurse.model;
 
-import com.icupad.common.model.BaseEntity;
-
-import java.util.Collection;
+import com.icupad.domain.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 @Entity
 public class ExecutedNurseFunction extends BaseEntity {
