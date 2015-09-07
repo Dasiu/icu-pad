@@ -4,8 +4,3 @@ include 'server:commons'
 include 'server:form-builder'
 include 'server:hl7-gateway'
 include 'server:icupad-backend'
-
-include 'server:nurse:nurse-rest'
-
-
-

@@ -97,7 +97,7 @@ public class NurseModuleTest {
 	
 	private Patient existingPatinetWithExecutedActivities() {
 		Patient patient = new Patient();
-		patient.setId(idOfExistingUser());
+		patient.setId(PatientProvider.idOfExistingUser());
 		generateExecutedActivities(patient, LocalDateTime.now(), 5);
 		return patient;
 	}
