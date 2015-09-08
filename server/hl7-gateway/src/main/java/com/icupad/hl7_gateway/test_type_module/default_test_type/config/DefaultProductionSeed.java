@@ -67,7 +67,15 @@ public class DefaultProductionSeed {
                 new TestMapping("Kinaza kreatynowa", "Kinaza kreatynowa", "U/l"),
                 new TestMapping("Triglicerydy", "Triglicerydy", "mg/dl"),
                 new TestMapping("Wapń całkowity", "Wapń całkowity", "mmol/l"),
-                new TestMapping("Alfa -1 antytrypsyna", "Alfa -1 antytrypsyna", "  g/l")
+                new TestMapping("Alfa -1 antytrypsyna", "Alfa -1 antytrypsyna", "  g/l"),
+
+                new TestMapping("Trójjododotyronina wolna", "Trójjododotyronina wolna","pg/mL"),
+                new TestMapping("Tyroksyna wolna", "Tyroksyna wolna","ng/dL"),
+                new TestMapping("Hormon tyreotropowy", "Hormon tyreotropowy","uIU/mL"),
+                new TestMapping("OB", "OB","mm/h"),
+                new TestMapping("Bilirubina bezpośrednia", "Bilirubina bezpośrednia","mg/dl"),
+                new TestMapping("GGTP", "GGTP","IU/l"),
+                new TestMapping("Antygen HBs", "Antygen HBs","S/CO")
         );
     }
 
