@@ -3,8 +3,6 @@ package com.icupad.hl7_gateway.core.domain;
 import com.icupad.hl7_gateway.core.utils.StringUtils;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
-
 import static com.icupad.hl7_gateway.test_utils.ValidationUtils.*;
 import static org.junit.Assert.assertThat;
 
@@ -48,24 +46,8 @@ public class StayTest {
     }
 
     @Test
-    public void admitDateShouldBePastDate() {
-        Stay stay = new Stay();
-        stay.setAdmitDate(LocalDateTime.now().minusDays(1));
-
-        assertThat(validationFor(stay, onProperty("admitDate")), succeeds());
-    }
-
-    @Test
     public void admitDateShouldNotBeNull() {
         Stay stay = new Stay();
-
-        assertThat(validationFor(stay, onProperty("admitDate")), fails());
-    }
-
-    @Test
-    public void admitDateShouldNotBeFutureDate() {
-        Stay stay = new Stay();
-        stay.setAdmitDate(LocalDateTime.now().plusDays(1));
 
         assertThat(validationFor(stay, onProperty("admitDate")), fails());
     }
