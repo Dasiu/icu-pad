@@ -8,7 +8,7 @@ import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ADT_A08;
-import com.icupad.hl7_gateway.core.Application;
+import com.icupad.hl7_gateway.Application;
 import com.icupad.hl7_gateway.core.domain.Patient;
 import com.icupad.hl7_gateway.core.domain.Sex;
 import com.icupad.hl7_gateway.core.service.PatientService;

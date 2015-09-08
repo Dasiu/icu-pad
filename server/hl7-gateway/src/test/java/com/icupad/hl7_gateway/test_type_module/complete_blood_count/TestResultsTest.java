@@ -3,7 +3,7 @@ package com.icupad.hl7_gateway.test_type_module.complete_blood_count;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
-import com.icupad.hl7_gateway.core.Application;
+import com.icupad.hl7_gateway.Application;
 import com.icupad.hl7_gateway.core.domain.Stay;
 import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.StayService;
