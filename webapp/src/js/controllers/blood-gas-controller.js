@@ -1,28 +1,34 @@
 angular.module('ICUPad.controllers.BloodGas', [])
 
-    .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location',
-        function ($http, $rootScope, $scope, $location) {
+    .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location', '$timeout',
+        function ($http, $rootScope, $scope, $location, $timeout) {
             $scope.title = "blood gas!";
-            $scope.chartMode = true;
+            console.log('test');
+            console.log($scope.chartMode);
+            $scope.chartMode = $rootScope.chartMode === undefined
+            console.log('test');
+            console.log($scope.chartMode);
             $scope.toggleChartMode = function () {
-                $scope.chartMode = !$scope.chartMode
+                $rootScope.chartMode = !$rootScope.chartMode
+                $scope.chartMode = $rootScope.chartMode
+                console.log('changed in click func');
+                //$location.path("blood-gas-grid");
             }
 
             $scope.gridOptions = {
+                //columnDefs: [
+                //    { name: 'name' },
+                //    { name: 'gender' },
+                //    { name: 'company' },
+                //    { name: 'widgets' },
+                //    { name: 'cumulativeWidgets', field: 'widgets', cellTemplate: '' }
+                //]
                 rowTemplate: 'grid-row.html',
                 data: 'gridData'
             };
 
-            //$scope.chart = c3.generate({
-            //    data: {
-            //        columns: [
-            //            ['data1', 30, 200, 100, 400, 150, 250],
-            //            ['data2', 50, 20, 10, 40, 15, 25]
-            //        ]
-            //    }
-            //});
-
             loadTestResults();
+            setListeners();
             function loadTestResults() {
                 // todo delete
                 $rootScope.patient = {
@@ -57,10 +63,11 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         return self.indexOf(value) === index;
                     });
                     $scope.testNames = testNames;
-                    $scope.selectedTestNames = testNames;
+                    $scope.selectedTestNames = ['pO2', 'pCO2', 'pH'];
                     chartData();
                     generateChart();
                     gridData();
+                    gridOptions();
 
                     function chartData() {
                         $scope.dates = testResults.map(function (testPanel) {
@@ -108,15 +115,71 @@ angular.module('ICUPad.controllers.BloodGas', [])
                                     return test.name === testName
                                 })[0]
                                 var testValue = test ? test.value : null;
-                                row[testPanel.requestDate] = testValue;
+                                row[testPanel.requestDate] = test;
                             })
                             return row
                         });
+                        columnDefsF()
                         console.log('x')
                         console.log($scope.gridData)
+
+                        function columnDefsF() {
+                            var colmnDefs = testResults.map(function (testPanel) {
+                                var columnDef = {
+                                    name: testPanel.requestDate,
+                                    field: '' + testPanel.requestDate + '.value',
+                                    //cellTemplate: '<div class="ui-grid-cell-contents" >{{grid, row}}</div>'
+                                    cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                                        var cellVal = grid.getCellValue(row,col)
+                                        console.log('row');
+                                        console.log(row);
+                                        console.log('colmn');
+                                        console.log(col);
+                                        console.log('celval');
+                                        console.log(cellVal);
+                                        var test = row.entity[col.name];
+                                        console.log('test');
+                                        console.log(test);
+
+                                        if (test.abnormality === 'BELOW_LOW_NORM') {
+                                            return 'below-norm';
+                                        } else if (test.abnormality === 'ABOVE_HIGH_NORM') {
+                                            return 'above-norm';
+                                        } else {
+                                            return 'standard';
+                                        }
+                                    }
+                                };
+                                return columnDef;
+                            });
+                            console.log(colmnDefs);
+                            $scope.columnDefs = colmnDefs;
+                        }
+                    }
+
+                    function gridOptions() {
+                        $scope.gridOptions = {
+                            columnDefs: $scope.columnDefs,
+                            rowTemplate: 'grid-row.html',
+                            data: 'gridData'
+                        };
                     }
                 }
             }
 
-
+            function setListeners() {
+                //$scope.$watch('chartMode', function (newValue) {
+                //    console.log('chaneg');
+                //    if (!newValue) {
+                //        $timeout(function () {
+                //            if ($scope.gridOptions.$gridServices) {
+                //                $scope.gridOptions.$gridServices.DomUtilityService.RebuildGrid(
+                //                    $scope.gridOptions.$gridScope,
+                //                    $scope.gridOptions.ngGrid);
+                //            }
+                //        })
+                //    }
+                //
+                //}, true)
+            }
         }]);
