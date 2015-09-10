@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,12 +36,13 @@ public class FormController {
     @RequestMapping(value = "/model/{module}/{modelName}", method = RequestMethod.GET)
     public ResponseEntity<?> getFormTemplate(@PathVariable("module") String module, @PathVariable("modelName") String modelName) {
         try {
+            throwExceptionIfNotValid(module, modelName);
             return new ResponseEntity<>(Class.forName("com.icupad." + module + ".model." + modelName).getDeclaredFields(), HttpStatus.OK);
         } catch (ClassNotFoundException e) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @RequestMapping(value = "/{module}/{formId}", method = RequestMethod.GET)
     public ResponseEntity<String> getForm(@PathVariable("module") String module, @PathVariable("formId") String formId) {
         return new ResponseEntity<>(formService.findByModuleAndId(module, formId).getBody(), HttpStatus.OK);
@@ -55,6 +57,14 @@ public class FormController {
     public ResponseEntity<FormTemplate> addTemplate(@PathVariable("module") String module, @RequestBody String content) throws IOException {
         FormTemplate template = createTemplate(module, content);
         return new ResponseEntity<>(formService.saveTemplate(template), HttpStatus.CREATED);
+    }
+
+    private void throwExceptionIfNotValid(String... strings) {
+        for (String string : strings) {
+            if (!string.matches("[a-zA-Z_]+")) {
+                throw new IllegalArgumentException("Invalid value: '" + string + "'");
+            }
+        }
     }
 
     private FormTemplate createTemplate(String module, String content) throws IOException {

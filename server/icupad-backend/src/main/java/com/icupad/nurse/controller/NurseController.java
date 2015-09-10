@@ -27,7 +27,7 @@ public class NurseController {
     }
     
     @RequestMapping(value = "/diagnosis", method = RequestMethod.GET)
-    public ResponseEntity<Collection<NurseDiagnosis>> findAllDiadnosis() {
+    public ResponseEntity<Collection<NurseDiagnosis>> findAllDiagnosis() {
         return new ResponseEntity<>(nurseService.findAll(), HttpStatus.OK);
     }
 
