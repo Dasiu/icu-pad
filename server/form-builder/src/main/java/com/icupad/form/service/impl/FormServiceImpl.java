@@ -1,7 +1,7 @@
-package com.icupad.common.service.impl;
+package com.icupad.form.service.impl;
 
-import com.icupad.common.repository.FormTemplateRepository;
-import com.icupad.common.service.FormService;
+import com.icupad.form.repository.FormTemplateRepository;
+import com.icupad.form.service.FormService;
 import com.icupad.form.model.FormTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;

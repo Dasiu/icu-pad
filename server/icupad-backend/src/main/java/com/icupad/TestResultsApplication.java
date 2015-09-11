@@ -24,6 +24,7 @@ import java.util.Collections;
 @ComponentScan(basePackages = {"com.icupad"})
 @EntityScan(basePackages = {"com.icupad"})
 public class TestResultsApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(TestResultsApplication.class, args);
     }

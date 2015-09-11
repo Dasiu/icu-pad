@@ -1,4 +1,4 @@
-package com.icupad.common.repository;
+package com.icupad.form.repository;
 
 import com.icupad.form.model.FormTemplate;
 

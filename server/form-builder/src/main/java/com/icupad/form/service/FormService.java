@@ -1,4 +1,4 @@
-package com.icupad.common.service;
+package com.icupad.form.service;
 
 import com.icupad.form.model.FormTemplate;
 

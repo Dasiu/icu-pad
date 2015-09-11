@@ -1,6 +1,7 @@
 package com.icupad.common.controller;
 
-import com.icupad.common.service.FormService;
+import com.icupad.form.controller.FormController;
+import com.icupad.form.service.FormService;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
