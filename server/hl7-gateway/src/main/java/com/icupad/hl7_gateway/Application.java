@@ -1,4 +1,4 @@
-package com.icupad.hl7_gateway.core;
+package com.icupad.hl7_gateway;
 
 import com.icupad.hl7_gateway.core.repository.RepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
@@ -11,10 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "com.icupad.hl7_gateway")
+@ComponentScan(basePackages = "com.icupad")
 @EnableJpaAuditing
-@EnableJpaRepositories(value = {"com.icupad.hl7_gateway"}, repositoryFactoryBeanClass = RepositoryFactoryBean.class)
-@EntityScan(basePackages = "com.icupad.hl7_gateway")
+@EnableJpaRepositories(value = {"com.icupad"}, repositoryFactoryBeanClass = RepositoryFactoryBean.class)
+@EntityScan(basePackages = "com.icupad")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
