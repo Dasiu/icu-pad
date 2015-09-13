@@ -44,6 +44,10 @@ angular.module('ICUPad.controllers.Main', [])
             }
         }
 
+        function broadcastDayChange() {
+            $rootScope.$broadcast('selectedDayChanged', { begin: beginOf($rootScope.selectedDay), end: endOf($rootScope.selectedDay) });
+        }
+
         $rootScope.calculateDay = function() {
             if (!$rootScope.patient || !$rootScope.patient.activeStay.admitDate || !$rootScope.selectedDay) {
                 return null;
@@ -63,22 +67,32 @@ angular.module('ICUPad.controllers.Main', [])
         };
 
         $rootScope.nextDay = function() {
-            console.log("next");
             var yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             if ($rootScope.selectedDay < yesterday) {
-                console.log("true");
                 $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() + 1);
             }
+            broadcastDayChange();
         };
 
         $rootScope.prevDay = function() {
-            console.log("prev");
             var calculateDay = $rootScope.calculateDay();
             if (calculateDay && calculateDay > 1) {
-                console.log("true");
                 $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() - 1);
             }
+            broadcastDayChange();
         };
+
+        function beginOf(date) {
+            var beginOfDay = new Date(date);
+            beginOfDay.setHours(0, 0, 0, 0);
+            return beginOfDay;
+        }
+
+        function endOf(date) {
+            var endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
+            return endOfDay;
+        }
 
     });
