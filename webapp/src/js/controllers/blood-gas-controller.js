@@ -5,17 +5,16 @@ angular.module('ICUPad.controllers.BloodGas', [])
             $scope.title = "blood gas!";
             console.log('test');
             console.log($scope.chartMode);
-            $scope.chartMode = $rootScope.chartMode === undefined
             console.log('test');
             console.log($scope.chartMode);
+            $scope.chartMode = false;
             $scope.toggleChartMode = function () {
-                $rootScope.chartMode = !$rootScope.chartMode
-                $scope.chartMode = $rootScope.chartMode
+                $scope.chartMode = $scope.chartMode
                 console.log('changed in click func');
                 //$location.path("blood-gas-grid");
             }
 
-            $scope.gridOptions = {
+            //$scope.gridOptions = {
                 //columnDefs: [
                 //    { name: 'name' },
                 //    { name: 'gender' },
@@ -23,23 +22,23 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 //    { name: 'widgets' },
                 //    { name: 'cumulativeWidgets', field: 'widgets', cellTemplate: '' }
                 //]
-                rowTemplate: 'grid-row.html',
-                data: 'gridData'
-            };
+                //rowTemplate: 'grid-row.html',
+                //data: 'gridData'
+            //};
 
             loadTestResults();
             setListeners();
             function loadTestResults() {
                 // todo delete
-                $rootScope.patient = {
-                    id: 666, hl7Id: "254895", pesel: "14212808853", name: "Filip",
-                    surname: "Rysztak", sex: "MALE", address: {}, stays: {id: 9},
-                    birthDate: "2014-01-28", activeStay: {id: 9}
-                };
+                //$rootScope.patient = {
+                //    id: 666, hl7Id: "254895", pesel: "14212808853", name: "Filip",
+                //    surname: "Rysztak", sex: "MALE", address: {}, stays: {id: 9},
+                //    birthDate: "2014-01-28", activeStay: {id: 9}
+                //};
                 console.log("test");
                 console.log($rootScope.patient);
                 $http({
-                    url: $rootScope.globalSettings.serverUrl + '/stay/' + $rootScope.patient.activeStay.id + '/test-panel-result',
+                    url: $rootScope.globalSettings.serverUrl + '/stay/' + 9 + '/test-panel-result', // todo
                     method: 'GET'
                 })
                     .success(function (data) {
@@ -160,6 +159,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                     function gridOptions() {
                         $scope.gridOptions = {
                             columnDefs: $scope.columnDefs,
+                            enableColumnMenus: false,
                             rowTemplate: 'grid-row.html',
                             data: 'gridData'
                         };

@@ -14,6 +14,11 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
 
         $scope.gridOptions = {
             rowTemplate: 'grid-row.html',
+            //gridMenuShowHideColumns: false,
+            //enableSorting: false,
+            enableColumnMenus: false,
+                //showColumnMenu: false,
+            //showFilter: false,
             columnDefs: [
                 { name:'Imię', field: 'name' },
                 { name:'Nazwisko', field: 'surname' },
