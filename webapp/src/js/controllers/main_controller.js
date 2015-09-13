@@ -81,12 +81,24 @@ angular.module('ICUPad.controllers.Main', [])
             $location.path("/login");
         }
 
-        $scope.$on('$locationChangeStart', function(event) {
+        $scope.$on('$locationChangeStart', function() {
             $scope.headerCollapsed = true;
         });
 
         $scope.toggleCollapsed = function() {
             $scope.headerCollapsed = !$scope.headerCollapsed;
-        }
+        };
+
+        $scope.closeApp = function() {
+            if ($rootScope.isMobileDevice) {
+                navigator.app.exitApp();
+            } else {
+                window.sessionStorage.removeItem('headerVal');
+                location.reload();
+            }
+        };
+
+        $rootScope.isMobileDevice =
+            navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
 
     });
