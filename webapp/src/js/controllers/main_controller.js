@@ -49,13 +49,13 @@ angular.module('ICUPad.controllers.Main', [])
             var beginOfDay = new Date(date);
             beginOfDay.setHours(0, 0, 0, 0);
             return beginOfDay;
-        }
+        };
 
         $rootScope.endOf = function(date) {
             var endOfDay = new Date(date);
             endOfDay.setHours(23, 59, 59, 999);
             return endOfDay;
-        }
+        };
 
         function initGlobalSettings() {
             $rootScope.globalSettings = {
@@ -74,10 +74,19 @@ angular.module('ICUPad.controllers.Main', [])
         $scope.patientChoosed = false;
 
         $rootScope.resetSelectedDay();
+        $scope.headerCollapsed = true;
 
         initGlobalSettings();
         if (!$scope.authenticated) {
             $location.path("/login");
+        }
+
+        $scope.$on('$locationChangeStart', function(event) {
+            $scope.headerCollapsed = true;
+        });
+
+        $scope.toggleCollapsed = function() {
+            $scope.headerCollapsed = !$scope.headerCollapsed;
         }
 
     });

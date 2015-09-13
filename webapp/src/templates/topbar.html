@@ -1,7 +1,7 @@
 <div ng-show="patient" class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-content">
         <div class="navbar-brand navbar-brand-center">
-            <h3 ng-click="header.collapsed = !header.collapsed">
+            <h3 ng-click="toggleCollapsed()">
                 <small>Pacjent:</small>
                 {{patient.name}} {{patient.surname}}
             </h3>
@@ -29,31 +29,34 @@
         </div>
     </div>
 
-    <div class="navbar-collapsible" collapse="header.collapsed">
+    <div class="navbar-collapsible" collapse="headerCollapsed">
         <div class="navbar-collapsible-content well table-container">
             <div class="row">
                 <div class="cell">
-                    Pesel: {{patient.pesel}}
+                    Pesel:
+                    <span class="value">{{patient.pesel}}</span>
                 </div>
                 <div class="cell">
-                    Data urodzenia: {{patient.birthDate}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="cell">
-                    Data przyjęcia: {{patient.activeStay.admitDate}}
-                </div>
-                <div class="cell">
-                    Lekarz: {{patient.activeStay.admittingDoctor.name}} {{patient.activeStay.admittingDoctor.surname}}
+                    Data urodzenia:
+                    <span class="value">{{patient.birthDate}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="cell">
-                    Miejsce pobytu: {{patient.activeStay.assignedPatientLocation.name}}
+                    Data przyjęcia:
+                    <span class="value">{{patient.activeStay.admitDate}}</span>
+                </div>
+                <div class="cell">
+                    Lekarz:
+                    <span class="value">{{patient.activeStay.admittingDoctor.name}} {{patient.activeStay.admittingDoctor.surname}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    Miejsce pobytu:
+                    <span class="value">{{patient.activeStay.assignedPatientLocation.name}}</span>
                 </div>
             </div>
         </div>
-
-        <!-- <div class="well well-lg">Some content12</div> -->
     </div>
 </div>
