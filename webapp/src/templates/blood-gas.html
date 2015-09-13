@@ -1,7 +1,7 @@
-<section class="section container-fluid">
+<section class="ng-cloak section container-fluid">
   <h1 class="page-header">Gazometria</h1>
 
   <button ng-click="toggleChartMode()" type="button" class="btn btn-primary">Chart mode</button>
-  <div ng-show="chartMode" id="grid1" ui-grid="gridOptions" class="grid"></div>
-  <div ng-show="!chartMode" style="max-height: 280px; position: relative;" class="c3" id="chart" />
+  <div ng-show="!chartMode" id="grid1" ui-grid="gridOptions" class="grid"></div>
+  <div ng-show="chartMode" style="max-height: 280px; position: relative;" class="c3" id="chart" />
 </section>
