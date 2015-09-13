@@ -45,6 +45,18 @@ angular.module('ICUPad.controllers.Main', [])
             $rootScope.selectedDay = selectedDay;
         };
 
+        $rootScope.beginOf = function(date) {
+            var beginOfDay = new Date(date);
+            beginOfDay.setHours(0, 0, 0, 0);
+            return beginOfDay;
+        }
+
+        $rootScope.endOf = function(date) {
+            var endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
+            return endOfDay;
+        }
+
         function initGlobalSettings() {
             $rootScope.globalSettings = {
                 serverUrl: configuration.server
@@ -52,19 +64,7 @@ angular.module('ICUPad.controllers.Main', [])
         }
 
         function broadcastDayChange() {
-            $rootScope.$broadcast('selectedDayChanged', { begin: beginOf($rootScope.selectedDay), end: endOf($rootScope.selectedDay) });
-        }
-
-        function beginOf(date) {
-            var beginOfDay = new Date(date);
-            beginOfDay.setHours(0, 0, 0, 0);
-            return beginOfDay;
-        }
-
-        function endOf(date) {
-            var endOfDay = new Date(date);
-            endOfDay.setHours(23, 59, 59, 999);
-            return endOfDay;
+            $rootScope.$broadcast('selectedDayChanged');
         }
 
         $scope.header = {
