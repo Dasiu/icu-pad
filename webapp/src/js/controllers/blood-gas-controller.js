@@ -3,16 +3,21 @@ angular.module('ICUPad.controllers.BloodGas', [])
     .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location', '$timeout',
         function ($http, $rootScope, $scope, $location, $timeout) {
             $scope.title = "blood gas!";
-            console.log('test');
-            console.log($scope.chartMode);
-            console.log('test');
-            console.log($scope.chartMode);
             $scope.chartMode = false;
             $scope.toggleChartMode = function () {
                 $scope.chartMode = !$scope.chartMode
-                console.log('changed in click func');
-                //$location.path("blood-gas-grid");
             }
+
+            $scope.$on('dateChanged', function(event, date) {
+                console.log('dateChangedZZZ');
+                date.begin;
+                date.end;
+
+                console.log(date.begin);
+                console.log(date.end);
+
+                loadTestResults();
+            });
 
             $scope.gridOptions = {
                 //columnDefs: [
