@@ -8,15 +8,15 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 $scope.chartMode = !$scope.chartMode
             }
 
-            $scope.$on('dateChanged', function(event, date) {
+            $scope.$on('selectedDayChanged', function(event) {
                 console.log('dateChangedZZZ');
-                date.begin;
-                date.end;
 
-                console.log(date.begin);
-                console.log(date.end);
+                var startDate = $rootScope.beginOf($rootScope.selectedDay);
+                console.log(startDate);
+                var endDate = $rootScope.endOf($rootScope.selectedDay);
+                console.log(endDate);
 
-                loadTestResults();
+                loadTestResults(startDate, endDate);
             });
 
             $scope.gridOptions = {
@@ -34,7 +34,17 @@ angular.module('ICUPad.controllers.BloodGas', [])
 
             loadTestResults();
             setListeners();
-            function loadTestResults() {
+            function loadTestResults(startDate, endDate) {
+                if (!startDate) {
+                    startDate = $rootScope.beginOf($rootScope.selectedDay);
+                    endDate = $rootScope.endOf($rootScope.selectedDay);
+                }
+                var startDateString = startDate.toISOString().slice(0, 19);
+                var endDateString = endDate.toISOString().slice(0, 19);
+
+                console.log(startDateString);
+                console.log(endDateString);
+
                 // todo delete
                 //$rootScope.patient = {
                 //    id: 666, hl7Id: "254895", pesel: "14212808853", name: "Filip",
@@ -103,7 +113,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                                 x: {
                                     type: 'timeseries',
                                     tick: {
-                                        format: '%Y-%m-%d %H:%M'
+                                        format: '%H:%M'
                                     }
                                 }
                             }
@@ -132,11 +142,15 @@ angular.module('ICUPad.controllers.BloodGas', [])
                             var testNamesColumn = {
                                 name: 'Badanie',
                                 field: 'testName',
+                                width: '180'
                             }
                             var colmnDefs = [].concat([testNamesColumn], testResults.map(function (testPanel) {
+                                var requestDate = new Date(testPanel.requestDate);
                                 var columnDef = {
                                     name: testPanel.requestDate,
+                                    displayName: requestDate.getHours() + ':' + requestDate.getMinutes(),
                                     field: '' + testPanel.requestDate + '.value',
+                                    width: '70',
                                     //cellTemplate: '<div class="ui-grid-cell-contents" >{{grid, row}}</div>'
                                     cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                                         var cellVal = grid.getCellValue(row,col)
