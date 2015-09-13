@@ -9,12 +9,12 @@ angular.module('ICUPad.controllers.BloodGas', [])
             console.log($scope.chartMode);
             $scope.chartMode = false;
             $scope.toggleChartMode = function () {
-                $scope.chartMode = $scope.chartMode
+                $scope.chartMode = !$scope.chartMode
                 console.log('changed in click func');
                 //$location.path("blood-gas-grid");
             }
 
-            //$scope.gridOptions = {
+            $scope.gridOptions = {
                 //columnDefs: [
                 //    { name: 'name' },
                 //    { name: 'gender' },
@@ -22,9 +22,10 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 //    { name: 'widgets' },
                 //    { name: 'cumulativeWidgets', field: 'widgets', cellTemplate: '' }
                 //]
-                //rowTemplate: 'grid-row.html',
-                //data: 'gridData'
-            //};
+                enableColumnMenus: false,
+                rowTemplate: 'grid-row.html',
+                data: 'gridData'
+            };
 
             loadTestResults();
             setListeners();
@@ -123,23 +124,29 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         console.log($scope.gridData)
 
                         function columnDefsF() {
-                            var colmnDefs = testResults.map(function (testPanel) {
+                            var testNamesColumn = {
+                                name: 'Badanie',
+                                field: 'testName',
+                            }
+                            var colmnDefs = [].concat([testNamesColumn], testResults.map(function (testPanel) {
                                 var columnDef = {
                                     name: testPanel.requestDate,
                                     field: '' + testPanel.requestDate + '.value',
                                     //cellTemplate: '<div class="ui-grid-cell-contents" >{{grid, row}}</div>'
                                     cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                                         var cellVal = grid.getCellValue(row,col)
-                                        console.log('row');
-                                        console.log(row);
-                                        console.log('colmn');
-                                        console.log(col);
-                                        console.log('celval');
-                                        console.log(cellVal);
+                                        //console.log('row');
+                                        //console.log(row);
+                                        //console.log('colmn');
+                                        //console.log(col);
+                                        //console.log('celval');
+                                        //console.log(cellVal);
                                         var test = row.entity[col.name];
-                                        console.log('test');
-                                        console.log(test);
+                                        //console.log('test');
+                                        //console.log(test);
 
+                                        if (!test) return 'standard';
+                                        
                                         if (test.abnormality === 'BELOW_LOW_NORM') {
                                             return 'below-norm';
                                         } else if (test.abnormality === 'ABOVE_HIGH_NORM') {
@@ -150,19 +157,18 @@ angular.module('ICUPad.controllers.BloodGas', [])
                                     }
                                 };
                                 return columnDef;
-                            });
+                            }));
                             console.log(colmnDefs);
                             $scope.columnDefs = colmnDefs;
                         }
                     }
 
                     function gridOptions() {
-                        $scope.gridOptions = {
-                            columnDefs: $scope.columnDefs,
-                            enableColumnMenus: false,
-                            rowTemplate: 'grid-row.html',
-                            data: 'gridData'
-                        };
+                        $scope.gridOptions.columnDefs = $scope.columnDefs;
+                            //,
+                            //rowTemplate: 'grid-row.html',
+                            //data: 'gridData'
+                        //};
                     }
                 }
             }
