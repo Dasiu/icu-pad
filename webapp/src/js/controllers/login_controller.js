@@ -23,7 +23,7 @@ angular.module('ICUPad.controllers.Login', [])
                     : undefined;
             }
 
-            $http.get($rootScope.globalSettings.serverUrl + 'user/current', {headers: headers})
+            $http.get($rootScope.globalSettings.serverUrl + '/user/current', {headers: headers})
                 .success(function (data) {
                     $rootScope.authenticated = true;
                     console.log(data);

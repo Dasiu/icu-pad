@@ -1,6 +1,6 @@
 angular.module('ICUPad.controllers.Main', [])
 
-    .controller('MainController', function ($rootScope, $scope, $http, $location) {
+    .controller('MainController', function ($rootScope, $scope, $http, $location, configuration) {
 
         this.currentDay = function() {
             var temp = new Date();
@@ -40,7 +40,7 @@ angular.module('ICUPad.controllers.Main', [])
 
         function initGlobalSettings() {
             $rootScope.globalSettings = {
-                serverUrl: 'https://localhost:8443/'
+                serverUrl: configuration.server
             }
         }
 

@@ -25,7 +25,7 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
             
         function loadPatients() {
             $http({
-                url: $rootScope.globalSettings.serverUrl + 'patient',
+                url: $rootScope.globalSettings.serverUrl + '/patient',
                 method: 'GET',
                 params: {findOnlyActive: true}
             })
