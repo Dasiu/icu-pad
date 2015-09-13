@@ -20,10 +20,10 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
                 //showColumnMenu: false,
             //showFilter: false,
             columnDefs: [
-                { name:'Imię', field: 'name' },
-                { name:'Nazwisko', field: 'surname' },
-                { name:'Data urodzenia', field: 'birthDate'},
-                { name:'Data przyjęcia', field: 'activeStay.admitDate'}
+                { name:'Imię', field: 'name', width: "200", },
+                { name:'Nazwisko', field: 'surname', width: "200", },
+                { name:'Data urodzenia', field: 'birthDate', width: "200",},
+                { name:'Data przyjęcia', field: 'activeStay.admitDate', width: "200", }
             ],
             data : 'patients'
         };
