@@ -6,22 +6,17 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.icupad.domain.BaseEntity;
+import lombok.*;
 
-@Data
 @Entity
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NurseDiagnosis {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
+public class NurseDiagnosis extends BaseEntity {
+
     @Enumerated(EnumType.STRING)
     @Column(name = "OGO_STAN_SWIADOMOSCI")
     private StanSwiadomosci stanSwiadomosci;
