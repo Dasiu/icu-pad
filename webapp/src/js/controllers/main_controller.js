@@ -2,53 +2,7 @@ angular.module('ICUPad.controllers.Main', [])
 
     .controller('MainController', function ($rootScope, $scope, $http, $location, configuration) {
 
-        this.currentDay = function() {
-            var temp = new Date();
-            temp.setHours(0);
-            temp.setMinutes(0);
-            temp.setMilliseconds(0);
-            return temp;
-        };
-
-        $scope.header = {
-            collapsed: true
-        };
-        //$scope.user = {
-        //    name: "Jan Kowalski"
-        //};
-        //$scope.authenticated = true;
-
-        $scope.patientChoosed = false;
-
-        $rootScope.test = 'testJestTest';
-        $rootScope.selectedDay = this.currentDay();
-
-        //$scope.patient = {
-        //    name: "Adam Nowicki",
-        //    blood: "Rhd+",
-        //    stayStartDate: "2014-11-03",
-        //    birthDate: "2012-10-12",
-        //    weight: "15,6kg",
-        //    others: "uczulenie na penicylinę",
-        //    day: 2
-        //}
-
-        initGlobalSettings();
-        if (!$scope.authenticated) {
-            $location.path("/login");
-        }
-
-        function initGlobalSettings() {
-            $rootScope.globalSettings = {
-                serverUrl: configuration.server
-            }
-        }
-
-        function broadcastDayChange() {
-            $rootScope.$broadcast('selectedDayChanged', { begin: beginOf($rootScope.selectedDay), end: endOf($rootScope.selectedDay) });
-        }
-
-        $rootScope.calculateDay = function() {
+        $rootScope.selectedDayNumber = function() {
             if (!$rootScope.patient || !$rootScope.patient.activeStay.admitDate || !$rootScope.selectedDay) {
                 return null;
             }
@@ -76,12 +30,30 @@ angular.module('ICUPad.controllers.Main', [])
         };
 
         $rootScope.prevDay = function() {
-            var calculateDay = $rootScope.calculateDay();
+            var calculateDay = $rootScope.selectedDayNumber();
             if (calculateDay && calculateDay > 1) {
                 $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() - 1);
             }
             broadcastDayChange();
         };
+
+        $rootScope.resetSelectedDay = function() {
+            var selectedDay = new Date();
+            selectedDay.setHours(0);
+            selectedDay.setMinutes(0);
+            selectedDay.setMilliseconds(0);
+            $rootScope.selectedDay = selectedDay;
+        };
+
+        function initGlobalSettings() {
+            $rootScope.globalSettings = {
+                serverUrl: configuration.server
+            }
+        }
+
+        function broadcastDayChange() {
+            $rootScope.$broadcast('selectedDayChanged', { begin: beginOf($rootScope.selectedDay), end: endOf($rootScope.selectedDay) });
+        }
 
         function beginOf(date) {
             var beginOfDay = new Date(date);
@@ -93,6 +65,19 @@ angular.module('ICUPad.controllers.Main', [])
             var endOfDay = new Date(date);
             endOfDay.setHours(23, 59, 59, 999);
             return endOfDay;
+        }
+
+        $scope.header = {
+            collapsed: true
+        };
+
+        $scope.patientChoosed = false;
+
+        $rootScope.resetSelectedDay();
+
+        initGlobalSettings();
+        if (!$scope.authenticated) {
+            $location.path("/login");
         }
 
     });

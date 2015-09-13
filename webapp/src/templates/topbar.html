@@ -8,9 +8,6 @@
         </div>
         <div class="pull-right" ui-yield-to="navbarAction">
             <small>Doba:</small>
-            <div ui-toggle="uiSidebarRight" class="btn">
-                <i class="fa fa-calendar fa-lg"></i>
-            </div>
             <div ui-toggle="uiSidebarRight" class="btn" ng-click="prevDay()">
               <span class="fa-stack">
                 <i class="fa fa-circle-o fa-stack-2x"></i>
@@ -18,13 +15,16 @@
               </span>
             </div>
             <div ui-toggle="uiSidebarRight" class="btn">
-                {{calculateDay()}}
+                {{selectedDayNumber()}}
             </div>
             <div ui-toggle="uiSidebarRight" class="btn" ng-click="nextDay()">
               <span class="fa-stack">
                 <i class="fa fa-circle-o fa-stack-2x"></i>
                 <i class="fa fa-chevron-right fa-stack-1x"></i>
               </span>
+            </div>
+            <div ui-toggle="uiSidebarRight" class="btn" ng-click="resetSelectedDay()">
+                <i class="fa fa-calendar fa-lg"></i>
             </div>
         </div>
     </div>
