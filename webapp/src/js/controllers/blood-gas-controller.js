@@ -6,6 +6,10 @@ angular.module('ICUPad.controllers.BloodGas', [])
             $scope.chartMode = false;
             $scope.toggleChartMode = function () {
                 $scope.chartMode = !$scope.chartMode
+                if ($scope.chartMode) {
+                    $timeout(generateChart, 1)
+                }
+                //window.dispatchEvent(new Event('resize'));
             }
 
             $scope.$on('selectedDayChanged', function(event) {
@@ -33,6 +37,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
             };
 
             loadTestResults();
+
             setListeners();
             function loadTestResults(startDate, endDate) {
                 if (!startDate) {
@@ -78,9 +83,10 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         return self.indexOf(value) === index;
                     });
                     $scope.testNames = testNames;
-                    $scope.selectedTestNames = ['pO2', 'pCO2', 'pH'];
+                    //$scope.selectedTestNames = ['pO2', 'pCO2', 'pH'];
+                    $scope.selectedTestNames = testNames;
                     chartData();
-                    generateChart();
+
                     gridData();
                     gridOptions();
 
@@ -96,28 +102,6 @@ angular.module('ICUPad.controllers.BloodGas', [])
                             return obj;
                         })
                         console.log($scope.chartData);
-                    }
-
-                    function generateChart() {
-                        $scope.chart = c3.generate({
-                            data: {
-                                //x: 'x',
-                                xFormat: '%Y-%m-%d %H:%M:%S',
-                                json: $scope.chartData,
-                                keys: {
-                                    x: 'requestDate',
-                                    value: $scope.selectedTestNames
-                                }
-                            },
-                            axis: {
-                                x: {
-                                    type: 'timeseries',
-                                    tick: {
-                                        format: '%H:%M'
-                                    }
-                                }
-                            }
-                        });
                     }
 
                     function gridData() {
@@ -206,5 +190,57 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 //    }
                 //
                 //}, true)
+            }
+
+            function generateChart() {
+                $scope.chart = c3.generate({
+                    data: {
+                        //x: 'x',
+                        xFormat: '%Y-%m-%d %H:%M:%S',
+                        json: $scope.chartData,
+                        keys: {
+                            x: 'requestDate',
+                            value: $scope.selectedTestNames
+                        }
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                format: '%H:%M'
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+                var oldLegend = document.getElementById('legend');
+                if (oldLegend) {
+                    oldLegend.parentNode.removeChild(oldLegend);
+                }
+                d3.select('#blood-gas-partial').insert('div', '.chart').attr('class', 'legend').attr('id', 'legend').selectAll('span')
+                    .data($scope.selectedTestNames)
+                    .enter().append('span')
+                    .attr('data-id', function (id) {
+                        console.log(id);
+                        return id;
+                    })
+                    .html(function (id) {
+                        return id;
+                    })
+                    .each(function (id) {
+                        d3.select(this)
+                            .style('background-color', $scope.chart.color(id));
+                    })
+                    .on('mouseover', function (id) {
+                        $scope.chart.focus(id);
+                    })
+                    .on('mouseout', function (id) {
+                        $scope.chart.revert();
+                    })
+                    .on('click', function (id) {
+                        $scope.chart.toggle(id);
+                    });
             }
         }]);
