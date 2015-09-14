@@ -90,10 +90,10 @@ angular.module('ICUPad.controllers.Main', [])
         };
 
         $scope.closeApp = function() {
+            window.sessionStorage.clear();
             if ($rootScope.isMobileDevice) {
                 navigator.app.exitApp();
             } else {
-                window.sessionStorage.removeItem('headerVal');
                 location.reload();
             }
         };

@@ -7,8 +7,8 @@ angular.module('ICUPad.controllers.Login', [])
             var headerVal;
             if (credentials) {
                 headerVal = buildAuthorizationHeaderValue(credentials.username, credentials.password);
-            } else if (window.localStorage.getItem('headerVal')) {
-                headerVal = window.localStorage.getItem('headerVal')
+            } else if (window.sessionStorage.getItem('headerVal')) {
+                headerVal = window.sessionStorage.getItem('headerVal');
                 console.log(headerVal);
             } else {
                 headerVal = undefined;
@@ -29,7 +29,7 @@ angular.module('ICUPad.controllers.Login', [])
                     console.log(data);
                     $rootScope.user = data;
                     $http.defaults.headers.common['Authorization'] = headerVal;
-                    window.localStorage.setItem('headerVal', headerVal);
+                    window.sessionStorage.setItem('headerVal', headerVal);
                     $scope.showView = true;
                     callback && callback();
                 }).error(function () {
@@ -38,7 +38,7 @@ angular.module('ICUPad.controllers.Login', [])
                     callback && callback();
                 });
 
-        }
+        };
 
         authenticate(undefined, function () {
             if ($rootScope.authenticated) {
@@ -46,7 +46,6 @@ angular.module('ICUPad.controllers.Login', [])
                 $scope.error = false;
             } else {
                 $location.path("/login");
-                $scope.error = true;
             }
         });
 
