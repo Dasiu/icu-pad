@@ -38,7 +38,7 @@ angular.module('ICUPad.controllers.Login', [])
                     callback && callback();
                 });
 
-        };
+        }
 
         authenticate(undefined, function () {
             if ($rootScope.authenticated) {
@@ -46,6 +46,7 @@ angular.module('ICUPad.controllers.Login', [])
                 $scope.error = false;
             } else {
                 $location.path("/login");
+                $scope.error = true;
             }
         });
 
