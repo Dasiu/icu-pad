@@ -6,15 +6,16 @@
         </h5>
 
         <div class="scrollable-content">
-            <div class="list-group" ui-turn-off='uiSidebarLeft'>
-                <a class="list-group-item" ng-show="authenticated" href="#/choose-patient">Wybór pacjenta <i class="fa fa-chevron-right pull-right"></i></a>
-                <a class="list-group-item" ng-show="authenticated && patient" href="#/blood-gas">Gazometria <i class="fa fa-chevron-right pull-right"></i></a>
-                <a class="list-group-item" ng-show="authenticated && patient" href="#/nurse">Proces pielęgnowania <i class="fa fa-chevron-right pull-right"></i></a>
-                <a class="list-group-item" ng-show="authenticated && patient" href="#/nurse-diagnosis">Diagnoza pielęgniarska <i class="fa fa-chevron-right pull-right"></i></a>
-                <a class="list-group-item" ng-show="authenticated && patient" href="#/users">Zarządzaj użykownikami <i class="fa fa-chevron-right pull-right"></i></a>
+            <div ng-show="authenticated" class="list-group" ui-turn-off='uiSidebarLeft'>
+                <a class="list-group-item" href="#/choose-patient">Wybór pacjenta <i class="fa fa-chevron-right pull-right"></i></a>
+            </div>
+            <div ng-show="authenticated && patient" class="list-group" ui-turn-off='uiSidebarLeft'>
+                <a class="list-group-item" href="#/blood-gas">Gazometria <i class="fa fa-chevron-right pull-right"></i></a>
+                <a class="list-group-item" href="#/nurse">Proces pielęgnowania <i class="fa fa-chevron-right pull-right"></i></a>
+                <a class="list-group-item" href="#/nurse-diagnosis">Diagnoza pielęgniarska <i class="fa fa-chevron-right pull-right"></i></a>
             </div>
             <div class="list-group" ui-turn-off='uiSidebarLeft'>
-                <a class="list-group-item list-group-item-danger" ng-click="closeApp()">Zamknij aplikację <i class="fa fa-close pull-right"></i></a>
+                <a class="list-group-item list-group-item-danger" ng-click="closeApp()">Wyjście <i class="fa fa-close pull-right"></i></a>
             </div>
         </div>
     </div>
