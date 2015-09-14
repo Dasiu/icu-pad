@@ -7,7 +7,7 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
         $scope.gridRowClick = function (row) {
             $rootScope.patient = row.entity;
 
-            $location.path("blood-gas");
+            $location.path("/");
         };
 
         //$scope.patients = [];

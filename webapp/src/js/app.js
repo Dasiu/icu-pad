@@ -24,7 +24,7 @@ var app = angular.module('ICUPad', [
 ])
 
 .config(function($routeProvider, $compileProvider, $httpProvider) {
-  $routeProvider.when('/', {templateUrl:'home.html',  reloadOnSearch: false});
+  $routeProvider.when('/', {reloadOnSearch: false});
   $routeProvider.when('/login', {templateUrl:'login.html', controller: 'LoginController', reloadOnSearch: false});
   $routeProvider.when('/nurse', {templateUrl:'nurse.html',  reloadOnSearch: false});
   $routeProvider.when('/nurse-diagnosis', {templateUrl:'nurse-diagnosis.html',  reloadOnSearch: false});
