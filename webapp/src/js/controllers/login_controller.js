@@ -42,7 +42,7 @@ angular.module('ICUPad.controllers.Login', [])
 
         authenticate(undefined, function () {
             if ($rootScope.authenticated) {
-                $location.path("/");
+                $location.path("/choose-patient");
                 $scope.error = false;
             } else {
                 $location.path("/login");
@@ -53,7 +53,7 @@ angular.module('ICUPad.controllers.Login', [])
         $scope.login = function () {
             authenticate($scope.credentials, function () {
                 if ($rootScope.authenticated) {
-                    $location.path("/");
+                    $location.path("/choose-patient");
                     $scope.error = false;
                 } else {
                     $location.path("/login");
