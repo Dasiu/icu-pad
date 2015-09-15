@@ -1,0 +1,22 @@
+<section ng-show="true" ng-app="ICUPad" ng-controller="SettingsController" class="section container-fluid">
+    <h1 class="page-header">
+        Ustawienia
+    </h1>
+    <form role="form" ng-submit="saveConfiguration()">
+        <div class="form-group">
+            <label>Protokół połączenia z serwerem</label>
+            <input ng-model="serverProtocol" class="form-control" placeholder="protokół">
+        </div>
+        <div class="form-group">
+            <label>Adres serwera</label>
+            <input ng-model="serverAddress" class="form-control" placeholder="host">
+        </div>
+        <div class="form-group">
+            <label>Port serwera</label>
+            <input ng-model="serverPort" class="form-control" placeholder="port">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-block" value="Zapisz" />
+        </div>
+    </form>
+</section>

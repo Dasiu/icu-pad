@@ -9,7 +9,7 @@ angular.module('ICUPad.directives.Form', [])
 
                 conversionService.convert($scope.form).
                     then(function(converted) {
-                        return $http.post(configuration.server + "/nurse/form", converted);
+                        return $http.post(configuration.server() + "/nurse/form", converted);
                     }).
                     then(function() {
                         if ($scope.payload) {

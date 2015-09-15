@@ -50,7 +50,7 @@ angular.module('ICUPad.services.Conversion', [])
             }
 
             var formDomainName = form.form_domain;
-            return $http.get(configuration.server + "/form/model/nurse.diagnosis/"+formDomainName).
+            return $http.get(configuration.server() + "/form/model/nurse.diagnosis/"+formDomainName).
                 then(function(result) {
                     var domainObject = {};
                     result.data.forEach(function(domainField) {

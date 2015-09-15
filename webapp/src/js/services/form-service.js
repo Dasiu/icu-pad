@@ -59,12 +59,12 @@ angular.module('ICUPad.services.Form', [])
             });
         },
         getFormsForView: function (viewName) {
-            return $http.get(configuration.server + "/form/" + viewName).then(function (response) {
+            return $http.get(configuration.server() + "/form/" + viewName).then(function (response) {
                 return response.data;
             });
         },
         loadForm: function (moduleName, formId) {
-            return $http.get(configuration.server + "/form/" + moduleName + "/" + formId).then(function (response) {
+            return $http.get(configuration.server() + "/form/" + moduleName + "/" + formId).then(function (response) {
                 return response.data;
             });
         }

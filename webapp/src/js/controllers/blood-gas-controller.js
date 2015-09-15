@@ -1,7 +1,7 @@
 angular.module('ICUPad.controllers.BloodGas', [])
 
-    .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location', '$timeout',
-        function ($http, $rootScope, $scope, $location, $timeout) {
+    .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location', '$timeout', 'configuration',
+        function ($http, $rootScope, $scope, $location, $timeout, configuration) {
             $scope.title = "blood gas!";
             $scope.chartMode = false;
             $scope.toggleChartMode = function () {
@@ -50,16 +50,10 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 console.log(startDateString);
                 console.log(endDateString);
 
-                // todo delete
-                //$rootScope.patient = {
-                //    id: 666, hl7Id: "254895", pesel: "14212808853", name: "Filip",
-                //    surname: "Rysztak", sex: "MALE", address: {}, stays: {id: 9},
-                //    birthDate: "2014-01-28", activeStay: {id: 9}
-                //};
                 console.log("test");
                 console.log($rootScope.patient);
                 $http({
-                    url: $rootScope.globalSettings.serverUrl + '/stay/' + 9 + '/test-panel-result', // todo
+                    url: configuration.server() + '/stay/' + 9 + '/test-panel-result', // todo
                     method: 'GET'
                 })
                     .success(function (data) {

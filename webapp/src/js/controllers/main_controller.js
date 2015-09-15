@@ -35,6 +35,7 @@ angular.module('ICUPad.controllers.Main', [])
                 $rootScope.selectedDay.setDate($rootScope.selectedDay.getDate() - 1);
             }
             broadcastDayChange();
+            console.log("address: " + configuration.address);
         };
 
         $rootScope.resetSelectedDay = function() {
@@ -57,33 +58,8 @@ angular.module('ICUPad.controllers.Main', [])
             return endOfDay;
         };
 
-        function initGlobalSettings() {
-            $rootScope.globalSettings = {
-                serverUrl: configuration.server
-            }
-        }
-
-        function broadcastDayChange() {
-            $rootScope.$broadcast('selectedDayChanged');
-        }
-
-        $scope.header = {
-            collapsed: true
-        };
-
-        $scope.patientChoosed = false;
-
-        $rootScope.resetSelectedDay();
-        $scope.headerCollapsed = true;
-
-        initGlobalSettings();
-        if (!$scope.authenticated) {
-            $location.path("/login");
-        }
-
-        $scope.$on('$locationChangeStart', function() {
-            $scope.headerCollapsed = true;
-        });
+        $rootScope.isMobileDevice =
+            navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
 
         $scope.toggleCollapsed = function() {
             $scope.headerCollapsed = !$scope.headerCollapsed;
@@ -98,7 +74,22 @@ angular.module('ICUPad.controllers.Main', [])
             }
         };
 
-        $rootScope.isMobileDevice =
-            navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
+        function broadcastDayChange() {
+            $rootScope.$broadcast('selectedDayChanged');
+        }
+
+        function initGlobalSettings() {
+            $scope.$on('$locationChangeStart', function() {
+                $scope.headerCollapsed = true;
+            });
+            $scope.patientChoosed = false;
+            $scope.headerCollapsed = true;
+            $rootScope.resetSelectedDay();
+        }
+
+        initGlobalSettings();
+        if (!$scope.authenticated) {
+            $location.path("/login");
+        }
 
     });

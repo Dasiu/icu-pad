@@ -1,6 +1,6 @@
 angular.module('ICUPad.controllers.Login', [])
 
-    .controller('LoginController', function ($rootScope, $scope, $http, $location) {
+    .controller('LoginController', function ($rootScope, $scope, $http, $location, configuration) {
         $scope.showView = false;
         var authenticate = function (credentials, callback) {
 
@@ -23,7 +23,7 @@ angular.module('ICUPad.controllers.Login', [])
                     : undefined;
             }
 
-            $http.get($rootScope.globalSettings.serverUrl + '/user/current', {headers: headers})
+            $http.get(configuration.server() + '/user/current', {headers: headers})
                 .success(function (data) {
                     $rootScope.authenticated = true;
                     console.log(data);

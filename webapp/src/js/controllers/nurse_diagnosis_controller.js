@@ -22,7 +22,7 @@ angular.module('ICUPad.controllers.NurseDiagnosis', [])
     };
 
     $scope.reload = function() {
-        return $http.get(configuration.server + "/nurse/diagnosis").then(function (response) {
+        return $http.get(configuration.server() + "/nurse/diagnosis").then(function (response) {
             $scope.diagnosis = response.data;
         });
     };
