@@ -5,12 +5,12 @@ angular.module('ICUPad.controllers.BloodGas', [])
             $scope.title = "blood gas!";
             $scope.chartMode = false;
             $scope.toggleChartMode = function () {
-                $scope.chartMode = !$scope.chartMode
+                $scope.chartMode = !$scope.chartMode;
                 if ($scope.chartMode) {
                     $timeout(generateChart, 1)
                 }
                 //window.dispatchEvent(new Event('resize'));
-            }
+            };
 
             $scope.$on('selectedDayChanged', function(event) {
                 console.log('dateChangedZZZ');
@@ -70,7 +70,9 @@ angular.module('ICUPad.controllers.BloodGas', [])
 
                     var testNamesInArrays = testResults.map(function (obj) {
                         return obj.tests.map(function (test) {
-                            return test.name
+                            var testNameWithUnit = test.unit ? test.name + ' [' + test.unit + ']' : test.name;
+                            test.testNameWithUnit = testNameWithUnit;
+                            return testNameWithUnit
                         })
                     });
                     var testNames = [].concat.apply([], testNamesInArrays).filter(function (value, index, self) {
@@ -78,7 +80,13 @@ angular.module('ICUPad.controllers.BloodGas', [])
                     });
                     $scope.testNames = testNames;
                     //$scope.selectedTestNames = ['pO2', 'pCO2', 'pH'];
-                    $scope.selectedTestNames = testNames;
+                    var selectedTestNames = JSON.parse(window.localStorage.getItem('selectedTestNames'));
+                    if (!selectedTestNames) {
+                        $scope.selectedTestNames = testNames;
+                        window.localStorage.setItem('selectedTestNames', JSON.stringify($scope.selectedTestNames))
+                    } else {
+                        $scope.selectedTestNames = selectedTestNames
+                    }
                     chartData();
 
                     gridData();
@@ -91,10 +99,10 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         $scope.chartData = testResults.map(function (testPanel) {
                             var obj = {requestDate: testPanel.requestDate};
                             testPanel.tests.forEach(function (test) {
-                                obj[test.name] = test.value
+                                obj[test.testNameWithUnit] = test.value
                             });
                             return obj;
-                        })
+                        });
                         console.log($scope.chartData);
                     }
 
@@ -105,33 +113,33 @@ angular.module('ICUPad.controllers.BloodGas', [])
                             };
                             testResults.forEach(function (testPanel) {
                                 var test = testPanel.tests.filter(function (test) {
-                                    return test.name === testName
-                                })[0]
+                                    return test.testNameWithUnit === testName
+                                })[0];
                                 var testValue = test ? test.value : null;
                                 row[testPanel.requestDate] = test;
-                            })
+                            });
                             return row
                         });
-                        columnDefsF()
-                        console.log('x')
-                        console.log($scope.gridData)
+                        columnDefsF();
+                        console.log('x');
+                        console.log($scope.gridData);
 
                         function columnDefsF() {
                             var testNamesColumn = {
                                 name: 'Badanie',
                                 field: 'testName',
                                 width: '180'
-                            }
+                            };
                             var colmnDefs = [].concat([testNamesColumn], testResults.map(function (testPanel) {
                                 var requestDate = new Date(testPanel.requestDate);
                                 var columnDef = {
                                     name: testPanel.requestDate,
-                                    displayName: requestDate.getHours() + ':' + requestDate.getMinutes(),
+                                    displayName: requestDate.getUTCHours() + ':' + requestDate.getUTCMinutes(),
                                     field: '' + testPanel.requestDate + '.value',
                                     width: '70',
                                     //cellTemplate: '<div class="ui-grid-cell-contents" >{{grid, row}}</div>'
                                     cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-                                        var cellVal = grid.getCellValue(row,col)
+                                        var cellVal = grid.getCellValue(row,col);
                                         //console.log('row');
                                         //console.log(row);
                                         //console.log('colmn');
@@ -194,7 +202,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         json: $scope.chartData,
                         keys: {
                             x: 'requestDate',
-                            value: $scope.selectedTestNames
+                            value: $scope.testNames
                         }
                     },
                     axis: {
@@ -214,7 +222,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                     oldLegend.parentNode.removeChild(oldLegend);
                 }
                 d3.select('#blood-gas-partial').insert('div', '.chart').attr('class', 'legend').attr('id', 'legend').selectAll('span')
-                    .data($scope.selectedTestNames)
+                    .data($scope.testNames)
                     .enter().append('span')
                     .attr('data-id', function (id) {
                         console.log(id);
@@ -226,6 +234,13 @@ angular.module('ICUPad.controllers.BloodGas', [])
                     .each(function (id) {
                         d3.select(this)
                             .style('background-color', $scope.chart.color(id));
+                        if (!$scope.selectedTestNames.some(function(testName) {
+                                return testName === id;
+                            })) {
+                            // disabled
+                            d3.select(this).style('opacity', '0.3');
+                            $scope.chart.toggle(id);
+                        }
                     })
                     .on('mouseover', function (id) {
                         $scope.chart.focus(id);
@@ -234,6 +249,21 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         $scope.chart.revert();
                     })
                     .on('click', function (id) {
+                        if ($scope.selectedTestNames.some(function(testName) {
+                                return testName === id;
+                            })) {
+                            $scope.selectedTestNames = $scope.selectedTestNames.filter(function(testName) {
+                                return testName !== id;
+                            });
+                            d3.select(this).style('opacity', '0.3')
+                        } else {
+                            $scope.selectedTestNames.push(id);
+                            d3.select(this).style('opacity', '1')
+                        }
+                        window.localStorage.setItem('selectedTestNames', JSON.stringify($scope.selectedTestNames));
+                        //var opacity = d3.select(this).style('opacity');
+                        //if (opacity === '0.3') d3.select(this).style('opacity', '1')
+                        //else d3.select(this).style('opacity', '0.3')
                         $scope.chart.toggle(id);
                     });
             }
