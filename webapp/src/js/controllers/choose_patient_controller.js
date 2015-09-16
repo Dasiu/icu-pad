@@ -36,8 +36,11 @@ angular.module('ICUPad.controllers.ChoosePatient', [])
                     $scope.gridOptions = data;
                     $scope.isGridDataReady = true;
                 })
-                .error(function () {
+                .error(function (data) {
                     console.log('Failed load patients');
+                    console.log(data);
+                    $rootScope.error = data;
+                    $location.path('/error');
                 });
         }
     });

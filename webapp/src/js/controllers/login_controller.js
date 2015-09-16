@@ -32,8 +32,10 @@ angular.module('ICUPad.controllers.Login', [])
                     window.sessionStorage.setItem('headerVal', headerVal);
                     $scope.showView = true;
                     callback && callback();
-                }).error(function () {
+                }).error(function (data) {
                     $rootScope.authenticated = false;
+                    console.log(data);
+                    $rootScope.error = data;
                     $scope.showView = true;
                     callback && callback();
                 });
@@ -46,7 +48,7 @@ angular.module('ICUPad.controllers.Login', [])
                 $scope.error = false;
             } else {
                 $location.path("/login");
-                $scope.error = true;
+                $scope.error = false;
             }
         });
 
