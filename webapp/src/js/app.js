@@ -19,7 +19,7 @@ var app = angular.module('ICUPad', [
   'ICUPad.controllers.ChoosePatient',
   'ICUPad.controllers.Nurse',
   'ICUPad.controllers.NurseDiagnosis',
-  'ICUPad.controllers.UserManagement',
+  //'ICUPad.controllers.UserManagement',
   'ICUPad.controllers.ApplicationConfigurationController',
   'ICUPad.controllers.ErrorController',
   'ICUPad.controllers.Settings',
