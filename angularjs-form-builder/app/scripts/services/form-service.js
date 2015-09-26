@@ -8,39 +8,39 @@ angularApp.service('FormService', function FormService($http) {
         fields:[
             {
                 name : 'textfield',
-                value : 'Textfield'
+                value : 'Pole tekstowe'
             },
             {
                 name : 'numfield',
-                value : 'Numeric field'
+                value : 'Pole numeryczne'
             },
             {
                 name : 'radio',
-                value : 'Radio Buttons'
+                value : 'Przycisk radio'
             },
             {
                 name : 'dropdown',
-                value : 'Dropdown List'
+                value : 'Lista rozwiajana'
             },
             {
                 name : 'multichoice',
-                value : 'Multi-choice List'
+                value : 'Pole wielokrotnego wyboru'
             },
             {
                 name : 'date',
-                value : 'Date'
+                value : 'Pole daty'
             },
             {
                 name : 'textarea',
-                value : 'Text Area'
+                value : 'Obszar tekstowy'
             },
             {
                 name : 'checkbox',
-                value : 'Checkbox'
+                value : 'Pole wyboru'
             },
             {
                 name : 'hidden',
-                value : 'Hidden'
+                value : 'Pole ukryte'
             },
             {
                 name : 'separator',

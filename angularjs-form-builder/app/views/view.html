@@ -1,13 +1,13 @@
 <form-directive form="form"></form-directive><hr>
 
 <div class="text-center">
-	<a class="btn btn-small btn-primary" ng-href="{{downloadJSON(form)}}" download="form.json"><i class="icon-download-alt icon-white"></i> Download form</a>
-	<a class="btn btn-small btn-default" ng-show="!showJson" ng-click="showJson = true">Show form json object</a>
-	<a class="btn btn-small btn-inverse" ng-show="showJson" ng-click="showJson = false">Hide form json object</a>
+	<a class="btn btn-small btn-primary" ng-href="{{downloadJSON(form)}}" download="form.json"><i class="icon-download-alt icon-white"></i> Pobierz</a>
+	<a class="btn btn-small btn-default" ng-show="!showJson" ng-click="showJson = true">Pokaż jako json</a>
+	<a class="btn btn-small btn-inverse" ng-show="showJson" ng-click="showJson = false">Ukryj json</a>
 	<br><br>
 </div>
 
 <div ng-show="showJson">
-	<h4>Form object:</h4>
+	<h4>Formularz w formacie json:</h4>
 	<pre>{{ form | json }}</pre>
 </div>
