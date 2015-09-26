@@ -31,7 +31,7 @@ var app = angular.module('ICUPad', [
   $routeProvider.when('/login', {templateUrl:'login.html', controller: 'LoginController', reloadOnSearch: false});
   $routeProvider.when('/nurse', {templateUrl:'nurse.html',  reloadOnSearch: false});
   $routeProvider.when('/nurse-diagnosis', {templateUrl:'nurse-diagnosis.html',  reloadOnSearch: false});
-  $routeProvider.when('/users', {templateUrl:'users.html',  reloadOnSearch: false});
+  $routeProvider.when('/settings', {templateUrl:'settings.html',  reloadOnSearch: false});
   $routeProvider.when('/choose-patient', {templateUrl:'choose-patient.html', controller: 'ChoosePatientController', reloadOnSearch: false});
   $routeProvider.when('/blood-gas', {templateUrl:'blood-gas.html', controller: 'BloodGasController', reloadOnSearch: false});
   $routeProvider.when('/form', {templateUrl:'view.html', controller: 'ViewCtrl', reloadOnSearch: false});
