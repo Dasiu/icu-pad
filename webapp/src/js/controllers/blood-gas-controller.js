@@ -61,8 +61,11 @@ angular.module('ICUPad.controllers.BloodGas', [])
                         prepareTestResults(data);
                         $scope.testResults = data;
                     })
-                    .error(function () {
+                    .error(function (data) {
                         console.log('Failed to load test panel result');
+                        console.log(data);
+                        $rootScope.error = data;
+                        $location.path('/error');
                     });
 
                 function prepareTestResults(testResults) {

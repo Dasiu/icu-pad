@@ -1,0 +1,13 @@
+<section class="section container-fluid">
+    <h1 class="page-header">Konfiguracja aplikacji</h1>
+
+    <form role="form" ng-submit="save()">
+        <div class="form-group">
+            <label for="username">Adres serwera:</label> <input type="text"
+                                                           class="form-control" id="username" name="username"
+                                                           ng-model="serverOrigin"/>
+        </div>
+        <button type="submit" class="btn btn-primary">{{message}}</button>
+    </form>
+
+</section>
