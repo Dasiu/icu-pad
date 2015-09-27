@@ -1,6 +1,6 @@
-angular.module('ICUPad.controllers.BloodGas', [])
+angular.module('ICUPad.controllers.CompleteBloodCount', [])
 
-    .controller('BloodGasController', ['$http', '$rootScope', '$scope', '$location', '$timeout', 'configuration',
+    .controller('CompleteBloodCountController', ['$http', '$rootScope', '$scope', '$location', '$timeout', 'configuration',
         function ($http, $rootScope, $scope, $location, $timeout, configuration) {
             $scope.chartModeButton = 'Wykres';
             $scope.title = "blood gas!";
@@ -9,15 +9,8 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 $scope.chartMode = !$scope.chartMode;
                 if ($scope.chartMode) {
                     $timeout(generateChart, 1)
-                    $scope.chartModeButton = 'Tabela';
-                } else {
-                    var oldLegend = document.getElementById('legend');
-                    if (oldLegend) {
-                        oldLegend.parentNode.removeChild(oldLegend);
-                    }
-                    $scope.chartModeButton = 'Wykres';
                 }
-
+                $scope.chartModeButton = 'Tabela';
                 //window.dispatchEvent(new Event('resize'));
             };
 
@@ -163,7 +156,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                                         //console.log(test);
 
                                         if (!test) return 'standard';
-
+                                        
                                         if (test.abnormality === 'BELOW_LOW_NORM') {
                                             return 'below-norm';
                                         } else if (test.abnormality === 'ABOVE_HIGH_NORM') {
@@ -182,9 +175,9 @@ angular.module('ICUPad.controllers.BloodGas', [])
 
                     function gridOptions() {
                         $scope.gridOptions.columnDefs = $scope.columnDefs;
-                        //,
-                        //rowTemplate: 'grid-row.html',
-                        //data: 'gridData'
+                            //,
+                            //rowTemplate: 'grid-row.html',
+                            //data: 'gridData'
                         //};
                     }
                 }
