@@ -9,6 +9,7 @@ angular.module('ICUPad.controllers.Settings', [])
             configuration._serverProtocol = $scope.serverProtocol;
             configuration._serverAddress = $scope.serverAddress;
             configuration._serverPort = $scope.serverPort;
+            configuration.saveConfiguration();
             $location.path("/login");
         }
     });

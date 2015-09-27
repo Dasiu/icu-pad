@@ -163,7 +163,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                                         //console.log(test);
 
                                         if (!test) return 'standard';
-                                        
+
                                         if (test.abnormality === 'BELOW_LOW_NORM') {
                                             return 'below-norm';
                                         } else if (test.abnormality === 'ABOVE_HIGH_NORM') {
@@ -182,9 +182,9 @@ angular.module('ICUPad.controllers.BloodGas', [])
 
                     function gridOptions() {
                         $scope.gridOptions.columnDefs = $scope.columnDefs;
-                            //,
-                            //rowTemplate: 'grid-row.html',
-                            //data: 'gridData'
+                        //,
+                        //rowTemplate: 'grid-row.html',
+                        //data: 'gridData'
                         //};
                     }
                 }
