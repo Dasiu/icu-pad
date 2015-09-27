@@ -3,6 +3,7 @@
         Ustawienia
     </h1>
     <form role="form" ng-submit="saveConfiguration()">
+        <h3>Repozytorium badań</h3>
         <div class="form-group">
             <label>Protokół połączenia z serwerem</label>
             <input ng-model="serverProtocol" class="form-control" placeholder="protokół">
@@ -14,6 +15,20 @@
         <div class="form-group">
             <label>Port serwera</label>
             <input ng-model="serverPort" class="form-control" placeholder="port">
+        </div>
+
+        <h3>Narzędzie do definiowania formularzy</h3>
+        <div class="form-group">
+            <label>Protokół połączenia z serwerem</label>
+            <input ng-model="formServerProtocol" class="form-control" placeholder="protokół">
+        </div>
+        <div class="form-group">
+            <label>Adres serwera</label>
+            <input ng-model="formServerAddress" class="form-control" placeholder="host">
+        </div>
+        <div class="form-group">
+            <label>Port serwera</label>
+            <input ng-model="formServerPort" class="form-control" placeholder="port">
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary btn-block" value="Zapisz" />
