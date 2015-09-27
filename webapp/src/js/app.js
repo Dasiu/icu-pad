@@ -23,7 +23,8 @@ var app = angular.module('ICUPad', [
   'ICUPad.controllers.ApplicationConfigurationController',
   'ICUPad.controllers.ErrorController',
   'ICUPad.controllers.Settings',
-  'ICUPad.controllers.BloodGas'
+  'ICUPad.controllers.BloodGas',
+  'ICUPad.controllers.CompleteBloodCount'
 ])
 
 .config(function($routeProvider, $compileProvider, $httpProvider) {
@@ -34,6 +35,7 @@ var app = angular.module('ICUPad', [
   $routeProvider.when('/settings', {templateUrl:'settings.html',  reloadOnSearch: false});
   $routeProvider.when('/choose-patient', {templateUrl:'choose-patient.html', controller: 'ChoosePatientController', reloadOnSearch: false});
   $routeProvider.when('/blood-gas', {templateUrl:'blood-gas.html', controller: 'BloodGasController', reloadOnSearch: false});
+  $routeProvider.when('/complete-blood-count', {templateUrl:'complete-blood-count.html', controller: 'CompleteBloodCountController', reloadOnSearch: false});
   $routeProvider.when('/form', {templateUrl:'view.html', controller: 'ViewCtrl', reloadOnSearch: false});
   $routeProvider.when('/application-configuration', {templateUrl:'application-configuration.html', controller: 'ApplicationConfigurationController', reloadOnSearch: false});
   $routeProvider.when('/error', {templateUrl:'error.html', controller: 'ErrorController', reloadOnSearch: false});

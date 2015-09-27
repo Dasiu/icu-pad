@@ -18,6 +18,7 @@ angular.module('ICUPad.controllers.Settings', [])
             configuration._formServerAddress = $scope.formServerAddress;
             configuration._formServerPort = $scope.formServerPort;
 
+            configuration.saveConfiguration();
             $location.path("/login");
         }
     });
