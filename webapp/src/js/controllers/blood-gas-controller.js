@@ -63,7 +63,7 @@ angular.module('ICUPad.controllers.BloodGas', [])
                 console.log($rootScope.patient);
                 $http({
                     method: 'GET',
-                    url: configuration.server() + '/stay/' + $rootScope.patient.id + '/blood-gas/test-panel-result',
+                    url: configuration.server() + '/stay/' + $rootScope.patient.id + '/blood-gas/test-panel-result?startDate=' + startDateString + '&endDate=' + endDateString
                 })
                     .success(function (data) {
                         console.log(data);

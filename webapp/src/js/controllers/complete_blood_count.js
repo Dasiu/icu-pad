@@ -55,7 +55,7 @@ angular.module('ICUPad.controllers.CompleteBloodCount', [])
                 console.log("test");
                 console.log($rootScope.patient);
                 $http({
-                    url: configuration.server() + '/stay/' + 9 + '/test-panel-result', // todo
+                    url: configuration.server() + '/stay/' + $rootScope.patient.id + '/complete-blood-count/test-panel-result?startDate=' + startDateString + '&endDate=' + endDateString,
                     method: 'GET'
                 })
                     .success(function (data) {

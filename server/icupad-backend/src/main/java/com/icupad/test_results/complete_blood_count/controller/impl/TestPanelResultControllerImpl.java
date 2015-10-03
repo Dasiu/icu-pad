@@ -38,9 +38,9 @@ class TestPanelResultControllerImpl implements TestResultController {
     @PreAuthorize("hasRole('TEST_RESULTS_READ')")
     @RequestMapping(value = "/{stayId}/complete-blood-count/test-panel-result", method = RequestMethod.GET)
     public Collection<TestPanelResultDTO> index(@PathVariable long stayId,
-                                                @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime fromRequestDate,
-                                                @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime toRequestDate) {
-        return testResultService.findBetweenRequestDatesForStay(stayId, fromRequestDate, toRequestDate).stream()
+                                                @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime startDate,
+                                                @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime endDate) {
+        return testResultService.findBetweenRequestDatesForStay(stayId, startDate, endDate).stream()
                 .collect(Collectors.groupingBy(this::testPanelResult))
                 .entrySet().stream()
                 .map(this::toTestPanelResultDTO)
