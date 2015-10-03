@@ -5,6 +5,7 @@ import com.icupad.test_results.complete_blood_count.domain.TestResult;
 import org.springframework.stereotype.Repository;
 
 @Repository("completeBloodCountTestResultRepository")
-public interface TestResultRepository extends BaseRepository<TestResult, Long> {
+public interface BloodCountTestResultRepository extends BaseRepository<TestResult, Long>,
+        BloodCountTestResultRepositoryCustom {
     TestResult findByHl7Id(String hl7Id);
 }

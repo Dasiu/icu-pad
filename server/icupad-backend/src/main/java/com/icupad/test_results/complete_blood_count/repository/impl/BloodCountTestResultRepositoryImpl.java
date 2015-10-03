@@ -1,7 +1,7 @@
-package com.icupad.test_results.blood_gas.repository.impl;
+package com.icupad.test_results.complete_blood_count.repository.impl;
 
-import com.icupad.test_results.blood_gas.domain.TestResult;
-import com.icupad.test_results.blood_gas.repository.TestResultRepositoryCustom;
+import com.icupad.test_results.complete_blood_count.domain.TestResult;
+import com.icupad.test_results.complete_blood_count.repository.BloodCountTestResultRepositoryCustom;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.expr.BooleanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import static com.icupad.patient.domain.QStay.stay;
-import static com.icupad.test_results.blood_gas.domain.QTestPanelResult.testPanelResult;
-import static com.icupad.test_results.blood_gas.domain.QTestRequest.testRequest;
-import static com.icupad.test_results.blood_gas.domain.QTestResult.testResult;
+import static com.icupad.test_results.complete_blood_count.domain.QTestPanelResult.testPanelResult;
+import static com.icupad.test_results.complete_blood_count.domain.QTestRequest.testRequest;
+import static com.icupad.test_results.complete_blood_count.domain.QTestResult.testResult;
 
-@Repository("bloodGasTestResultRepository")
-class TestResultRepositoryImpl implements TestResultRepositoryCustom {
+@Repository("completeBloodCountTestResultRepository")
+class BloodCountTestResultRepositoryImpl implements BloodCountTestResultRepositoryCustom {
     private final EntityManager entityManager;
 
     @Autowired
-    TestResultRepositoryImpl(EntityManager entityManager) {
+    BloodCountTestResultRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

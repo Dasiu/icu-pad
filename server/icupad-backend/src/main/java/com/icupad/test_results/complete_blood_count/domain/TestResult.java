@@ -6,13 +6,9 @@ import com.icupad.test_results.common.domain.Abnormality;
 import com.icupad.test_results.common.domain.TestResultExecutor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-/**
- * There's not guarantee that hl7 will send us same unit and executor for each result in one test panel
- * (like blood gas for instance), even so normalization (in form of TestPanelResult) was introduced.
- * For safety - to avoid data lose - unit and executor attributes are left.
- */
 @Entity(name = "complete_blood_count_test_result")
 public class TestResult extends BaseEntity {
     private String hl7Id;
@@ -24,9 +20,11 @@ public class TestResult extends BaseEntity {
     private Abnormality abnormality;
 
     @OneToOne
+    @NotNull
     private TestRequest testRequest;
 
     @ManyToOne
+    @NotNull
     private Stay stay;
 
     private LocalDateTime resultDate;

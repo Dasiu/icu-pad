@@ -25,11 +25,6 @@ public class TestPanelResult extends BaseEntity {
     @OneToMany(mappedBy = "testPanelResult")
     private List<TestRequest> testRequests = new ArrayList<>();
 
-    /**
-     * Used only to make handler implementation easier
-     */
-    private transient List<TestResult> testResults = new ArrayList<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,17 +74,5 @@ public class TestPanelResult extends BaseEntity {
 
     public void addTestRequests(Collection<TestRequest> requests) {
         testRequests.addAll(requests);
-    }
-
-    public List<TestResult> getTestResults() {
-        return testResults;
-    }
-
-    public void setTestResults(List<TestResult> testResults) {
-        this.testResults = testResults;
-    }
-
-    public void addTestResults(Collection<TestResult> results) {
-        testResults.addAll(results);
     }
 }

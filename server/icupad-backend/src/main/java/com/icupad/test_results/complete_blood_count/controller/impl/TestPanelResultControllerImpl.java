@@ -1,12 +1,12 @@
-package com.icupad.test_results.blood_gas.controller.impl;
+package com.icupad.test_results.complete_blood_count.controller.impl;
 
-import com.icupad.test_results.blood_gas.controller.TestPanelResultController;
-import com.icupad.test_results.blood_gas.domain.Test;
-import com.icupad.test_results.blood_gas.domain.TestPanelResult;
-import com.icupad.test_results.blood_gas.domain.TestResult;
-import com.icupad.test_results.blood_gas.dto.TestDTO;
-import com.icupad.test_results.blood_gas.dto.TestPanelResultDTO;
-import com.icupad.test_results.blood_gas.service.TestResultService;
+import com.icupad.test_results.complete_blood_count.controller.TestResultController;
+import com.icupad.test_results.complete_blood_count.domain.Test;
+import com.icupad.test_results.complete_blood_count.domain.TestPanelResult;
+import com.icupad.test_results.complete_blood_count.domain.TestResult;
+import com.icupad.test_results.complete_blood_count.dto.TestDTO;
+import com.icupad.test_results.complete_blood_count.dto.TestPanelResultDTO;
+import com.icupad.test_results.complete_blood_count.service.TestResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController("bloodGasTestPanelResultController")
+@RestController("completeBloodCountTestPanelResultController")
 @RequestMapping("/stay")
-class TestPanelResultControllerImpl implements TestPanelResultController {
+class TestPanelResultControllerImpl implements TestResultController {
     private final TestResultService testResultService;
 
     @Autowired
@@ -36,7 +36,7 @@ class TestPanelResultControllerImpl implements TestPanelResultController {
      */
     @Override
     @PreAuthorize("hasRole('TEST_RESULTS_READ')")
-    @RequestMapping(value = "/{stayId}/blood-gas/test-panel-result", method = RequestMethod.GET)
+    @RequestMapping(value = "/{stayId}/complete-blood-count/test-panel-result", method = RequestMethod.GET)
     public Collection<TestPanelResultDTO> index(@PathVariable long stayId,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime fromRequestDate,
                                                 @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime toRequestDate) {
