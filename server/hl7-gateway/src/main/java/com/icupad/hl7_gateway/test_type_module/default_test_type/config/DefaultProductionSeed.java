@@ -75,7 +75,11 @@ public class DefaultProductionSeed {
                 new TestMapping("OB", "OB","mm/h"),
                 new TestMapping("Bilirubina bezpośrednia", "Bilirubina bezpośrednia","mg/dl"),
                 new TestMapping("GGTP", "GGTP","IU/l"),
-                new TestMapping("Antygen HBs", "Antygen HBs","S/CO")
+                new TestMapping("Antygen HBs", "Antygen HBs","S/CO"),
+
+                new TestMapping("Amoniak (osocze)", "Amoniak (osocze)","µg/dl"),
+                new TestMapping("Fosfataza zasadowa", "Fosfataza zasadowa","IU/l"),
+                new TestMapping("Immunoglobulina E", "Immunoglobulina E","KU/L")
         );
     }
 
