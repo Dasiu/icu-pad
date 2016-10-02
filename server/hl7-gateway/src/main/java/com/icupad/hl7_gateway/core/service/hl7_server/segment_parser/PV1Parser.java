@@ -3,7 +3,7 @@ package com.icupad.hl7_gateway.core.service.hl7_server.segment_parser;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
-import com.icupad.hl7_gateway.domain.AdmittingDoctor;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor2;
 import com.icupad.hl7_gateway.domain.AssignedPatientLocation;
 import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.domain.StayType;
@@ -23,23 +23,23 @@ public class PV1Parser extends AbstractParser implements Parser<PV1, Stay> {
         stay.setType(getType(pv1));
         stay.setHl7Id(getHl7Id(pv1));
         stay.setAssignedPatientLocation(getAssignedPatientLocation(pv1));
-        stay.setAdmittingDoctor(getAdmittingDoctor(pv1));
+        stay.setAdmittingDoctor2(getAdmittingDoctor(pv1));
         stay.setAdmitDate(getAdmitDate(pv1));
         stay.setDischargeDate(getDischargeDate(pv1));
 
         return stay;
     }
 
-    private AdmittingDoctor getAdmittingDoctor(PV1 pv1) {
-        AdmittingDoctor admittingDoctor = new AdmittingDoctor();
+    private AdmittingDoctor2 getAdmittingDoctor(PV1 pv1) {
+        AdmittingDoctor2 admittingDoctor2 = new AdmittingDoctor2();
 
         XCN xcn = pv1.getAdmittingDoctor()[0];
-        admittingDoctor.setHl7Id(getAdmittingDoctorHl7Id(xcn));
-        admittingDoctor.setName(getName(xcn));
-        admittingDoctor.setSurname(getSurname(xcn));
-        admittingDoctor.setNpwz(getNpwz(xcn));
+        admittingDoctor2.setHl7Id(getAdmittingDoctorHl7Id(xcn));
+        admittingDoctor2.setName(getName(xcn));
+        admittingDoctor2.setSurname(getSurname(xcn));
+        admittingDoctor2.setNpwz(getNpwz(xcn));
 
-        return admittingDoctor;
+        return admittingDoctor2;
     }
 
     private String getNpwz(XCN xcn) {

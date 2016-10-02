@@ -20,7 +20,7 @@ public class Stay extends BaseEntity {
     private AssignedPatientLocation assignedPatientLocation;
 
     @Embedded
-    private AdmittingDoctor admittingDoctor;
+    private AdmittingDoctor2 admittingDoctor2;
 
     @NotNull
     private LocalDateTime admitDate;
@@ -131,11 +131,11 @@ public class Stay extends BaseEntity {
                 '}';
     }
 
-    public AdmittingDoctor getAdmittingDoctor() {
-        return admittingDoctor;
+    public AdmittingDoctor2 getAdmittingDoctor2() {
+        return admittingDoctor2;
     }
 
-    public void setAdmittingDoctor(AdmittingDoctor admittingDoctor) {
-        this.admittingDoctor = admittingDoctor;
+    public void setAdmittingDoctor2(AdmittingDoctor2 admittingDoctor2) {
+        this.admittingDoctor2 = admittingDoctor2;
     }
 }

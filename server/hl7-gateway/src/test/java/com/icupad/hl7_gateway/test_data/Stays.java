@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.test_data;
 
-import com.icupad.hl7_gateway.domain.AdmittingDoctor;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor2;
 
 import java.time.LocalDateTime;
 
@@ -21,15 +21,15 @@ public class Stays {
         return stay;
     }
 
-    private static AdmittingDoctor admittingDoctor() {
-        AdmittingDoctor admittingDoctor = new AdmittingDoctor();
+    private static AdmittingDoctor2 admittingDoctor() {
+        AdmittingDoctor2 admittingDoctor2 = new AdmittingDoctor2();
 
-        admittingDoctor.setHl7Id("245");
-        admittingDoctor.setName("Nowak");
-        admittingDoctor.setSurname("Tomasz");
-        admittingDoctor.setNpwz("5289888");
+        admittingDoctor2.setHl7Id("245");
+        admittingDoctor2.setName("Nowak");
+        admittingDoctor2.setSurname("Tomasz");
+        admittingDoctor2.setNpwz("5289888");
 
-        return admittingDoctor;
+        return admittingDoctor2;
     }
 
     private static AssignedPatientLocation assignedPatientLocation() {

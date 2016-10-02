@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Embeddable
-public class AdmittingDoctor {
+public class AdmittingDoctor2 {
     @Column(name = "admitting_doctor_hl7Id")
     @Size(min = 1, max = 6)
     @NotNull

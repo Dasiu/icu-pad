@@ -5,7 +5,7 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.domain.AdmittingDoctor;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor2;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class PV1ParserTest {
     public void emptyAdmittingDoctorShouldBeParsedToNull() throws HL7Exception {
         PV1 pv1 = pv1WithEmptyAdmittingDoctor();
 
-        AdmittingDoctor admittingDoctor = pv1Parser.parse(pv1).getAdmittingDoctor();
+        AdmittingDoctor2 admittingDoctor2 = pv1Parser.parse(pv1).getAdmittingDoctor2();
 
-        assertEquals(null, admittingDoctor.getHl7Id());
-        assertEquals(null, admittingDoctor.getName());
-        assertEquals(null, admittingDoctor.getNpwz());
-        assertEquals(null, admittingDoctor.getSurname());
+        assertEquals(null, admittingDoctor2.getHl7Id());
+        assertEquals(null, admittingDoctor2.getName());
+        assertEquals(null, admittingDoctor2.getNpwz());
+        assertEquals(null, admittingDoctor2.getSurname());
     }
 
     private PV1 pv1WithEmptyAdmittingDoctor() throws HL7Exception {
