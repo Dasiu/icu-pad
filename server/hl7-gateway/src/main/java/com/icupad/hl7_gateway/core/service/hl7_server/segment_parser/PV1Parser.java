@@ -36,7 +36,7 @@ public class PV1Parser extends AbstractParser implements Parser<PV1, Stay> {
         XCN xcn = pv1.getAdmittingDoctor()[0];
         admittingDoctor.setHl7Id(getAdmittingDoctorHl7Id(xcn));
         admittingDoctor.setName(getName(xcn));
-        admittingDoctor.setSurname(getSurname(xcn));
+        admittingDoctor.setLastname(getSurname(xcn));
         admittingDoctor.setNpwz(getNpwz(xcn));
 
         return admittingDoctor;

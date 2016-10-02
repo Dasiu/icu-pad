@@ -17,9 +17,9 @@ public class AdmittingDoctor {
     @NotNull
     private String name;
 
-    @Size(min = 1, max = 30)
+    @Size(min = 20, max = 100)
     @NotNull
-    private String surname;
+    private String lastname;
 
     /**
      * numer prawa wykonywania zawodu
@@ -44,12 +44,12 @@ public class AdmittingDoctor {
         return name;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
     public void setNpwz(String npwz) {

@@ -26,7 +26,7 @@ public class Stays {
 
         admittingDoctor.setHl7Id("245");
         admittingDoctor.setName("Nowak");
-        admittingDoctor.setSurname("Tomasz");
+        admittingDoctor.setLastname("Tomasz");
         admittingDoctor.setNpwz("5289888");
 
         return admittingDoctor;

@@ -35,7 +35,7 @@ public class PV1ParserTest {
         assertEquals(null, admittingDoctor.getHl7Id());
         assertEquals(null, admittingDoctor.getName());
         assertEquals(null, admittingDoctor.getNpwz());
-        assertEquals(null, admittingDoctor.getSurname());
+        assertEquals(null, admittingDoctor.getLastname());
     }
 
     private PV1 pv1WithEmptyAdmittingDoctor() throws HL7Exception {

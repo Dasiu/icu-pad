@@ -63,7 +63,7 @@ public class AdmittingDoctorTest {
     @Test
     public void surnameShouldBeValid() {
         AdmittingDoctor admittingDoctor = new AdmittingDoctor();
-        admittingDoctor.setSurname("Kowalski");
+        admittingDoctor.setLastname("Kowalski");
 
         assertThat(validationFor(admittingDoctor, onProperty("surname")), succeeds());
     }
@@ -78,7 +78,7 @@ public class AdmittingDoctorTest {
     @Test
     public void surnameShouldNotBeEmptyString() {
         AdmittingDoctor admittingDoctor = new AdmittingDoctor();
-        admittingDoctor.setSurname("");
+        admittingDoctor.setLastname("");
 
         assertThat(validationFor(admittingDoctor, onProperty("surname")), fails());
     }
@@ -86,7 +86,7 @@ public class AdmittingDoctorTest {
     @Test
     public void surnameShouldNotBeLongerThan30() {
         AdmittingDoctor admittingDoctor = new AdmittingDoctor();
-        admittingDoctor.setSurname("aaaabbbbaaaabbbbaaaabbbbaaaabbb");
+        admittingDoctor.setLastname("aaaabbbbaaaabbbbaaaabbbbaaaabbb");
 
         assertThat(validationFor(admittingDoctor, onProperty("surname")), fails());
     }
