@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.repository;
 
-import com.icupad.hl7_gateway.core.domain.Stay;
+import com.icupad.hl7_gateway.domain.Stay;
 import org.springframework.stereotype.Repository;
 
 @Repository

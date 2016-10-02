@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.repository;
 
-import com.icupad.hl7_gateway.core.domain.Hl7Message;
+import com.icupad.hl7_gateway.domain.Hl7Message;
 import org.springframework.stereotype.Repository;
 
 @Repository

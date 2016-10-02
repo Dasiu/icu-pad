@@ -1,5 +1,6 @@
 package com.icupad.hl7_gateway.core.domain;
 
+import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 import org.junit.Test;
 
 import static com.icupad.hl7_gateway.test_utils.ValidationUtils.*;

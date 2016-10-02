@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.service;
 
-import com.icupad.hl7_gateway.core.domain.TestMapping;
+import com.icupad.hl7_gateway.domain.TestMapping;
 
 import java.util.List;
 

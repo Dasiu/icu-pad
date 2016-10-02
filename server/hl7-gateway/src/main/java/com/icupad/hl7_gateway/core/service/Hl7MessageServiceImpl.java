@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.service;
 
-import com.icupad.hl7_gateway.core.domain.Hl7Message;
+import com.icupad.hl7_gateway.domain.Hl7Message;
 import com.icupad.hl7_gateway.core.repository.Hl7MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

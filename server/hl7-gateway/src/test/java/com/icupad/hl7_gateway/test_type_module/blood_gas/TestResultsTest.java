@@ -4,7 +4,7 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.core.domain.TestMapping;
+import com.icupad.hl7_gateway.domain.TestMapping;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
 import com.icupad.hl7_gateway.core.service.hl7_server.handler.MessageHandler;

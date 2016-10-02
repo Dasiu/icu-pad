@@ -5,7 +5,7 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.core.domain.AdmittingDoctor;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

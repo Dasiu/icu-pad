@@ -9,7 +9,7 @@ import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.core.domain.Stay;
+import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.StayService;
 import com.icupad.hl7_gateway.core.service.TestMappingService;

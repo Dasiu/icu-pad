@@ -2,7 +2,7 @@ package com.icupad.hl7_gateway.core.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.message.ADT_A08;
-import com.icupad.hl7_gateway.core.domain.Patient;
+import com.icupad.hl7_gateway.domain.Patient;
 import com.icupad.hl7_gateway.core.service.PatientService;
 import com.icupad.hl7_gateway.core.service.hl7_server.PatientNotFoundException;
 import com.icupad.hl7_gateway.core.service.hl7_server.segment_parser.PIDParser;

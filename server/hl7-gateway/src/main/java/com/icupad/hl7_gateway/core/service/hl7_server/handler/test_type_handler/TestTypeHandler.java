@@ -1,8 +1,8 @@
 package com.icupad.hl7_gateway.core.service.hl7_server.handler.test_type_handler;
 
-import com.icupad.hl7_gateway.core.domain.TestRequest;
-import com.icupad.hl7_gateway.core.domain.TestResult;
-import com.icupad.hl7_gateway.core.domain.TestType;
+import com.icupad.hl7_gateway.domain.TestRequest;
+import com.icupad.hl7_gateway.domain.TestResult;
+import com.icupad.hl7_gateway.domain.TestType;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collection;

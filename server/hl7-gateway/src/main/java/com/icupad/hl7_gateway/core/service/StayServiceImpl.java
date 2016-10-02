@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.service;
 
-import com.icupad.hl7_gateway.core.domain.Stay;
+import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.core.repository.StayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

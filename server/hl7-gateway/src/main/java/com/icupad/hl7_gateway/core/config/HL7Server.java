@@ -6,7 +6,7 @@ import ca.uhn.hl7v2.app.ConnectionListener;
 import ca.uhn.hl7v2.app.HL7Service;
 import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationExceptionHandler;
-import com.icupad.hl7_gateway.core.domain.TestType;
+import com.icupad.hl7_gateway.domain.TestType;
 import com.icupad.hl7_gateway.core.service.hl7_server.MessageDispatcher;
 import com.icupad.hl7_gateway.core.service.hl7_server.UnsupportedTestTypeException;
 import com.icupad.hl7_gateway.core.service.hl7_server.handler.test_type_handler.TestTypeHandler;

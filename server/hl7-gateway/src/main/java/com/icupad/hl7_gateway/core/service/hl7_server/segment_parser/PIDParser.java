@@ -3,9 +3,9 @@ package com.icupad.hl7_gateway.core.service.hl7_server.segment_parser;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.XAD;
 import ca.uhn.hl7v2.model.v23.segment.PID;
-import com.icupad.hl7_gateway.core.domain.Address;
-import com.icupad.hl7_gateway.core.domain.Patient;
-import com.icupad.hl7_gateway.core.domain.Sex;
+import com.icupad.hl7_gateway.domain.Address;
+import com.icupad.hl7_gateway.domain.Patient;
+import com.icupad.hl7_gateway.domain.Sex;
 import com.icupad.hl7_gateway.core.service.hl7_server.MissingSexException;
 import org.springframework.stereotype.Component;
 

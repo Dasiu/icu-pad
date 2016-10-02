@@ -1,4 +1,4 @@
-package com.icupad.hl7_gateway.core.domain;
+package com.icupad.hl7_gateway.domain;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;

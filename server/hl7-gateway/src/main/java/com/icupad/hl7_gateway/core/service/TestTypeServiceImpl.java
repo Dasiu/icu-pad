@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.core.service;
 
-import com.icupad.hl7_gateway.core.domain.TestType;
+import com.icupad.hl7_gateway.domain.TestType;
 import com.icupad.hl7_gateway.core.repository.TestTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.icupad.hl7_gateway.core.domain;
+package com.icupad.hl7_gateway.domain;
 
 import org.apache.commons.lang3.tuple.Pair;
 

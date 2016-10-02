@@ -3,7 +3,7 @@ package com.icupad.hl7_gateway.core.service.hl7_server.segment_parser;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.EI;
 import ca.uhn.hl7v2.model.v23.segment.OBR;
-import com.icupad.hl7_gateway.core.domain.TestRequest;
+import com.icupad.hl7_gateway.domain.TestRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

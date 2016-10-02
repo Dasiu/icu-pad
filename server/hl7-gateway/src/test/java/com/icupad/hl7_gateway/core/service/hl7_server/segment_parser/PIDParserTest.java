@@ -5,7 +5,7 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import ca.uhn.hl7v2.model.v23.segment.PID;
 import com.icupad.hl7_gateway.Application;
-import com.icupad.hl7_gateway.core.domain.Address;
+import com.icupad.hl7_gateway.domain.Address;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,10 +3,10 @@ package com.icupad.hl7_gateway.core.service.hl7_server.segment_parser;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.datatype.XCN;
 import ca.uhn.hl7v2.model.v23.segment.PV1;
-import com.icupad.hl7_gateway.core.domain.AdmittingDoctor;
-import com.icupad.hl7_gateway.core.domain.AssignedPatientLocation;
-import com.icupad.hl7_gateway.core.domain.Stay;
-import com.icupad.hl7_gateway.core.domain.StayType;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor;
+import com.icupad.hl7_gateway.domain.AssignedPatientLocation;
+import com.icupad.hl7_gateway.domain.Stay;
+import com.icupad.hl7_gateway.domain.StayType;
 import com.icupad.hl7_gateway.core.service.hl7_server.InvalidStayTypeException;
 import org.springframework.stereotype.Component;
 

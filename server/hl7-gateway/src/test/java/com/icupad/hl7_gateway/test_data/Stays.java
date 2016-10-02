@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.test_data;
 
-import com.icupad.hl7_gateway.core.domain.*;
+import com.icupad.hl7_gateway.domain.AdmittingDoctor;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,7 @@
 package com.icupad.hl7_gateway.test_type_module.blood_gas.config;
 
-import com.icupad.hl7_gateway.core.domain.TestMapping;
-import com.icupad.hl7_gateway.core.domain.TestType;
+import com.icupad.hl7_gateway.domain.TestMapping;
+import com.icupad.hl7_gateway.domain.TestType;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.TestTypeService;
 import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.BloodGas;

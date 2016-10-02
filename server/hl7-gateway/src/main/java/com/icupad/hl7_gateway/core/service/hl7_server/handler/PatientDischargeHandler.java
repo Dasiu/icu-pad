@@ -2,7 +2,7 @@ package com.icupad.hl7_gateway.core.service.hl7_server.handler;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.v23.message.ADT_A03;
-import com.icupad.hl7_gateway.core.domain.Stay;
+import com.icupad.hl7_gateway.domain.Stay;
 import com.icupad.hl7_gateway.core.service.StayService;
 import com.icupad.hl7_gateway.core.service.hl7_server.StayNotFoundException;
 import com.icupad.hl7_gateway.core.service.hl7_server.segment_parser.PV1Parser;

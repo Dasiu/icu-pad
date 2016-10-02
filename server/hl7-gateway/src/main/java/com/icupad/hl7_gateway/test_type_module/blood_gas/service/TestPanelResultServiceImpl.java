@@ -1,6 +1,6 @@
 package com.icupad.hl7_gateway.test_type_module.blood_gas.service;
 
-import com.icupad.hl7_gateway.core.domain.TestResultExecutor;
+import com.icupad.hl7_gateway.domain.TestResultExecutor;
 import com.icupad.hl7_gateway.core.service.AbstractBaseService;
 import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.BloodSource;
 import com.icupad.hl7_gateway.test_type_module.blood_gas.domain.TestPanelResult;

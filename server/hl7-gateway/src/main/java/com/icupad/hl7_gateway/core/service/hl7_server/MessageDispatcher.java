@@ -8,7 +8,7 @@ import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v23.message.ACK;
 import ca.uhn.hl7v2.model.v23.segment.MSH;
-import com.icupad.hl7_gateway.core.domain.Hl7Message;
+import com.icupad.hl7_gateway.domain.Hl7Message;
 import com.icupad.hl7_gateway.core.service.Hl7MessageService;
 import com.icupad.hl7_gateway.core.service.TestMappingService;
 import com.icupad.hl7_gateway.core.service.hl7_server.handler.MessageHandler;
